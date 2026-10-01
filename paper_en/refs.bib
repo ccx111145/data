@@ -1,0 +1,474 @@
+%==============================================================================
+%  refs.bib —— 英文稿参考文献
+%
+%  说明：只收录**可核实的公开文献**。本轮补引用时，每条新条目的
+%  标题/期刊/年/卷/期/页/DOI 都由 `code/_verify_refs.py` 经 Crossref API 核实，
+%  核实原始返回存于 `results/文献核实.json`；不允许凭记忆写 DOI。
+%  核实过程同时抓出并修正了原有条目的一处 DOI 错误（mozaffari，见下）。
+%==============================================================================
+
+% ---------- 标准与模型来源 -------------------------------------------------
+@techreport{iturp526,
+  title        = {{ITU-R} Recommendation {P.526-16}: Propagation by diffraction},
+  author       = {{International Telecommunication Union}},
+  institution  = {ITU, Radiocommunication Sector},
+  address      = {Geneva},
+  number       = {P.526-16},
+  year         = {2025},
+  month        = nov,
+  note         = {Single knife-edge diffraction, \S4.1; effective Earth radius factor.
+                  Supersedes P.526-15 (2019)},
+  url          = {https://www.itu.int/rec/R-REC-P.526/en}
+}
+
+@article{deygout,
+  title   = {Multiple knife-edge diffraction of microwaves},
+  author  = {Deygout, J.},
+  journal = {IEEE Transactions on Antennas and Propagation},
+  volume  = {14},
+  number  = {4},
+  pages   = {480--489},
+  year    = {1966},
+  doi     = {10.1109/TAP.1966.1138719}
+}
+
+@article{alns,
+  title   = {An adaptive large neighborhood search heuristic for the pickup and
+             delivery problem with time windows},
+  author  = {Ropke, S. and Pisinger, D.},
+  journal = {Transportation Science},
+  volume  = {40},
+  number  = {4},
+  pages   = {455--472},
+  year    = {2006},
+  doi     = {10.1287/trsc.1050.0135}
+}
+
+@misc{cpsat,
+  title        = {The {CP-SAT} solver},
+  author       = {Perron, L. and Furnon, V.},
+  howpublished = {Google OR-Tools},
+  year         = {2023},
+  note         = {\url{https://developers.google.com/optimization/cp/cp_solver}}
+}
+
+% ---------- UAV 通信信道 ---------------------------------------------------
+@article{matolak,
+  title   = {Air--ground channel characterization for unmanned aircraft systems
+             -- Part {II}: Hilly and mountainous settings},
+  author  = {Matolak, D. W. and Sun, R.},
+  journal = {IEEE Transactions on Vehicular Technology},
+  volume  = {66},
+  number  = {3},
+  pages   = {1913--1925},
+  year    = {2017},
+  doi     = {10.1109/TVT.2016.2585504}
+}
+
+@article{zeng,
+  title   = {Wireless communications with unmanned aerial vehicles:
+             Opportunities and challenges},
+  author  = {Zeng, Y. and Zhang, R. and Lim, T. J.},
+  journal = {IEEE Communications Magazine},
+  volume  = {54},
+  number  = {5},
+  pages   = {36--42},
+  year    = {2016},
+  doi     = {10.1109/MCOM.2016.7470933}
+}
+
+@article{mozaffari,
+  title   = {A tutorial on {UAV}s for wireless networks: Applications,
+             challenges, and open problems},
+  author  = {Mozaffari, M. and Saad, W. and Bennis, M. and Nam, Y.-H. and Debbah, M.},
+  journal = {IEEE Communications Surveys \& Tutorials},
+  volume  = {21},
+  number  = {3},
+  pages   = {2334--2360},
+  year    = {2019},
+  doi     = {10.1109/COMST.2019.2902862}
+}
+
+@article{zengtraj,
+  title   = {Energy-efficient {UAV} communication with trajectory optimization},
+  author  = {Zeng, Y. and Zhang, R.},
+  journal = {IEEE Transactions on Wireless Communications},
+  volume  = {16},
+  number  = {6},
+  pages   = {3747--3760},
+  year    = {2017},
+  doi     = {10.1109/TWC.2017.2688328}
+}
+
+% ---------- UAV 物流与应急救援 ---------------------------------------------
+@article{murray,
+  title   = {The flying sidekick traveling salesman problem: Optimization of
+             drone-assisted parcel delivery},
+  author  = {Murray, C. C. and Chu, A. G.},
+  journal = {Transportation Research Part C: Emerging Technologies},
+  volume  = {54},
+  pages   = {86--109},
+  year    = {2015},
+  doi     = {10.1016/j.trc.2015.03.005}
+}
+
+@article{erdelj,
+  title   = {Wireless sensor networks and multi-{UAV} systems for natural
+             disaster management},
+  author  = {Erdelj, M. and Kr{\'o}l, M. and Natalizio, E.},
+  journal = {Computer Networks},
+  volume  = {124},
+  pages   = {72--86},
+  year    = {2017},
+  doi     = {10.1016/j.comnet.2017.05.021}
+}
+
+@article{coutinho,
+  title   = {The unmanned aerial vehicle routing and trajectory optimisation
+             problem, a taxonomic review},
+  author  = {Coutinho, W. P. and Battarra, M. and Fliege, J.},
+  journal = {Computers \& Industrial Engineering},
+  volume  = {120},
+  pages   = {116--128},
+  year    = {2018},
+  doi     = {10.1016/j.cie.2018.04.037}
+}
+
+@article{boysen,
+  title   = {Last-mile delivery concepts: A survey from an operational research
+             perspective},
+  author  = {Boysen, N. and Fedtke, S. and Schwerdfeger, S.},
+  journal = {OR Spectrum},
+  volume  = {43},
+  number  = {1},
+  pages   = {1--58},
+  year    = {2021},
+  doi     = {10.1007/s00291-020-00607-8}
+}
+
+% ---------- 组合优化与集合覆盖 ---------------------------------------------
+@book{korte,
+  title     = {Combinatorial Optimization: Theory and Algorithms},
+  author    = {Korte, B. and Vygen, J.},
+  edition   = {6},
+  publisher = {Springer},
+  year      = {2018},
+  doi       = {10.1007/978-3-662-56039-6}
+}
+
+@article{clarke1964,
+  title   = {Scheduling of vehicles from a central depot to a number of delivery points},
+  author  = {Clarke, G. and Wright, J. W.},
+  journal = {Operations Research},
+  volume  = {12},
+  number  = {4},
+  pages   = {568--581},
+  year    = {1964},
+  doi     = {10.1287/opre.12.4.568}
+}
+
+%==============================================================================
+%  以下条目由 code/_verify_refs.py 经 Crossref 核实元数据后加入
+%==============================================================================
+
+% ---------- 车辆路径与启发式方法 -------------------------------------------
+@article{solomon1987,
+  title   = {Algorithms for the vehicle routing and scheduling problems with
+             time window constraints},
+  author  = {Solomon, M. M.},
+  journal = {Operations Research},
+  volume  = {35},
+  number  = {2},
+  pages   = {254--265},
+  year    = {1987},
+  doi     = {10.1287/opre.35.2.254}
+}
+
+@book{tothvigo2002,
+  title     = {The Vehicle Routing Problem},
+  editor    = {Toth, P. and Vigo, D.},
+  publisher = {SIAM},
+  series    = {SIAM Monographs on Discrete Mathematics and Applications},
+  year      = {2002},
+  doi       = {10.1137/1.9780898718515}
+}
+
+@article{vidal2020,
+  title   = {Hybrid genetic search for the {CVRP}: Open-source implementation
+             and {SWAP*} neighborhood},
+  author  = {Vidal, T.},
+  journal = {Computers \& Operations Research},
+  volume  = {140},
+  pages   = {105643},
+  year    = {2022},
+  doi     = {10.1016/j.cor.2021.105643}
+}
+
+% ---------- 无人机配送 -----------------------------------------------------
+@article{poikonen2017,
+  title   = {The vehicle routing problem with drones: Extended models and connections},
+  author  = {Poikonen, S. and Wang, X. and Golden, B.},
+  journal = {Networks},
+  volume  = {70},
+  number  = {1},
+  pages   = {34--43},
+  year    = {2017},
+  doi     = {10.1002/net.21746}
+}
+
+@article{otto2018,
+  title   = {Optimization approaches for civil applications of unmanned aerial
+             vehicles ({UAV}s) or aerial drones: A survey},
+  author  = {Otto, A. and Agatz, N. and Campbell, J. and Golden, B. and Pesch, E.},
+  journal = {Networks},
+  volume  = {72},
+  number  = {4},
+  pages   = {411--458},
+  year    = {2018},
+  doi     = {10.1002/net.21818}
+}
+
+@article{scott2018,
+  title   = {Models for drone delivery of medications and other healthcare items},
+  author  = {Scott, J. E. and Scott, C. H.},
+  journal = {International Journal of Healthcare Information Systems and Informatics},
+  volume  = {13},
+  number  = {3},
+  pages   = {20--34},
+  year    = {2018},
+  doi     = {10.4018/IJHISI.2018070102}
+}
+
+% ---------- 应急物流 -------------------------------------------------------
+@article{sheu2007,
+  title   = {Challenges of emergency logistics management},
+  author  = {Sheu, J.-B.},
+  journal = {Transportation Research Part E: Logistics and Transportation Review},
+  volume  = {43},
+  number  = {6},
+  pages   = {655--659},
+  year    = {2007},
+  doi     = {10.1016/j.tre.2007.01.001}
+}
+
+@article{caunhye2012,
+  title   = {Optimization models in emergency logistics: A literature review},
+  author  = {Caunhye, A. M. and Nie, X. and Pokharel, S.},
+  journal = {Socio-Economic Planning Sciences},
+  volume  = {46},
+  number  = {1},
+  pages   = {4--13},
+  year    = {2012},
+  doi     = {10.1016/j.seps.2011.04.004}
+}
+
+% ---------- 中继与空天地连通性 ---------------------------------------------
+@article{zeng2016relay,
+  title   = {Throughput maximization for {UAV}-enabled mobile relaying systems},
+  author  = {Zeng, Y. and Zhang, R. and Lim, T. J.},
+  journal = {IEEE Transactions on Communications},
+  volume  = {64},
+  number  = {12},
+  pages   = {4983--4996},
+  year    = {2016},
+  doi     = {10.1109/TCOMM.2016.2611512}
+}
+
+@article{relay5g,
+  title   = {Accessing from the sky: A tutorial on {UAV} communications for
+             {5G} and beyond},
+  author  = {Zeng, Y. and Wu, Q. and Zhang, R.},
+  journal = {Proceedings of the IEEE},
+  volume  = {107},
+  number  = {12},
+  pages   = {2327--2375},
+  year    = {2019},
+  doi     = {10.1109/JPROC.2019.2952892}
+}
+
+% ---------- 空对地传播与部署 -----------------------------------------------
+@article{alhourani2014,
+  title   = {Optimal {LAP} altitude for maximum coverage},
+  author  = {Al-Hourani, A. and Kandeepan, S. and Lardner, S.},
+  journal = {IEEE Wireless Communications Letters},
+  volume  = {3},
+  number  = {6},
+  pages   = {569--572},
+  year    = {2014},
+  doi     = {10.1109/LWC.2014.2342736}
+}
+
+@article{hourani2016,
+  title   = {Efficient deployment of multiple unmanned aerial vehicles for
+             optimal wireless coverage},
+  author  = {Mozaffari, M. and Saad, W. and Bennis, M. and Debbah, M.},
+  journal = {IEEE Communications Letters},
+  volume  = {20},
+  number  = {8},
+  pages   = {1647--1650},
+  year    = {2016},
+  doi     = {10.1109/LCOMM.2016.2578312}
+}
+
+@article{macrina2020,
+  title   = {Drone-aided routing: A literature review},
+  author  = {Macrina, G. and Di Puglia Pugliese, L. and Guerriero, F. and Laporte, G.},
+  journal = {Transportation Research Part C: Emerging Technologies},
+  volume  = {120},
+  pages   = {102762},
+  year    = {2020},
+  doi     = {10.1016/j.trc.2020.102762}
+}
+
+@article{goodchild2018,
+  title   = {Delivery by drone: An evaluation of unmanned aerial vehicle technology
+             in reducing {CO}$_2$ emissions in the delivery service industry},
+  author  = {Goodchild, A. and Toy, J.},
+  journal = {Transportation Research Part D: Transport and Environment},
+  volume  = {61},
+  pages   = {58--67},
+  year    = {2018},
+  doi     = {10.1016/j.trd.2017.02.017}
+}
+
+@article{oruc2018,
+  title   = {Post-disaster assessment routing problem},
+  author  = {Oruc, B. E. and Kara, B. Y.},
+  journal = {Transportation Research Part B: Methodological},
+  volume  = {116},
+  pages   = {76--102},
+  year    = {2018},
+  doi     = {10.1016/j.trb.2018.08.002}
+}
+
+@article{gomez2016,
+  title   = {Aerial base stations with opportunistic links for next generation
+             emergency communications},
+  author  = {Gomez, K. and Kandeepan, S. and Vidal, M. M. and Boussemart, V. and
+             Ramos, R. and Hermenier, R. and Rasheed, T. and Goratti, L. and
+             Reynaud, L. and Grace, D. and Zhao, Q. and Han, Y. and Rehan, S. and
+             Morozs, N. and Jiang, T. and Bucaille, I. and Wirth, T. and
+             Campo, R. and Javornik, T.},
+  journal = {IEEE Communications Magazine},
+  volume  = {54},
+  number  = {4},
+  pages   = {31--39},
+  year    = {2016},
+  doi     = {10.1109/MCOM.2016.7452263}
+}
+
+@article{wu2018,
+  title   = {Joint trajectory and communication design for multi-{UAV} enabled
+             wireless networks},
+  author  = {Wu, Q. and Zeng, Y. and Zhang, R.},
+  journal = {IEEE Transactions on Wireless Communications},
+  volume  = {17},
+  number  = {3},
+  pages   = {2109--2121},
+  year    = {2018},
+  doi     = {10.1109/TWC.2017.2789293}
+}
+
+@article{you2019,
+  title   = {{3D} trajectory optimization in Rician fading for {UAV}-enabled
+             data harvesting},
+  author  = {You, C. and Zhang, R.},
+  journal = {IEEE Transactions on Wireless Communications},
+  volume  = {18},
+  number  = {6},
+  pages   = {3192--3207},
+  year    = {2019},
+  doi     = {10.1109/TWC.2019.2911939}
+}
+
+@article{xu2018wpt,
+  title   = {{UAV}-enabled wireless power transfer: Trajectory design and
+             energy optimization},
+  author  = {Xu, J. and Zeng, Y. and Zhang, R.},
+  journal = {IEEE Transactions on Wireless Communications},
+  volume  = {17},
+  number  = {8},
+  pages   = {5092--5106},
+  year    = {2018},
+  doi     = {10.1109/TWC.2018.2838134}
+}
+
+% ---------- 目标刊同族近作（IEEE T-ITS，用于表明 fit）----------------------
+@article{das2021,
+  title   = {Synchronized truck and drone routing in package delivery logistics},
+  author  = {Das, D. N. and Sewani, R. and Wang, J. and Tiwari, M. K.},
+  journal = {IEEE Transactions on Intelligent Transportation Systems},
+  volume  = {22},
+  number  = {9},
+  pages   = {5772--5782},
+  year    = {2021},
+  doi     = {10.1109/TITS.2020.2992549}
+}
+
+@article{bian2024,
+  title   = {Truck-drone hybrid delivery routing: A mathematical model and
+             micro-evolutionary algorithm},
+  author  = {Bian, J. and Song, R. and He, S. and Chi, J.},
+  journal = {IEEE Transactions on Intelligent Transportation Systems},
+  volume  = {25},
+  number  = {9},
+  pages   = {12187--12202},
+  year    = {2024},
+  doi     = {10.1109/TITS.2024.3381933}
+}
+
+% ---------- 物理模型来源（本轮补齐：DEM / FSPL / P.526 版本）-----------------
+@misc{copernicusdem,
+  title        = {Copernicus {DEM}---Global 30\,m digital elevation model},
+  author       = {{European Space Agency} and Airbus},
+  howpublished = {Copernicus Programme, ESA},
+  year         = {2022},
+  doi          = {10.5270/ESA-c5d3d65},
+  note         = {GLO-30 product, 30\,m posting}
+}
+
+@article{friis1946,
+  title   = {A note on a simple transmission formula},
+  author  = {Friis, H. T.},
+  journal = {Proceedings of the IRE},
+  volume  = {34},
+  number  = {5},
+  pages   = {254--256},
+  year    = {1946},
+  doi     = {10.1109/JRPROC.1946.234568}
+}
+
+% ---------- 相关工作补充（均经 Crossref 按 DOI 反查核实，见文献审计报告）------
+@article{yang2025uavrelay,
+  title   = {Multi-objective optimization of {UAV} relay deployment for
+             air-to-ground communications},
+  author  = {Yang, Y. and Feng, X. and Zhang, J. and Yang, H. and Zheng, T.},
+  journal = {IEEE Open Journal of the Communications Society},
+  year    = {2025},
+  doi     = {10.1109/OJCOMS.2025.3594139}
+}
+
+@article{won2023survey,
+  title   = {A survey on {UAV} placement and trajectory optimization in
+             communication networks: From the perspective of air-to-ground
+             channel models},
+  author  = {Won, J. and Kim, D.-Y. and Park, Y.-I. and Lee, J.-W.},
+  journal = {ICT Express},
+  volume  = {9},
+  number  = {3},
+  pages   = {385--397},
+  year    = {2023},
+  doi     = {10.1016/j.icte.2022.01.015}
+}
+
+@article{faiz2024robust,
+  title   = {A robust optimization framework for two-echelon vehicle and {UAV}
+             routing for post-disaster relief delivery},
+  author  = {Faiz, T. I. and Vogiatzis, C. and Liu, J. and Noor-E-Alam, M.},
+  journal = {Networks},
+  volume  = {84},
+  number  = {3},
+  pages   = {253--278},
+  year    = {2024},
+  doi     = {10.1002/net.22233}
+}

@@ -1,0 +1,11 @@
+{
+ "N": 3,
+ "mode": "base",
+ "feasible": true,
+ "sorties": 6,
+ "timing": 0,
+ "miss": 0,
+ "energy": 7.79,
+ "soc_min": 33.8,
+ "actions": 8
+}

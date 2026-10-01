@@ -1,0 +1,108 @@
+{
+ "generated": "2026-09-24 18:45:07",
+ "model": "observed",
+ "topk": 400,
+ "n_cells": 992,
+ "n_cand": 2471,
+ "phases": 6,
+ "N_naive": 1,
+ "N_naive_note": "忽略换位黑障（瞬时重定位）所需台数",
+ "LB_handover": 2,
+ "LB_handover_rows": [
+  {
+   "i": 0,
+   "t0": 710.0,
+   "t1": 2410.0,
+   "cells": 171,
+   "incidences": 250,
+   "min_points": 2,
+   "point_ids": [
+    465,
+    1381
+   ]
+  },
+  {
+   "i": 1,
+   "t0": 1980.0,
+   "t1": 3820.0,
+   "cells": 162,
+   "incidences": 214,
+   "min_points": 2,
+   "point_ids": [
+    1007,
+    1152
+   ]
+  },
+  {
+   "i": 2,
+   "t0": 2420.0,
+   "t1": 6590.0,
+   "cells": 383,
+   "incidences": 587,
+   "min_points": 2,
+   "point_ids": [
+    190,
+    2120
+   ]
+  },
+  {
+   "i": 3,
+   "t0": 3830.0,
+   "t1": 8800.0,
+   "cells": 461,
+   "incidences": 737,
+   "min_points": 2,
+   "point_ids": [
+    1987,
+    2218
+   ]
+  },
+  {
+   "i": 4,
+   "t0": 6600.0,
+   "t1": 12000.0,
+   "cells": 438,
+   "incidences": 617,
+   "min_points": 2,
+   "point_ids": [
+    1987,
+    2434
+   ]
+  }
+ ],
+ "greedy": {
+  "N1": {
+   "feasible": false,
+   "reached": 127,
+   "strategy": null,
+   "fail_t": 1980.0
+  },
+  "N2": {
+   "feasible": false,
+   "reached": 171,
+   "strategy": null,
+   "fail_t": 2420.0
+  },
+  "N3": {
+   "feasible": true,
+   "reached": 992,
+   "strategy": "preposition",
+   "sorties": 6,
+   "timing": 0,
+   "miss": 0
+  },
+  "N4": {
+   "feasible": true,
+   "reached": 992,
+   "strategy": "direct",
+   "sorties": 6,
+   "timing": 0,
+   "miss": 0
+  }
+ },
+ "N_greedy": 3,
+ "per_cell_hist": {
+  "1": 992
+ },
+ "elapsed_s": 352.5
+}

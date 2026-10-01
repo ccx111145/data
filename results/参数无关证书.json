@@ -1,0 +1,41 @@
+{
+ "note": "参数无关的 N=2 换位必要条件 W(a,b) <= span_min(k)；无候选集、无剪枝",
+ "n_cells": 992,
+ "T_s": 11290.0,
+ "results": {
+  "base": {
+   "mode": "base",
+   "C0_size": 2436,
+   "span_min_median_s": 1370.0,
+   "span_min_max_s": 5000.0,
+   "span_min_argmax_k": 991,
+   "span_min_argmax_t": 12000.0,
+   "span_min_argmax_point": 2099,
+   "W_min_s": 461.2,
+   "W_median_s": 1148.6,
+   "W_max_s": 2287.0,
+   "n_pairs_tested": 146100,
+   "pairs_scope": "sampled 60 x C_0",
+   "cells_admitting_a_move": 880,
+   "cells_total": 992,
+   "certificate_fires": false
+  },
+  "air": {
+   "mode": "air",
+   "C0_size": 2436,
+   "span_min_median_s": 1370.0,
+   "span_min_max_s": 5000.0,
+   "span_min_argmax_k": 991,
+   "span_min_argmax_t": 12000.0,
+   "span_min_argmax_point": 2099,
+   "W_min_s": 69.3,
+   "W_median_s": 490.0,
+   "W_max_s": 1353.2,
+   "n_pairs_tested": 146100,
+   "pairs_scope": "sampled 60 x C_0",
+   "cells_admitting_a_move": 986,
+   "cells_total": 992,
+   "certificate_fires": false
+  }
+ }
+}

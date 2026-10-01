@@ -1,0 +1,11 @@
+==========================================================================
+make_numbers.py —— 生成 paper/numbers.tex 与 paper/tables.tex
+· 检查说明小结已提取（138 字）
+· 已写出 paper/numbers.tex，共 226 个宏
+· 已写出 paper/tables.tex（197 行）
+· q3_gap 汇总 JSON 读取成功：30 个宏（来源 results/Q3_方案汇总.json）
+· q3_gap 诊断汇总读取成功：28 个宏（来源 results/Q3_诊断汇总.json）
+· 已写出 q3_gap_sources.txt（结果刷新 64 个 / 内置默认 0 个）
+· 已写出 paper/q3_gap.tex（64 个宏，占位 0 个）
+· 占位宏 1 个：QfourSorties
+完成。

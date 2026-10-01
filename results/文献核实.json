@@ -1,0 +1,560 @@
+[
+ {
+  "query": "Algorithms for the vehicle routing and scheduling problems with time window constraints",
+  "status": "OK",
+  "title": "Algorithms for the Vehicle Routing and Scheduling Problems with Time Window Constraints",
+  "journal": "Operations Research",
+  "year": 1987,
+  "volume": "35",
+  "issue": "2",
+  "page": "254-265",
+  "doi": "10.1287/opre.35.2.254",
+  "type": "journal-article",
+  "authors": "Solomon, Marius M.",
+  "authors_list": [
+   "Solomon, Marius M."
+  ]
+ },
+ {
+  "query": "The vehicle routing problem",
+  "status": "TITLE_MISMATCH",
+  "title": "A Hybrid Ant Colony System Approach for the Capacitated Vehicle Routing Problem and the Capacitated Vehicle Routing Problem with Time Windows",
+  "journal": "Vehicle Routing Problem",
+  "year": 2008,
+  "volume": null,
+  "issue": null,
+  "page": null,
+  "doi": "10.5772/5640",
+  "type": "book-chapter",
+  "authors": "El Hassani, Amir Hajjam; Bouhafs, Lyamine; Koukam, Abder",
+  "authors_list": [
+   "El Hassani, Amir Hajjam",
+   "Bouhafs, Lyamine",
+   "Koukam, Abder"
+  ]
+ },
+ {
+  "query": "Hybrid genetic search for the CVRP: Open-source implementation and SWAP* neighborhood",
+  "status": "OK",
+  "title": "Hybrid genetic search for the CVRP: Open-source implementation and SWAP* neighborhood",
+  "journal": "Computers &amp; Operations Research",
+  "year": 2022,
+  "volume": "140",
+  "issue": null,
+  "page": "105643",
+  "doi": "10.1016/j.cor.2021.105643",
+  "type": "journal-article",
+  "authors": "Vidal, Thibaut",
+  "authors_list": [
+   "Vidal, Thibaut"
+  ]
+ },
+ {
+  "query": "Scheduling of vehicles from a central depot to a number of delivery points",
+  "status": "OK",
+  "title": "Scheduling of Vehicles from a Central Depot to a Number of Delivery Points",
+  "journal": "The Roots of Logistics",
+  "year": 2012,
+  "volume": null,
+  "issue": null,
+  "page": "229-244",
+  "doi": "10.1007/978-3-642-27922-5_18",
+  "type": "book-chapter",
+  "authors": "Clarke, G.; Wright, J. W.",
+  "authors_list": [
+   "Clarke, G.",
+   "Wright, J. W."
+  ]
+ },
+ {
+  "query": "The vehicle routing problem with drones: Extended models and connections",
+  "status": "OK",
+  "title": "The vehicle routing problem with drones: Extended models and connections",
+  "journal": "Networks",
+  "year": 2017,
+  "volume": "70",
+  "issue": "1",
+  "page": "34-43",
+  "doi": "10.1002/net.21746",
+  "type": "journal-article",
+  "authors": "Poikonen, Stefan; Wang, Xingyin; Golden, Bruce",
+  "authors_list": [
+   "Poikonen, Stefan",
+   "Wang, Xingyin",
+   "Golden, Bruce"
+  ]
+ },
+ {
+  "query": "Optimization approaches for civil applications of unmanned aerial vehicles (UAVs) or aerial drones: A survey",
+  "status": "OK",
+  "title": "Optimization approaches for civil applications of unmanned aerial vehicles (UAVs) or aerial drones: A survey",
+  "journal": "Networks",
+  "year": 2018,
+  "volume": "72",
+  "issue": "4",
+  "page": "411-458",
+  "doi": "10.1002/net.21818",
+  "type": "journal-article",
+  "authors": "Otto, Alena; Agatz, Niels; Campbell, James; Golden, Bruce; Pesch, Erwin",
+  "authors_list": [
+   "Otto, Alena",
+   "Agatz, Niels",
+   "Campbell, James",
+   "Golden, Bruce",
+   "Pesch, Erwin"
+  ]
+ },
+ {
+  "query": "Models for drone delivery of medications and other healthcare items",
+  "status": "OK",
+  "title": "Models for Drone Delivery of Medications and Other Healthcare Items",
+  "journal": "Unmanned Aerial Vehicles",
+  "year": 2019,
+  "volume": null,
+  "issue": null,
+  "page": "376-392",
+  "doi": "10.4018/978-1-5225-8365-3.ch016",
+  "type": "book-chapter",
+  "authors": "Scott, Judy E.; Scott, Carlton H.",
+  "authors_list": [
+   "Scott, Judy E.",
+   "Scott, Carlton H."
+  ]
+ },
+ {
+  "query": "Challenges of emergency logistics management",
+  "status": "OK",
+  "title": "Challenges of emergency logistics management",
+  "journal": "Transportation Research Part E: Logistics and Transportation Review",
+  "year": 2007,
+  "volume": "43",
+  "issue": "6",
+  "page": "655-659",
+  "doi": "10.1016/j.tre.2007.01.001",
+  "type": "journal-article",
+  "authors": "Sheu, Jiuh-Biing",
+  "authors_list": [
+   "Sheu, Jiuh-Biing"
+  ]
+ },
+ {
+  "query": "Optimization models in emergency logistics: A literature review",
+  "status": "OK",
+  "title": "Optimization models in emergency logistics: A literature review",
+  "journal": "Socio-Economic Planning Sciences",
+  "year": 2012,
+  "volume": "46",
+  "issue": "1",
+  "page": "4-13",
+  "doi": "10.1016/j.seps.2011.04.004",
+  "type": "journal-article",
+  "authors": "Caunhye, Aakil M.; Nie, Xiaofeng; Pokharel, Shaligram",
+  "authors_list": [
+   "Caunhye, Aakil M.",
+   "Nie, Xiaofeng",
+   "Pokharel, Shaligram"
+  ]
+ },
+ {
+  "query": "Wireless communications with unmanned aerial vehicles: Opportunities and challenges",
+  "status": "OK",
+  "title": "Wireless communications with unmanned aerial vehicles: opportunities and challenges",
+  "journal": "IEEE Communications Magazine",
+  "year": 2016,
+  "volume": "54",
+  "issue": "5",
+  "page": "36-42",
+  "doi": "10.1109/mcom.2016.7470933",
+  "type": "journal-article",
+  "authors": "Zeng, Yong; Zhang, Rui; Lim, Teng Joon",
+  "authors_list": [
+   "Zeng, Yong",
+   "Zhang, Rui",
+   "Lim, Teng Joon"
+  ]
+ },
+ {
+  "query": "A tutorial on UAVs for wireless networks: Applications, challenges, and open problems",
+  "status": "OK",
+  "title": "A Tutorial on UAVs for Wireless Networks: Applications, Challenges, and Open Problems",
+  "journal": "IEEE Communications Surveys &amp; Tutorials",
+  "year": 2019,
+  "volume": "21",
+  "issue": "3",
+  "page": "2334-2360",
+  "doi": "10.1109/comst.2019.2902862",
+  "type": "journal-article",
+  "authors": "Mozaffari, Mohammad; Saad, Walid; Bennis, Mehdi; Nam, Young-Han; Debbah, Mérouane",
+  "authors_list": [
+   "Mozaffari, Mohammad",
+   "Saad, Walid",
+   "Bennis, Mehdi",
+   "Nam, Young-Han",
+   "Debbah, Mérouane"
+  ]
+ },
+ {
+  "query": "Energy-efficient UAV communication with trajectory optimization",
+  "status": "OK",
+  "title": "Energy-Efficient UAV Communication With Trajectory Optimization",
+  "journal": "IEEE Transactions on Wireless Communications",
+  "year": 2017,
+  "volume": "16",
+  "issue": "6",
+  "page": "3747-3760",
+  "doi": "10.1109/twc.2017.2688328",
+  "type": "journal-article",
+  "authors": "Zeng, Yong; Zhang, Rui",
+  "authors_list": [
+   "Zeng, Yong",
+   "Zhang, Rui"
+  ]
+ },
+ {
+  "query": "Throughput maximization for UAV-enabled mobile relaying systems",
+  "status": "OK",
+  "title": "Throughput Maximization for UAV-Enabled Mobile Relaying Systems",
+  "journal": "IEEE Transactions on Communications",
+  "year": 2016,
+  "volume": "64",
+  "issue": "12",
+  "page": "4983-4996",
+  "doi": "10.1109/tcomm.2016.2611512",
+  "type": "journal-article",
+  "authors": "Zeng, Yong; Zhang, Rui; Lim, Teng Joon",
+  "authors_list": [
+   "Zeng, Yong",
+   "Zhang, Rui",
+   "Lim, Teng Joon"
+  ]
+ },
+ {
+  "query": "Optimal LAP altitude for maximum coverage",
+  "status": "OK",
+  "title": "Optimal LAP Altitude for Maximum Coverage",
+  "journal": "IEEE Wireless Communications Letters",
+  "year": 2014,
+  "volume": "3",
+  "issue": "6",
+  "page": "569-572",
+  "doi": "10.1109/lwc.2014.2342736",
+  "type": "journal-article",
+  "authors": "Al-Hourani, Akram; Kandeepan, Sithamparanathan; Lardner, Simon",
+  "authors_list": [
+   "Al-Hourani, Akram",
+   "Kandeepan, Sithamparanathan",
+   "Lardner, Simon"
+  ]
+ },
+ {
+  "query": "Efficient deployment of multiple unmanned aerial vehicles for optimal wireless coverage",
+  "status": "OK",
+  "title": "Efficient Deployment of Multiple Unmanned Aerial Vehicles for Optimal Wireless Coverage",
+  "journal": "IEEE Communications Letters",
+  "year": 2016,
+  "volume": "20",
+  "issue": "8",
+  "page": "1647-1650",
+  "doi": "10.1109/lcomm.2016.2578312",
+  "type": "journal-article",
+  "authors": "Mozaffari, Mohammad; Saad, Walid; Bennis, Mehdi; Debbah, Merouane",
+  "authors_list": [
+   "Mozaffari, Mohammad",
+   "Saad, Walid",
+   "Bennis, Mehdi",
+   "Debbah, Merouane"
+  ]
+ },
+ {
+  "query": "Air-ground channel characterization for unmanned aircraft systems - Part II: Hilly and mountainous settings",
+  "status": "OK",
+  "title": "Air–Ground Channel Characterization for Unmanned Aircraft Systems Part II: Hilly and Mountainous Settings",
+  "journal": "IEEE Transactions on Vehicular Technology",
+  "year": 2017,
+  "volume": "66",
+  "issue": "3",
+  "page": "1913-1925",
+  "doi": "10.1109/tvt.2016.2585504",
+  "type": "journal-article",
+  "authors": "Sun, Ruoyu; Matolak, David W.",
+  "authors_list": [
+   "Sun, Ruoyu",
+   "Matolak, David W."
+  ]
+ },
+ {
+  "query": "An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows",
+  "status": "OK",
+  "title": "An Adaptive Large Neighborhood Search Heuristic for the Pickup and Delivery Problem with Time Windows",
+  "journal": "Transportation Science",
+  "year": 2006,
+  "volume": "40",
+  "issue": "4",
+  "page": "455-472",
+  "doi": "10.1287/trsc.1050.0135",
+  "type": "journal-article",
+  "authors": "Ropke, Stefan; Pisinger, David",
+  "authors_list": [
+   "Ropke, Stefan",
+   "Pisinger, David"
+  ]
+ },
+ {
+  "query": "Joint trajectory and communication design for multi-UAV enabled wireless networks",
+  "status": "OK",
+  "title": "Joint Trajectory and Communication Design for Multi-UAV Enabled Wireless Networks",
+  "journal": "IEEE Transactions on Wireless Communications",
+  "year": 2018,
+  "volume": "17",
+  "issue": "3",
+  "page": "2109-2121",
+  "doi": "10.1109/twc.2017.2789293",
+  "type": "journal-article",
+  "authors": "Wu, Qingqing; Zeng, Yong; Zhang, Rui",
+  "authors_list": [
+   "Wu, Qingqing",
+   "Zeng, Yong",
+   "Zhang, Rui"
+  ]
+ },
+ {
+  "query": "3D trajectory optimization in Rician fading for UAV-enabled data harvesting",
+  "status": "OK",
+  "title": "3D Trajectory Optimization in Rician Fading for UAV-Enabled Data Harvesting",
+  "journal": "IEEE Transactions on Wireless Communications",
+  "year": 2019,
+  "volume": "18",
+  "issue": "6",
+  "page": "3192-3207",
+  "doi": "10.1109/twc.2019.2911939",
+  "type": "journal-article",
+  "authors": "You, Changsheng; Zhang, Rui",
+  "authors_list": [
+   "You, Changsheng",
+   "Zhang, Rui"
+  ]
+ },
+ {
+  "query": "A survey on the vehicle routing problem with drones",
+  "status": "TITLE_MISMATCH",
+  "title": "The Vehicle Routing Problem with Drones",
+  "journal": "",
+  "year": null,
+  "volume": null,
+  "issue": null,
+  "page": null,
+  "doi": "10.11606/d.55.2019.tde-29082019-091040",
+  "type": "dissertation",
+  "authors": "Costa, Joao Guilherme Cavalcanti",
+  "authors_list": [
+   "Costa, Joao Guilherme Cavalcanti"
+  ]
+ },
+ {
+  "query": "Drone-aided routing: A literature review",
+  "status": "OK",
+  "title": "Drone-aided routing: A literature review",
+  "journal": "Transportation Research Part C: Emerging Technologies",
+  "year": 2020,
+  "volume": "120",
+  "issue": null,
+  "page": "102762",
+  "doi": "10.1016/j.trc.2020.102762",
+  "type": "journal-article",
+  "authors": "Macrina, Giusy; Di Puglia Pugliese, Luigi; Guerriero, Francesca; Laporte, Gilbert",
+  "authors_list": [
+   "Macrina, Giusy",
+   "Di Puglia Pugliese, Luigi",
+   "Guerriero, Francesca",
+   "Laporte, Gilbert"
+  ]
+ },
+ {
+  "query": "Delivery by drone: An evaluation of unmanned aerial vehicle technology in reducing CO2 emissions in the delivery service industry",
+  "status": "OK",
+  "title": "Delivery by drone: An evaluation of unmanned aerial vehicle technology in reducing CO 2 emissions in the delivery service industry",
+  "journal": "Transportation Research Part D: Transport and Environment",
+  "year": 2018,
+  "volume": "61",
+  "issue": null,
+  "page": "58-67",
+  "doi": "10.1016/j.trd.2017.02.017",
+  "type": "journal-article",
+  "authors": "Goodchild, Anne; Toy, Jordan",
+  "authors_list": [
+   "Goodchild, Anne",
+   "Toy, Jordan"
+  ]
+ },
+ {
+  "query": "The multiple traveling salesman problem with drones",
+  "status": "TITLE_MISMATCH",
+  "title": "Two-Indexed Formulation of the Traveling Salesman Problem With Multiple Drones Performing Sidekicks and Loops",
+  "journal": "",
+  "year": 2023,
+  "volume": null,
+  "issue": null,
+  "page": null,
+  "doi": "10.2139/ssrn.4431738",
+  "type": "posted-content",
+  "authors": "Rave, Alexander",
+  "authors_list": [
+   "Rave, Alexander"
+  ]
+ },
+ {
+  "query": "UAV-enabled wireless power transfer: Trajectory design and energy optimization",
+  "status": "OK",
+  "title": "UAV-Enabled Wireless Power Transfer: Trajectory Design and Energy Optimization",
+  "journal": "IEEE Transactions on Wireless Communications",
+  "year": 2018,
+  "volume": "17",
+  "issue": "8",
+  "page": "5092-5106",
+  "doi": "10.1109/twc.2018.2838134",
+  "type": "journal-article",
+  "authors": "Xu, Jie; Zeng, Yong; Zhang, Rui",
+  "authors_list": [
+   "Xu, Jie",
+   "Zeng, Yong",
+   "Zhang, Rui"
+  ]
+ },
+ {
+  "query": "Spectrum sharing for UAV communications",
+  "status": "TITLE_MISMATCH",
+  "title": "UAV–Cellular Spectrum Sharing",
+  "journal": "UAV Communications for 5G and Beyond",
+  "year": 2020,
+  "volume": null,
+  "issue": null,
+  "page": "329-348",
+  "doi": "10.1002/9781119575795.ch14",
+  "type": "other",
+  "authors": "Zhang, Chiya; Zhang, Wei",
+  "authors_list": [
+   "Zhang, Chiya",
+   "Zhang, Wei"
+  ]
+ },
+ {
+  "query": "Energy minimization in UAV-aided networks: A survey",
+  "status": "OK",
+  "title": "Actor-Critic Deep Reinforcement Learning for Energy Minimization in UAV-Aided Networks",
+  "journal": "2020 European Conference on Networks and Communications (EuCNC)",
+  "year": 2020,
+  "volume": null,
+  "issue": null,
+  "page": "348-352",
+  "doi": "10.1109/eucnc48522.2020.9200931",
+  "type": "proceedings-article",
+  "authors": "Yuan, Yaxiong; Lei, Lei; Vu, Thang X.; Chatzinotas, Symeon; Ottersten, Bjorn",
+  "authors_list": [
+   "Yuan, Yaxiong",
+   "Lei, Lei",
+   "Vu, Thang X.",
+   "Chatzinotas, Symeon",
+   "Ottersten, Bjorn"
+  ]
+ },
+ {
+  "query": "Post-disaster assessment routing problem",
+  "status": "OK",
+  "title": "Post-disaster assessment routing problem",
+  "journal": "Transportation Research Part B: Methodological",
+  "year": 2018,
+  "volume": "116",
+  "issue": null,
+  "page": "76-102",
+  "doi": "10.1016/j.trb.2018.08.002",
+  "type": "journal-article",
+  "authors": "Oruc, Buse Eylul; Kara, Bahar Yetis",
+  "authors_list": [
+   "Oruc, Buse Eylul",
+   "Kara, Bahar Yetis"
+  ]
+ },
+ {
+  "query": "Aerial base stations with opportunistic links for next generation emergency communications",
+  "status": "OK",
+  "title": "Aerial base stations with opportunistic links for next generation emergency communications",
+  "journal": "IEEE Communications Magazine",
+  "year": 2016,
+  "volume": "54",
+  "issue": "4",
+  "page": "31-39",
+  "doi": "10.1109/mcom.2016.7452263",
+  "type": "journal-article",
+  "authors": "Gomez, Karina; Kandeepan, Sithamparanathan; Vidal, Macia Mut; Boussemart, Vincent; Ramos, Raquel; Hermenier, Romain; Rasheed, Tinku; Goratti, Leonardi; Reynaud, Laurent; Grace, David; Zhao, Qiyang; Han, Yunbo; Rehan, Salahedin; Morozs, Nils; Jiang, Tao; Bucaille, Isabelle; Wirth, Thomas; Campo, Roberta; Javornik, Tomaz",
+  "authors_list": [
+   "Gomez, Karina",
+   "Kandeepan, Sithamparanathan",
+   "Vidal, Macia Mut",
+   "Boussemart, Vincent",
+   "Ramos, Raquel",
+   "Hermenier, Romain",
+   "Rasheed, Tinku",
+   "Goratti, Leonardi",
+   "Reynaud, Laurent",
+   "Grace, David",
+   "Zhao, Qiyang",
+   "Han, Yunbo",
+   "Rehan, Salahedin",
+   "Morozs, Nils",
+   "Jiang, Tao",
+   "Bucaille, Isabelle",
+   "Wirth, Thomas",
+   "Campo, Roberta",
+   "Javornik, Tomaz"
+  ]
+ },
+ {
+  "query": "Multi-UAV enabled integrated sensing and communication",
+  "status": "TITLE_MISMATCH",
+  "title": "Joint Trajectories and Resource Allocation for UAV-Enabled Integrated Sensing and Communication",
+  "journal": "Reliable and Efficient Trajectory Design in UAV-Aided Wireless Networks",
+  "year": 2025,
+  "volume": null,
+  "issue": null,
+  "page": "153-174",
+  "doi": "10.1007/978-981-96-5988-3_7",
+  "type": "book-chapter",
+  "authors": "Meng, Kaitao",
+  "authors_list": [
+   "Meng, Kaitao"
+  ]
+ },
+ {
+  "query": "Terrain-aware path planning for UAVs in mountainous environments",
+  "status": "TITLE_MISMATCH",
+  "title": "Research on 3D Path Planning for UAVs in Complex Mountainous Terrain Based on Multi-Strategy Improved Particle Swarm Optimization",
+  "journal": "2026 6th International Conference on Artificial Intelligence and Industrial Technology Applications (AIITA)",
+  "year": 2026,
+  "volume": null,
+  "issue": null,
+  "page": "1298-1301",
+  "doi": "10.1109/aiita69518.2026.11567082",
+  "type": "proceedings-article",
+  "authors": "Yan, Yao",
+  "authors_list": [
+   "Yan, Yao"
+  ]
+ },
+ {
+  "query": "An overview of the knife-edge diffraction theory",
+  "status": "TITLE_MISMATCH",
+  "title": "Equivalence of knife-edge diffraction model and uniform geometrical theory of diffraction applying Fresnel approximation for an absorbing screen",
+  "journal": "",
+  "year": 2023,
+  "volume": null,
+  "issue": null,
+  "page": null,
+  "doi": "10.22541/au.168870611.16615278/v1",
+  "type": "posted-content",
+  "authors": "Du, Xin; Takada, Jun-ichi",
+  "authors_list": [
+   "Du, Xin",
+   "Takada, Jun-ichi"
+  ]
+ }
+]

@@ -1,0 +1,703 @@
+{
+ "generated": "2026-09-24 01:16:48",
+ "note": "受控地形族：节点/货箱/参数不变，只改高程场（起伏缩放 α + 河谷下切 c）",
+ "method": {
+  "alpha": "z' = z_med + α(z − z_med)",
+  "canyon": "z'' = z' − c·180·max(0,1−(d/W)²)，W=900 m，下切后不低于 1 m",
+  "occlusion": "运输航迹 10 s 采样点中直连不可用的比例",
+  "judge": "构造性判定器（候选点上限 topk=400），N=1/2/3"
+ },
+ "rows": [
+  {
+   "tag": "flat_a0.20",
+   "alpha": 0.2,
+   "cut": 0.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 99.2,
+    "z_max": 317.43,
+    "relief": 218.23,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.13103205353997888,
+    "n_samples": 2839,
+    "n_bad": 372,
+    "per_sortie_median": 0.052486187845303865
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 363,
+   "cells": 319,
+   "cand_pts": 4855,
+   "cover_cells": 319,
+   "peak_concurrent": 2,
+   "phases": 1,
+   "min_phase_s": 3190.0,
+   "short_phases": 0,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 262,
+     "preposition": true,
+     "fail_t": 8790.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 264,
+     "preposition": true,
+     "fail_t": 8810.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    },
+    "N3": {
+     "feasible": false,
+     "reached": 265,
+     "preposition": true,
+     "fail_t": 8820.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 266,
+     "preposition": true,
+     "fail_t": 8830.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    }
+   },
+   "N_crit": null,
+   "elapsed_s": 70.0
+  },
+  {
+   "tag": "flat_a0.35",
+   "alpha": 0.35,
+   "cut": 0.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 88.41,
+    "z_max": 470.32,
+    "relief": 381.91,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.2693487896351858,
+    "n_samples": 2933,
+    "n_bad": 790,
+    "per_sortie_median": 0.25762849518505626
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 767,
+   "cells": 609,
+   "cand_pts": 4229,
+   "cover_cells": 609,
+   "peak_concurrent": 2,
+   "phases": 2,
+   "min_phase_s": 1550.0,
+   "short_phases": 0,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 155,
+     "preposition": true,
+     "fail_t": 2780.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 232,
+     "preposition": false,
+     "fail_t": 4480.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": true,
+     "reached": 609,
+     "preposition": false,
+     "sorties": 3,
+     "timing": 0,
+     "miss": 0,
+     "energy": 6.087
+    },
+    "N4": {
+     "feasible": true,
+     "reached": 609,
+     "preposition": false,
+     "sorties": 3,
+     "timing": 0,
+     "miss": 0,
+     "energy": 6.087
+    }
+   },
+   "N_crit": 3,
+   "elapsed_s": 111.5
+  },
+  {
+   "tag": "flat_a0.60",
+   "alpha": 0.6,
+   "cut": 0.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 70.44,
+    "z_max": 725.14,
+    "relief": 654.7,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.38863783085861847,
+    "n_samples": 3098,
+    "n_bad": 1204,
+    "per_sortie_median": 0.3813592808455991
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1171,
+   "cells": 857,
+   "cand_pts": 3211,
+   "cover_cells": 857,
+   "peak_concurrent": 2,
+   "phases": 2,
+   "min_phase_s": 2780.0,
+   "short_phases": 0,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 212,
+     "preposition": true,
+     "fail_t": 2820.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": true,
+     "reached": 857,
+     "preposition": true,
+     "sorties": 4,
+     "timing": 0,
+     "miss": 0,
+     "energy": 5.808
+    },
+    "N3": {
+     "feasible": true,
+     "reached": 857,
+     "preposition": false,
+     "sorties": 3,
+     "timing": 0,
+     "miss": 0,
+     "energy": 6.438
+    },
+    "N4": {
+     "feasible": true,
+     "reached": 857,
+     "preposition": false,
+     "sorties": 3,
+     "timing": 0,
+     "miss": 0,
+     "energy": 6.438
+    }
+   },
+   "N_crit": 2,
+   "elapsed_s": 112.5
+  },
+  {
+   "tag": "flat_a1.00",
+   "alpha": 1.0,
+   "cut": 0.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 41.69,
+    "z_max": 1132.86,
+    "relief": 1091.17,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.44570744839964105,
+    "n_samples": 3343,
+    "n_bad": 1490,
+    "per_sortie_median": 0.46988645450183913
+   },
+   "nodes_realigned": 0,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1454,
+   "cells": 992,
+   "cand_pts": 2471,
+   "cover_cells": 992,
+   "peak_concurrent": 3,
+   "phases": 6,
+   "min_phase_s": 440.0,
+   "short_phases": 3,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 127,
+     "preposition": true,
+     "fail_t": 1980.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 171,
+     "preposition": true,
+     "fail_t": 2420.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": true,
+     "reached": 992,
+     "preposition": true,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 7.79
+    },
+    "N4": {
+     "feasible": true,
+     "reached": 992,
+     "preposition": false,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 8.728
+    }
+   },
+   "N_crit": 3,
+   "elapsed_s": 100.1
+  },
+  {
+   "tag": "flat_a1.40",
+   "alpha": 1.4,
+   "cut": 0.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 12.94,
+    "z_max": 1540.57,
+    "relief": 1527.63,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.45172031076581576,
+    "n_samples": 3604,
+    "n_bad": 1628,
+    "per_sortie_median": 0.4853785533352097
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1589,
+   "cells": 1045,
+   "cand_pts": 2311,
+   "cover_cells": 1045,
+   "peak_concurrent": 3,
+   "phases": 6,
+   "min_phase_s": 340.0,
+   "short_phases": 4,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 130,
+     "preposition": true,
+     "fail_t": 2030.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 141,
+     "preposition": true,
+     "fail_t": 2140.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": false,
+     "reached": 141,
+     "preposition": true,
+     "fail_t": 2140.0,
+     "fail_reason": "无可行换位"
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 141,
+     "preposition": true,
+     "fail_t": 2140.0,
+     "fail_reason": "无可行换位"
+    }
+   },
+   "N_crit": null,
+   "elapsed_s": 95.4
+  },
+  {
+   "tag": "shift_40_40",
+   "alpha": 1.0,
+   "cut": 0.0,
+   "shift": [
+    40,
+    40
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 41.69,
+    "z_max": 1132.86,
+    "relief": 1091.17,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     40,
+     40
+    ],
+    "shift_km": [
+     1.2,
+     1.2
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.4440389294403893,
+    "n_samples": 3288,
+    "n_bad": 1460,
+    "per_sortie_median": 0.4951612903225806
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1424,
+   "cells": 986,
+   "cand_pts": 2701,
+   "cover_cells": 976,
+   "peak_concurrent": 3,
+   "phases": 5,
+   "min_phase_s": 500.0,
+   "short_phases": 2,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 122,
+     "preposition": true,
+     "fail_t": 1980.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 205,
+     "preposition": true,
+     "fail_t": 2840.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": true,
+     "reached": 986,
+     "preposition": true,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 7.611
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 980,
+     "preposition": false,
+     "fail_t": 11950.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    }
+   },
+   "N_crit": 3,
+   "elapsed_s": 112.3
+  },
+  {
+   "tag": "shift_120_40",
+   "alpha": 1.0,
+   "cut": 0.0,
+   "shift": [
+    120,
+    40
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 41.69,
+    "z_max": 1132.86,
+    "relief": 1091.17,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     120,
+     40
+    ],
+    "shift_km": [
+     3.6,
+     1.2
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.3317742438415965,
+    "n_samples": 3207,
+    "n_bad": 1064,
+    "per_sortie_median": 0.3030944925400626
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1039,
+   "cells": 746,
+   "cand_pts": 2878,
+   "cover_cells": 727,
+   "peak_concurrent": 2,
+   "phases": 8,
+   "min_phase_s": 70.0,
+   "short_phases": 6,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 97,
+     "preposition": true,
+     "fail_t": 1990.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 193,
+     "preposition": false,
+     "fail_t": 4510.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": false,
+     "reached": 456,
+     "preposition": false,
+     "fail_t": 8100.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 457,
+     "preposition": false,
+     "fail_t": 8110.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    }
+   },
+   "N_crit": null,
+   "elapsed_s": 87.5
+  },
+  {
+   "tag": "shift_90_-70",
+   "alpha": 1.0,
+   "cut": 0.0,
+   "shift": [
+    90,
+    -70
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 41.69,
+    "z_max": 1132.86,
+    "relief": 1091.17,
+    "base_relief": 1091.17,
+    "wall_add_m": 0.0,
+    "shift_cells": [
+     90,
+     -70
+    ],
+    "shift_km": [
+     2.7,
+     -2.1
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.3285098522167488,
+    "n_samples": 3248,
+    "n_bad": 1067,
+    "per_sortie_median": 0.27326007326007323
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1039,
+   "cells": 761,
+   "cand_pts": 2899,
+   "cover_cells": 730,
+   "peak_concurrent": 2,
+   "phases": 7,
+   "min_phase_s": 30.0,
+   "short_phases": 4,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 115,
+     "preposition": true,
+     "fail_t": 1980.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 310,
+     "preposition": true,
+     "fail_t": 4750.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": false,
+     "reached": 310,
+     "preposition": true,
+     "fail_t": 4750.0,
+     "fail_reason": "无可行换位"
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 310,
+     "preposition": true,
+     "fail_t": 4750.0,
+     "fail_reason": "无可行换位"
+    }
+   },
+   "N_crit": null,
+   "elapsed_s": 90.7
+  },
+  {
+   "tag": "canyon_c1.00",
+   "alpha": 1.0,
+   "cut": 1.0,
+   "shift": [
+    0,
+    0
+   ],
+   "model": "observed",
+   "terrain": {
+    "z_ref": 113.57,
+    "z_min": 150.24,
+    "z_max": 1312.86,
+    "relief": 1162.62,
+    "base_relief": 1091.17,
+    "wall_add_m": 180.0,
+    "shift_cells": [
+     0,
+     0
+    ],
+    "shift_km": [
+     0.0,
+     0.0
+    ]
+   },
+   "occlusion": {
+    "ratio": 0.4528358208955224,
+    "n_samples": 3350,
+    "n_bad": 1517,
+    "per_sortie_median": 0.4712755438365195
+   },
+   "nodes_realigned": 16,
+   "palette_pts": 140,
+   "relay_ok": true,
+   "instances": 1477,
+   "cells": 998,
+   "cand_pts": 2476,
+   "cover_cells": 998,
+   "peak_concurrent": 3,
+   "phases": 4,
+   "min_phase_s": 740.0,
+   "short_phases": 1,
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "reached": 126,
+     "preposition": true,
+     "fail_t": 1970.0,
+     "fail_reason": "无可行换位"
+    },
+    "N2": {
+     "feasible": false,
+     "reached": 221,
+     "preposition": true,
+     "fail_t": 2920.0,
+     "fail_reason": "无可行换位"
+    },
+    "N3": {
+     "feasible": false,
+     "reached": 675,
+     "preposition": true,
+     "fail_t": 8000.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    },
+    "N4": {
+     "feasible": false,
+     "reached": 675,
+     "preposition": true,
+     "fail_t": 8000.0,
+     "fail_reason": "在空/驻留超时且无可行换位"
+    }
+   },
+   "N_crit": null,
+   "elapsed_s": 100.9
+  }
+ ]
+}

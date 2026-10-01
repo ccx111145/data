@@ -1,0 +1,46 @@
+{
+ "generated": "2026-09-24 19:32:28",
+ "physics": "cruise = max(航段/端点地形, 悬停点地形) + 50 m（修正后）",
+ "struct": {
+  "cand_pts": 2471,
+  "instances": 1454,
+  "cells": 992,
+  "peak_concurrent": 3,
+  "single_cover_cells": 992,
+  "mean_pts": 774.7,
+  "phases": 6,
+  "multi_phases": 3,
+  "min_phase_s": 440.0,
+  "max_phase_s": 2650.0,
+  "short_phases": 3,
+  "energy_cap_s": 7232.727272727273
+ },
+ "n2": {
+  "feasible": false,
+  "sorties": 3,
+  "miss": 806,
+  "outage_n": 3,
+  "outage_s": 6380.0,
+  "energy": 2.282,
+  "hover": 4860.0,
+  "cover_pct": 44.5,
+  "cover_cells": 441,
+  "cells": 992
+ },
+ "n3": {
+  "feasible": true,
+  "sorties": 6,
+  "miss": 0,
+  "timing_conflicts": 0,
+  "energy": 7.79,
+  "hover": 20990.0,
+  "max_hover": 6060.0,
+  "soc_min": 33.8,
+  "drones": [
+   "R01",
+   "R02",
+   "R03(增配)"
+  ],
+  "n_actions": 8
+ }
+}

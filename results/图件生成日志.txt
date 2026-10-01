@@ -1,0 +1,35 @@
+==========================================================================
+make_figs.py —— D 题论文插图生成
+中文字体：SimHei
+输出目录：R:\claude\bitget_grid\国赛路嗯嗯\D题\figs
+· 基础数据：节点 16，服务区 15，货箱 80，机队 {'A': 4, 'B': 2, 'C': 2}
+· 读取 results/solution.json：运输架次 20，中继架次 3，覆盖记录 0
+  · coverage 来自 结果提交.xlsx[Q3_通信保障]（236 段：直连 116 / 中继 54 / 中断 66）
+· 解数据来源：solution.json
+-- fig_env.png
+  [OK] fig_env.png
+-- fig_q1_payload.png
+  · 最大安全载荷来自 Q1_最大安全载荷.xlsx
+  [OK] fig_q1_payload.png
+-- fig_q1_pareto.png
+  · Q1 前沿点 2 个（Q1_前沿.json）
+  · Q1 具名方案 5 个（Q1_单点组批.xlsx）
+  [OK] fig_q1_pareto.png
+-- fig_q1_rho.png
+  [OK] fig_q1_rho.png
+-- fig_q2_gantt.png
+  [OK] fig_q2_gantt.png
+-- fig_q2_pareto.png
+  [OK] fig_q2_pareto.png
+-- fig_q3_gantt.png
+  [OK] fig_q3_gantt.png
+-- fig_q3_comm.png
+  · 链路状态取自结果表的通信分段（236 段）
+  [OK] fig_q3_comm.png
+  · 链路采样点：直连 944，中继 333，中断 440
+-- fig_q4_partition.png
+  · 分区方案：K=2 共 2 组（12 区 / 3 区）；K=3 共 3 组（10 区 / 3 区 / 2 区）
+  [OK] fig_q4_partition.png
+--------------------------------------------------------------------------
+完成：成功 9 / 9 张
+figs/ 现有：fig_env.png, fig_q1_pareto.png, fig_q1_payload.png, fig_q1_rho.png, fig_q2_gantt.png, fig_q2_pareto.png, fig_q3_comm.png, fig_q3_gantt.png, fig_q4_partition.png

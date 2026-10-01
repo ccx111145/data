@@ -1,0 +1,278 @@
+[
+ {
+  "key": "deygout",
+  "doi": "10.1109/TAP.1966.1138693",
+  "flags": [
+   "TITLE-MISMATCH",
+   "AUTHOR-NOT-IN-CROSSREF(deygout)",
+   "MISSING-AUTHORS(kaneyee)"
+  ],
+  "crossref_title": "Numerical solution of initial boundary value problems involving maxwell's equations in isotropic media",
+  "bib_title": "Multiple knife-edge diffraction of microwaves",
+  "year": 1966
+ },
+ {
+  "key": "alns",
+  "doi": "10.1287/trsc.1050.0135",
+  "flags": [],
+  "crossref_title": "An Adaptive Large Neighborhood Search Heuristic for the Pickup and Delivery Problem with Time Windows",
+  "bib_title": "An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows",
+  "year": 2006
+ },
+ {
+  "key": "matolak",
+  "doi": "10.1109/TVT.2016.2585504",
+  "flags": [],
+  "crossref_title": "Air–Ground Channel Characterization for Unmanned Aircraft Systems Part II: Hilly and Mountainous Settings",
+  "bib_title": "Air--ground channel characterization for unmanned aircraft systems -- Part {II}: Hilly and mountainous settings",
+  "year": 2017
+ },
+ {
+  "key": "zeng",
+  "doi": "10.1109/MCOM.2016.7470933",
+  "flags": [],
+  "crossref_title": "Wireless communications with unmanned aerial vehicles: opportunities and challenges",
+  "bib_title": "Wireless communications with unmanned aerial vehicles: Opportunities and challenges",
+  "year": 2016
+ },
+ {
+  "key": "mozaffari",
+  "doi": "10.1109/COMST.2019.2902862",
+  "flags": [],
+  "crossref_title": "A Tutorial on UAVs for Wireless Networks: Applications, Challenges, and Open Problems",
+  "bib_title": "A tutorial on {UAV}s for wireless networks: Applications, challenges, and open problems",
+  "year": 2019
+ },
+ {
+  "key": "zengtraj",
+  "doi": "10.1109/TWC.2017.2688328",
+  "flags": [
+   "AUTHOR-NOT-IN-CROSSREF(xu)"
+  ],
+  "crossref_title": "Energy-Efficient UAV Communication With Trajectory Optimization",
+  "bib_title": "Energy-efficient {UAV} communication with trajectory optimization",
+  "year": 2017
+ },
+ {
+  "key": "murray",
+  "doi": "10.1016/j.trc.2015.03.005",
+  "flags": [],
+  "crossref_title": "The flying sidekick traveling salesman problem: Optimization of drone-assisted parcel delivery",
+  "bib_title": "The flying sidekick traveling salesman problem: Optimization of drone-assisted parcel delivery",
+  "year": 2015
+ },
+ {
+  "key": "erdelj",
+  "doi": "10.1016/j.comnet.2017.05.021",
+  "flags": [],
+  "crossref_title": "Wireless Sensor Networks and Multi-UAV systems for natural disaster management",
+  "bib_title": "Wireless sensor networks and multi-{UAV} systems for natural disaster management",
+  "year": 2017
+ },
+ {
+  "key": "coutinho",
+  "doi": "10.1016/j.cie.2018.04.037",
+  "flags": [],
+  "crossref_title": "The unmanned aerial vehicle routing and trajectory optimisation problem, a taxonomic review",
+  "bib_title": "The unmanned aerial vehicle routing and trajectory optimisation problem, a taxonomic review",
+  "year": 2018
+ },
+ {
+  "key": "boysen",
+  "doi": "10.1007/s00291-020-00607-8",
+  "flags": [],
+  "crossref_title": "Last-mile delivery concepts: a survey from an operational research perspective",
+  "bib_title": "Last-mile delivery concepts: A survey from an operational research perspective",
+  "year": 2020
+ },
+ {
+  "key": "korte",
+  "doi": "10.1007/978-3-662-56039-6",
+  "flags": [],
+  "crossref_title": "Combinatorial Optimization",
+  "bib_title": "Combinatorial Optimization: Theory and Algorithms",
+  "year": 2018
+ },
+ {
+  "key": "clarke1964",
+  "doi": "10.1287/opre.12.4.568",
+  "flags": [],
+  "crossref_title": "Scheduling of Vehicles from a Central Depot to a Number of Delivery Points",
+  "bib_title": "Scheduling of vehicles from a central depot to a number of delivery points",
+  "year": 1964
+ },
+ {
+  "key": "solomon1987",
+  "doi": "10.1287/opre.35.2.254",
+  "flags": [],
+  "crossref_title": "Algorithms for the Vehicle Routing and Scheduling Problems with Time Window Constraints",
+  "bib_title": "Algorithms for the vehicle routing and scheduling problems with time window constraints",
+  "year": 1987
+ },
+ {
+  "key": "tothvigo2002",
+  "doi": "10.1137/1.9780898718515",
+  "flags": [],
+  "crossref_title": "The Vehicle Routing Problem",
+  "bib_title": "The Vehicle Routing Problem",
+  "year": 2002
+ },
+ {
+  "key": "vidal2020",
+  "doi": "10.1016/j.cor.2021.105643",
+  "flags": [],
+  "crossref_title": "Hybrid genetic search for the CVRP: Open-source implementation and SWAP* neighborhood",
+  "bib_title": "Hybrid genetic search for the {CVRP}: Open-source implementation and {SWAP*} neighborhood",
+  "year": 2022
+ },
+ {
+  "key": "poikonen2017",
+  "doi": "10.1002/net.21746",
+  "flags": [],
+  "crossref_title": "The vehicle routing problem with drones: Extended models and connections",
+  "bib_title": "The vehicle routing problem with drones: Extended models and connections",
+  "year": 2017
+ },
+ {
+  "key": "otto2018",
+  "doi": "10.1002/net.21818",
+  "flags": [],
+  "crossref_title": "Optimization approaches for civil applications of unmanned aerial vehicles (UAVs) or aerial drones: A survey",
+  "bib_title": "Optimization approaches for civil applications of unmanned aerial vehicles ({UAV}s) or aerial drones: A survey",
+  "year": 2018
+ },
+ {
+  "key": "scott2018",
+  "doi": "10.4018/IJHISI.2018070102",
+  "flags": [],
+  "crossref_title": "Models for Drone Delivery of Medications and Other Healthcare Items",
+  "bib_title": "Models for drone delivery of medications and other healthcare items",
+  "year": 2018
+ },
+ {
+  "key": "sheu2007",
+  "doi": "10.1016/j.tre.2007.01.001",
+  "flags": [],
+  "crossref_title": "Challenges of emergency logistics management",
+  "bib_title": "Challenges of emergency logistics management",
+  "year": 2007
+ },
+ {
+  "key": "caunhye2012",
+  "doi": "10.1016/j.seps.2011.04.004",
+  "flags": [],
+  "crossref_title": "Optimization models in emergency logistics: A literature review",
+  "bib_title": "Optimization models in emergency logistics: A literature review",
+  "year": 2012
+ },
+ {
+  "key": "zeng2016relay",
+  "doi": "10.1109/TCOMM.2016.2611512",
+  "flags": [],
+  "crossref_title": "Throughput Maximization for UAV-Enabled Mobile Relaying Systems",
+  "bib_title": "Throughput maximization for {UAV}-enabled mobile relaying systems",
+  "year": 2016
+ },
+ {
+  "key": "relay5g",
+  "doi": "10.1002/9781119575795.ch18",
+  "flags": [
+   "TITLE-MISMATCH",
+   "AUTHOR-NOT-IN-CROSSREF(zeng,lyu,zhang)",
+   "MISSING-AUTHORS(namuduri)"
+  ],
+  "crossref_title": "Ad‐Hoc Networks in the Sky",
+  "bib_title": "{UAV} relay in the sky: A new airborne node for {5G} and beyond",
+  "year": 2020
+ },
+ {
+  "key": "alhourani2014",
+  "doi": "10.1109/LWC.2014.2342736",
+  "flags": [],
+  "crossref_title": "Optimal LAP Altitude for Maximum Coverage",
+  "bib_title": "Optimal {LAP} altitude for maximum coverage",
+  "year": 2014
+ },
+ {
+  "key": "hourani2016",
+  "doi": "10.1109/LCOMM.2016.2578312",
+  "flags": [],
+  "crossref_title": "Efficient Deployment of Multiple Unmanned Aerial Vehicles for Optimal Wireless Coverage",
+  "bib_title": "Efficient deployment of multiple unmanned aerial vehicles for optimal wireless coverage",
+  "year": 2016
+ },
+ {
+  "key": "macrina2020",
+  "doi": "10.1016/j.trc.2020.102762",
+  "flags": [],
+  "crossref_title": "Drone-aided routing: A literature review",
+  "bib_title": "Drone-aided routing: A literature review",
+  "year": 2020
+ },
+ {
+  "key": "goodchild2018",
+  "doi": "10.1016/j.trd.2017.02.017",
+  "flags": [],
+  "crossref_title": "Delivery by drone: An evaluation of unmanned aerial vehicle technology in reducing CO 2 emissions in the delivery service industry",
+  "bib_title": "Delivery by drone: An evaluation of unmanned aerial vehicle technology in reducing {CO}$_2$ emissions in the delivery service industry",
+  "year": 2018
+ },
+ {
+  "key": "oruc2018",
+  "doi": "10.1016/j.trb.2018.08.002",
+  "flags": [],
+  "crossref_title": "Post-disaster assessment routing problem",
+  "bib_title": "Post-disaster assessment routing problem",
+  "year": 2018
+ },
+ {
+  "key": "gomez2016",
+  "doi": "10.1109/MCOM.2016.7452263",
+  "flags": [
+   "AUTHOR-NOT-IN-CROSSREF(buratti,reede,fitch)"
+  ],
+  "crossref_title": "Aerial base stations with opportunistic links for next generation emergency communications",
+  "bib_title": "Aerial base stations with opportunistic links for next generation emergency communications",
+  "year": 2016
+ },
+ {
+  "key": "wu2018",
+  "doi": "10.1109/TWC.2017.2789293",
+  "flags": [],
+  "crossref_title": "Joint Trajectory and Communication Design for Multi-UAV Enabled Wireless Networks",
+  "bib_title": "Joint trajectory and communication design for multi-{UAV} enabled wireless networks",
+  "year": 2018
+ },
+ {
+  "key": "you2019",
+  "doi": "10.1109/TWC.2019.2911939",
+  "flags": [],
+  "crossref_title": "3D Trajectory Optimization in Rician Fading for UAV-Enabled Data Harvesting",
+  "bib_title": "{3D} trajectory optimization in Rician fading for {UAV}-enabled data harvesting",
+  "year": 2019
+ },
+ {
+  "key": "xu2018wpt",
+  "doi": "10.1109/TWC.2018.2838134",
+  "flags": [],
+  "crossref_title": "UAV-Enabled Wireless Power Transfer: Trajectory Design and Energy Optimization",
+  "bib_title": "{UAV}-enabled wireless power transfer: Trajectory design and energy optimization",
+  "year": 2018
+ },
+ {
+  "key": "das2021",
+  "doi": "10.1109/TITS.2020.2992549",
+  "flags": [],
+  "crossref_title": "Synchronized Truck and Drone Routing in Package Delivery Logistics",
+  "bib_title": "Synchronized truck and drone routing in package delivery logistics",
+  "year": 2021
+ },
+ {
+  "key": "bian2024",
+  "doi": "10.1109/TITS.2024.3381933",
+  "flags": [],
+  "crossref_title": "Truck-Drone Hybrid Delivery Routing: A Mathematical Model and Micro- Evolutionary Algorithm",
+  "bib_title": "Truck-drone hybrid delivery routing: A mathematical model and micro-evolutionary algorithm",
+  "year": 2024
+ }
+]

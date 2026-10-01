@@ -1,0 +1,243 @@
+{
+ "generated": "2026-09-23 22:01:07",
+ "physics": "cruise = max(航段/端点地形, 悬停点地形) + 50 m",
+ "inv": {
+  "relay": 2,
+  "relayE": 6
+ },
+ "scenarios": {
+  "A": {
+   "label": "口径 A：库存内 2 架折中方案（通信非全程连续）",
+   "source_key": "relay",
+   "n_relay": 3,
+   "n_coverage": 11,
+   "k1_relay": 2,
+   "k1_relayE": 2,
+   "inv_relay": 2,
+   "inv_relayE": 6,
+   "K": {
+    "2": {
+     "groups": [
+      [
+       "S001",
+       "S002",
+       "S003",
+       "S005",
+       "S006",
+       "S007",
+       "S008",
+       "S009",
+       "S010",
+       "S011",
+       "S014",
+       "S015"
+      ],
+      [
+       "S004",
+       "S012",
+       "S013"
+      ]
+     ],
+     "relay_per_group": [
+      1,
+      1
+     ],
+     "relay_need": 2,
+     "relay_gap": 0,
+     "relayE_per_group": [
+      1,
+      1
+     ],
+     "relayE_need": 2,
+     "relayE_gap": 0,
+     "cross": [
+      "Q3-R-03",
+      "Q3-R-01"
+     ],
+     "nocov": [],
+     "total_need": 11.0,
+     "transport_gap": {
+      "C": 1
+     }
+    },
+    "3": {
+     "groups": [
+      [
+       "S001",
+       "S002",
+       "S003",
+       "S005",
+       "S006",
+       "S007",
+       "S008",
+       "S009",
+       "S010",
+       "S014"
+      ],
+      [
+       "S004",
+       "S012",
+       "S013"
+      ],
+      [
+       "S011",
+       "S015"
+      ]
+     ],
+     "relay_per_group": [
+      1,
+      1,
+      0
+     ],
+     "relay_need": 2,
+     "relay_gap": 0,
+     "relayE_per_group": [
+      1,
+      1,
+      0
+     ],
+     "relayE_need": 2,
+     "relayE_gap": 0,
+     "cross": [
+      "Q3-R-03",
+      "Q3-R-01"
+     ],
+     "nocov": [],
+     "total_need": 12.4,
+     "transport_gap": {
+      "B": 1,
+      "C": 1,
+      "battB": 1
+     }
+    }
+   },
+   "relay_cov_s": {
+    "Q3-R-01": 1874.1,
+    "Q3-R-02": 1504.7,
+    "Q3-R-03": 2985.5
+   },
+   "relay_not_used": []
+  },
+  "B": {
+   "label": "口径 B：采纳增配的 3 架方案（全程连续通信）",
+   "source_key": "relay3",
+   "n_relay": 6,
+   "n_coverage": 35,
+   "k1_relay": 3,
+   "k1_relayE": 4,
+   "inv_relay": 2,
+   "inv_relayE": 6,
+   "K": {
+    "2": {
+     "groups": [
+      [
+       "S001",
+       "S002",
+       "S003",
+       "S005",
+       "S006",
+       "S007",
+       "S008",
+       "S009",
+       "S010",
+       "S011",
+       "S014",
+       "S015"
+      ],
+      [
+       "S004",
+       "S012",
+       "S013"
+      ]
+     ],
+     "relay_per_group": [
+      3,
+      0
+     ],
+     "relay_need": 3,
+     "relay_gap": 1,
+     "relayE_per_group": [
+      4,
+      0
+     ],
+     "relayE_need": 4,
+     "relayE_gap": 0,
+     "cross": [
+      "Q3R3-01",
+      "Q3R3-02",
+      "Q3R3-04",
+      "Q3R3-05"
+     ],
+     "nocov": [],
+     "total_need": 12.8,
+     "transport_gap": {
+      "C": 1,
+      "relay": 1
+     }
+    },
+    "3": {
+     "groups": [
+      [
+       "S001",
+       "S002",
+       "S003",
+       "S005",
+       "S006",
+       "S007",
+       "S008",
+       "S009",
+       "S010",
+       "S014"
+      ],
+      [
+       "S004",
+       "S012",
+       "S013"
+      ],
+      [
+       "S011",
+       "S015"
+      ]
+     ],
+     "relay_per_group": [
+      3,
+      0,
+      0
+     ],
+     "relay_need": 3,
+     "relay_gap": 1,
+     "relayE_per_group": [
+      4,
+      0,
+      0
+     ],
+     "relayE_need": 4,
+     "relayE_gap": 0,
+     "cross": [
+      "Q3R3-01",
+      "Q3R3-02",
+      "Q3R3-04",
+      "Q3R3-05"
+     ],
+     "nocov": [],
+     "total_need": 14.2,
+     "transport_gap": {
+      "B": 1,
+      "C": 1,
+      "battB": 1,
+      "relay": 1
+     }
+    }
+   },
+   "relay_cov_s": {
+    "Q3R3-01": 9091.7,
+    "Q3R3-02": 4994.4,
+    "Q3R3-03": 1339.3,
+    "Q3R3-04": 3060.6,
+    "Q3R3-05": 6410.8,
+    "Q3R3-06": 3366.6
+   },
+   "relay_not_used": []
+  }
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "N": 2,
+ "mode": "base",
+ "topk": 12,
+ "per_key": 3,
+ "feasible": false,
+ "reason": "第 171 格（t=2420 s）无可行状态",
+ "diag": {
+  "k": 171,
+  "t": 2420.0,
+  "n_state": 96,
+  "cand_empty": 0,
+  "rej_pnew_eq": 0,
+  "rej_old_arrival": 1180,
+  "rej_other_arrival": 1124,
+  "rej_union": 0,
+  "rej_age": 0,
+  "accepted": 0
+ }
+}

@@ -1,0 +1,593 @@
+{
+ "generated": "2026-09-24 00:34:20",
+ "note": "问题三诊断类结果文件的合并汇总；make_numbers.py 的权威来源之一",
+ "values": {
+  "dp_cells": {
+   "air_topk24": {
+    "k": 225,
+    "t": 2960.0,
+    "feasible": false,
+    "rej": {
+     "rej_pnew_eq": 0,
+     "rej_old_arrival": 3120,
+     "rej_other_arrival": 2777,
+     "rej_union": 679,
+     "rej_age": 0
+    }
+   },
+   "base_topk12": {
+    "k": 171,
+    "t": 2420.0,
+    "feasible": false,
+    "rej": {
+     "rej_pnew_eq": 0,
+     "rej_old_arrival": 1180,
+     "rej_other_arrival": 1124,
+     "rej_union": 0,
+     "rej_age": 0
+    }
+   },
+   "base_topk24": {
+    "k": 225,
+    "t": 2960.0,
+    "feasible": false,
+    "rej": {
+     "rej_pnew_eq": 0,
+     "rej_old_arrival": 574,
+     "rej_other_arrival": 576,
+     "rej_union": 2,
+     "rej_age": 0
+    }
+   },
+   "base_topk40": {
+    "k": 225,
+    "t": 2960.0,
+    "feasible": false,
+    "rej": {
+     "rej_pnew_eq": 0,
+     "rej_old_arrival": 3099,
+     "rej_other_arrival": 3120,
+     "rej_union": 21,
+     "rej_age": 0
+    }
+   }
+  },
+  "QthreeDpInfeasibleCell": 171,
+  "QthreeDpInfeasibleT": 2420,
+  "QthreeFailCellLow": 171,
+  "QthreeFailCellHigh": 225,
+  "greedy_last": {
+   "N": 1,
+   "mode": "base",
+   "feasible": false,
+   "fail_k": 127,
+   "fail_t": 1980.0,
+   "reason": "无可行换位"
+  },
+  "span_blackout": {
+   "span": {
+    "median_s": 1265.0,
+    "mean_s": 1517.0,
+    "p10_s": 370.0,
+    "p90_s": 2979.0,
+    "max_s": 3970.0
+   },
+   "w_base_median_all_s": 1115.5,
+   "w_air_median_all_s": 471.1,
+   "w_base_median_strong_s": 1262.9,
+   "w_air_median_strong_s": 190.0,
+   "w_base_dist_all": {
+    "min_s": 482.7,
+    "median_s": 1115.5,
+    "mean_s": 1124.9,
+    "max_s": 2193.3,
+    "ge1100_pct": 52.9,
+    "n": 42230
+   },
+   "by_mode": {
+    "全候选点对": {
+     "Mode 1": {
+      "p10": {
+       "w_s": 858.9,
+       "rate": 0.8095,
+       "n_ok": 803,
+       "n": 992,
+       "deficit_cells": 6198,
+       "worst": {
+        "k": 243,
+        "t": 3140.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 86,
+        "span_cells": 13,
+        "gap_cells": 73,
+        "gap_s": 730.0
+       }
+      },
+      "p50": {
+       "w_s": 1115.5,
+       "rate": 0.7198,
+       "n_ok": 714,
+       "n": 992,
+       "deficit_cells": 12084,
+       "worst": {
+        "k": 269,
+        "t": 3400.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 112,
+        "span_cells": 13,
+        "gap_cells": 99,
+        "gap_s": 990.0
+       },
+       "crash_k0": 60,
+       "crash_t0": 1310.0,
+       "span_at_k0_s": 670.0,
+       "need_cells": 112,
+       "deficit_s": 450.0
+      },
+      "p90": {
+       "w_s": 1392.2,
+       "rate": 0.6431,
+       "n_ok": 638,
+       "n": 992,
+       "deficit_cells": 18751,
+       "worst": {
+        "k": 249,
+        "t": 3200.0,
+        "j": 110,
+        "t0": 1810.0,
+        "need_cells": 140,
+        "span_cells": 17,
+        "gap_cells": 123,
+        "gap_s": 1230.0
+       }
+      }
+     },
+     "Mode 2": {
+      "p10": {
+       "w_s": 237.6,
+       "rate": 0.9819,
+       "n_ok": 974,
+       "n": 992,
+       "deficit_cells": 94,
+       "worst": {
+        "k": 181,
+        "t": 2520.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 24,
+        "span_cells": 13,
+        "gap_cells": 11,
+        "gap_s": 110.0
+       }
+      },
+      "p50": {
+       "w_s": 471.1,
+       "rate": 0.9315,
+       "n_ok": 924,
+       "n": 992,
+       "deficit_cells": 1171,
+       "worst": {
+        "k": 205,
+        "t": 2760.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 48,
+        "span_cells": 13,
+        "gap_cells": 35,
+        "gap_s": 350.0
+       },
+       "crash_k0": 124,
+       "crash_t0": 1950.0,
+       "span_at_k0_s": 470.0,
+       "need_cells": 48,
+       "deficit_s": 10.0
+      },
+      "p90": {
+       "w_s": 738.8,
+       "rate": 0.8458,
+       "n_ok": 839,
+       "n": 992,
+       "deficit_cells": 4128,
+       "worst": {
+        "k": 231,
+        "t": 3020.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 74,
+        "span_cells": 13,
+        "gap_cells": 61,
+        "gap_s": 610.0
+       }
+      }
+     }
+    },
+    "强点对": {
+     "Mode 1": {
+      "p10": {
+       "w_s": 1111.3,
+       "rate": 0.7198,
+       "n_ok": 714,
+       "n": 992,
+       "deficit_cells": 12084,
+       "worst": {
+        "k": 269,
+        "t": 3400.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 112,
+        "span_cells": 13,
+        "gap_cells": 99,
+        "gap_s": 990.0
+       }
+      },
+      "p50": {
+       "w_s": 1262.9,
+       "rate": 0.6825,
+       "n_ok": 677,
+       "n": 992,
+       "deficit_cells": 15201,
+       "worst": {
+        "k": 236,
+        "t": 3070.0,
+        "j": 110,
+        "t0": 1810.0,
+        "need_cells": 127,
+        "span_cells": 17,
+        "gap_cells": 110,
+        "gap_s": 1100.0
+       }
+      },
+      "p90": {
+       "w_s": 1418.7,
+       "rate": 0.6371,
+       "n_ok": 632,
+       "n": 992,
+       "deficit_cells": 19468,
+       "worst": {
+        "k": 251,
+        "t": 3220.0,
+        "j": 110,
+        "t0": 1810.0,
+        "need_cells": 142,
+        "span_cells": 17,
+        "gap_cells": 125,
+        "gap_s": 1250.0
+       }
+      }
+     },
+     "Mode 2": {
+      "p10": {
+       "w_s": 114.1,
+       "rate": 1.0,
+       "n_ok": 992,
+       "n": 992,
+       "deficit_cells": 0,
+       "worst": null
+      },
+      "p50": {
+       "w_s": 190.0,
+       "rate": 0.9919,
+       "n_ok": 984,
+       "n": 992,
+       "deficit_cells": 24,
+       "worst": {
+        "k": 176,
+        "t": 2470.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 19,
+        "span_cells": 13,
+        "gap_cells": 6,
+        "gap_s": 60.0
+       }
+      },
+      "p90": {
+       "w_s": 298.0,
+       "rate": 0.9677,
+       "n_ok": 960,
+       "n": 992,
+       "deficit_cells": 253,
+       "worst": {
+        "k": 187,
+        "t": 2580.0,
+        "j": 158,
+        "t0": 2290.0,
+        "need_cells": 30,
+        "span_cells": 13,
+        "gap_cells": 17,
+        "gap_s": 170.0
+       }
+      }
+     }
+    }
+   },
+   "fail": {
+    "k": 171,
+    "t": 2420.0
+   }
+  },
+  "QthreeSpanBlackoutBasePct": 72.0,
+  "QthreeDpBlackoutMedianS": 1116,
+  "QthreeSpanBlackoutAirPct": 93.1,
+  "QthreeDpBlackoutAirMedianS": 471,
+  "QthreeFailBaseT": 2420,
+  "QthreeSpanDeficitBaseS": 450.0,
+  "QthreeSpanDeficitAirS": 10.0,
+  "QthreeDpBlackoutMinS": 483,
+  "QthreeDpBlackoutMeanS": 1125,
+  "QthreeDpBlackoutMaxS": 2193,
+  "QthreeDpBlackoutGePct": 52.9,
+  "QthreeDpBlackoutPairs": 42230,
+  "QthreeWBaseMedS": 1116,
+  "QthreeWAirMedS": 471,
+  "QthreeWBaseStrongS": 1263,
+  "QthreeWAirStrongS": 190,
+  "QthreeStarBasePct": 72.0,
+  "QthreeStarAirPct": 93.1,
+  "QthreeStarBaseStrongPct": 68.2,
+  "QthreeStarAirStrongPct": 99.2,
+  "recompute_physics": {
+   "hover_cap_s": 7232.7,
+   "note": "dcore.relay_flight 负下降高度修正后重算",
+   "blackout": {
+    "base_med": 1122.1,
+    "base_p10": 853.4,
+    "base_p90": 1408.3,
+    "base_max": 2035.7,
+    "air_med": 480.1,
+    "air_p10": 244.0,
+    "air_p90": 748.2,
+    "air_max": 1249.0
+   },
+   "star": {
+    "base_rate": 0.7167,
+    "base_ok": 711,
+    "base_deficit_cells": 12304,
+    "air_rate": 0.9294,
+    "air_ok": 922,
+    "air_deficit_cells": 1241,
+    "n_cells": 992,
+    "span_med_cells": 126,
+    "span_p90_cells": 297
+   },
+   "greedy": {
+    "N2_base": {
+     "ok": false,
+     "reached": 171,
+     "n": 992,
+     "actions": 2,
+     "fail": {
+      "k": 171,
+      "t": 2420.0,
+      "reason": "无可行换位"
+     },
+     "sec": 0.4
+    },
+    "N2_air": {
+     "ok": false,
+     "reached": 301,
+     "n": 992,
+     "actions": 3,
+     "fail": {
+      "k": 301,
+      "t": 3950.0,
+      "reason": "无可行换位"
+     },
+     "sec": 0.5
+    },
+    "N3_base": {
+     "ok": true,
+     "reached": 992,
+     "n": 992,
+     "actions": 8,
+     "fail": null,
+     "sec": 0.5,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 7.79,
+     "soc_min": 33.8
+    },
+    "N3_air": {
+     "ok": false,
+     "reached": 915,
+     "n": 992,
+     "actions": 13,
+     "fail": {
+      "k": 915,
+      "t": 11060.0,
+      "reason": "在空/驻留超时且无可行换位"
+     },
+     "sec": 0.9
+    }
+   }
+  },
+  "QthreeFailAirT": 3950,
+  "QthreeHoverCapS": 7232.7,
+  "struct_diag": {
+   "alone_runs": {
+    "n": 25784,
+    "median_s": 170.0,
+    "mean_s": 283.2,
+    "p90_s": 730.0,
+    "max_s": 4990.0
+   },
+   "blackout": {
+    "base_median_s": 1126.7,
+    "base_p10_s": 888.5,
+    "base_p90_s": 1366.5,
+    "air_median_s": 465.8,
+    "air_p10_s": 231.6,
+    "air_p90_s": 720.7
+   },
+   "singleton_span": {
+    "median_s": 1265.0,
+    "p90_s": 2979.0,
+    "max_s": 3970.0
+   },
+   "opportunity": {
+    "Mode 1": {
+     "w_median_s": 1126.7,
+     "opp_frac": 0.5494,
+     "opp_cells": 545,
+     "n_cells": 992,
+     "longest_opp_span_s": 4430.0
+    },
+    "Mode 2": {
+     "w_median_s": 465.8,
+     "opp_frac": 0.8569,
+     "opp_cells": 850,
+     "n_cells": 992,
+     "longest_opp_span_s": 8130.0
+    }
+   },
+   "fail_cell": {
+    "k": 171,
+    "t": 2420.0,
+    "max_singleton_span_s": 1180.0,
+    "need_base_s": 1130.0,
+    "need_air_s": 470.0
+   }
+  },
+  "QthreeBlackoutBaseMedianS": 1127,
+  "QthreeBlackoutAirMedianS": 466,
+  "mode_compare": {
+   "hover_cap_s": 7232.7,
+   "rows": [
+    {
+     "N": 1,
+     "mode": "base",
+     "feasible": false,
+     "reason": "第 127 格（t=1980 s）无可行状态",
+     "elapsed": 0.3,
+     "mode_name": "Mode 1 基地返航换电"
+    },
+    {
+     "N": 2,
+     "mode": "base",
+     "feasible": false,
+     "reason": "第 171 格（t=2420 s）无可行状态",
+     "elapsed": 4.8,
+     "mode_name": "Mode 1 基地返航换电"
+    },
+    {
+     "N": 1,
+     "mode": "air",
+     "feasible": false,
+     "reason": "第 127 格（t=1980 s）无可行状态",
+     "elapsed": 0.3,
+     "mode_name": "Mode 2 空中直接转场"
+    },
+    {
+     "N": 2,
+     "mode": "air",
+     "feasible": false,
+     "reason": "第 171 格（t=2420 s）无可行状态",
+     "elapsed": 16.6,
+     "mode_name": "Mode 2 空中直接转场"
+    }
+   ],
+   "summary": {
+    "base": {
+     "min_N": null,
+     "tested": [
+      1,
+      2
+     ]
+    },
+    "air": {
+     "min_N": null,
+     "tested": [
+      1,
+      2
+     ]
+    }
+   }
+  },
+  "q3_summary": {
+   "generated": "2026-09-23 20:55:02",
+   "physics": "cruise = max(航段/端点地形, 悬停点地形) + 50 m（修正后）",
+   "struct": {
+    "cand_pts": 2471,
+    "instances": 1454,
+    "cells": 992,
+    "peak_concurrent": 3,
+    "single_cover_cells": 992,
+    "mean_pts": 774.7,
+    "phases": 6,
+    "multi_phases": 3,
+    "min_phase_s": 440.0,
+    "max_phase_s": 2650.0,
+    "short_phases": 3,
+    "energy_cap_s": 7232.727272727273
+   },
+   "n2": {
+    "feasible": false,
+    "sorties": 3,
+    "miss": 806,
+    "outage_n": 3,
+    "outage_s": 6380.0,
+    "energy": 2.282,
+    "hover": 4860.0,
+    "cover_pct": 44.5,
+    "cover_cells": 441,
+    "cells": 992
+   },
+   "n3": {
+    "feasible": true,
+    "sorties": 6,
+    "miss": 0,
+    "timing_conflicts": 0,
+    "energy": 7.79,
+    "hover": 20990.0,
+    "max_hover": 6060.0,
+    "soc_min": 33.8,
+    "drones": [
+     "R01",
+     "R02",
+     "R03(增配)"
+    ],
+    "n_actions": 8
+   }
+  }
+ },
+ "sources": {
+  "dp_cells": "DP阻塞诊断_N2_*.json",
+  "QthreeDpInfeasibleCell": "DP阻塞诊断_N2_base_topk12.json",
+  "QthreeDpInfeasibleT": "DP阻塞诊断_N2_base_topk12.json",
+  "QthreeFailCellLow": "DP阻塞诊断_N2_*.json",
+  "QthreeFailCellHigh": "DP阻塞诊断_N2_*.json",
+  "greedy_last": "构造性贪心判定.json",
+  "span_blackout": "跨度黑障不等式.json",
+  "QthreeSpanBlackoutBasePct": "跨度黑障不等式.json",
+  "QthreeDpBlackoutMedianS": "跨度黑障不等式.json",
+  "QthreeSpanBlackoutAirPct": "跨度黑障不等式.json",
+  "QthreeDpBlackoutAirMedianS": "跨度黑障不等式.json",
+  "QthreeFailBaseT": "重算_物理修正后.json",
+  "QthreeSpanDeficitBaseS": "跨度黑障不等式.json",
+  "QthreeSpanDeficitAirS": "跨度黑障不等式.json",
+  "QthreeDpBlackoutMinS": "跨度黑障不等式.json",
+  "QthreeDpBlackoutMeanS": "跨度黑障不等式.json",
+  "QthreeDpBlackoutMaxS": "跨度黑障不等式.json",
+  "QthreeDpBlackoutGePct": "跨度黑障不等式.json",
+  "QthreeDpBlackoutPairs": "跨度黑障不等式.json",
+  "QthreeWBaseMedS": "跨度黑障不等式.json",
+  "QthreeWAirMedS": "跨度黑障不等式.json",
+  "QthreeWBaseStrongS": "跨度黑障不等式.json",
+  "QthreeWAirStrongS": "跨度黑障不等式.json",
+  "QthreeStarBasePct": "跨度黑障不等式.json",
+  "QthreeStarAirPct": "跨度黑障不等式.json",
+  "QthreeStarBaseStrongPct": "跨度黑障不等式.json",
+  "QthreeStarAirStrongPct": "跨度黑障不等式.json",
+  "recompute_physics": "重算_物理修正后.json",
+  "QthreeFailAirT": "重算_物理修正后.json",
+  "QthreeHoverCapS": "换位模式对比.json",
+  "struct_diag": "结构诊断.json",
+  "QthreeBlackoutBaseMedianS": "结构诊断.json",
+  "QthreeBlackoutAirMedianS": "结构诊断.json",
+  "mode_compare": "换位模式对比.json",
+  "q3_summary": "Q3_方案汇总.json"
+ }
+}

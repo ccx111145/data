@@ -1,0 +1,771 @@
+{
+ "generated": "2026-09-24 19:49:45",
+ "note": "同一运输方案、同一候选点规则、同一换位判定下，仅替换信道（遮挡）模型",
+ "params": {
+  "f_mhz": 2400.0,
+  "l_obs": 10.0,
+  "k_earth": 1.3333333333333333,
+  "prof_step": 25.0,
+  "grid_s": 10.0
+ },
+ "results": {
+  "observed": {
+   "model": "observed",
+   "l_dir": 122.0,
+   "l_acc": 116.0,
+   "l_bh": 126.0,
+   "transport": {
+    "instances": 1454,
+    "cells": 992,
+    "union_s": 9920.0,
+    "sortie_sum_s": 14540.0,
+    "first_t": 710.0,
+    "per_sortie": {
+     "1": 77,
+     "2": 125,
+     "4": 75,
+     "5": 112,
+     "7": 135,
+     "8": 41,
+     "9": 85,
+     "10": 98,
+     "11": 59,
+     "12": 81,
+     "13": 109,
+     "14": 74,
+     "15": 58,
+     "16": 82,
+     "17": 128,
+     "19": 115
+    }
+   },
+   "palette_pts": 140,
+   "relay_phases_ok": true,
+   "cand_pts": 2471,
+   "cover_cells": 992,
+   "peak_concurrent": 3,
+   "phases": 6,
+   "multi_phases": 3,
+   "min_phase_s": 440.0,
+   "max_phase_s": 2650.0,
+   "short_phases": 3,
+   "greedy_by_topk": {
+    "topk200": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 127,
+      "n": 992,
+      "sec": 1.4,
+      "fail": {
+       "k": 127,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 171,
+      "n": 992,
+      "sec": 1.3,
+      "fail": {
+       "k": 171,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": true,
+      "n_actions": 8,
+      "reached": 992,
+      "n": 992,
+      "sec": 0.7,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 7.79,
+      "soc_min": 33.8
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 9,
+      "reached": 992,
+      "n": 992,
+      "sec": 1.4,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 8.728,
+      "soc_min": 20.6
+     },
+     "N_crit": 3
+    },
+    "topk400": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 127,
+      "n": 992,
+      "sec": 1.1,
+      "fail": {
+       "k": 127,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 171,
+      "n": 992,
+      "sec": 1.2,
+      "fail": {
+       "k": 171,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": true,
+      "n_actions": 8,
+      "reached": 992,
+      "n": 992,
+      "sec": 0.6,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 7.79,
+      "soc_min": 33.8
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 9,
+      "reached": 992,
+      "n": 992,
+      "sec": 1.6,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 8.728,
+      "soc_min": 20.6
+     },
+     "N_crit": 3
+    },
+    "topk600": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 127,
+      "n": 992,
+      "sec": 1.2,
+      "fail": {
+       "k": 127,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 171,
+      "n": 992,
+      "sec": 1.2,
+      "fail": {
+       "k": 171,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": true,
+      "n_actions": 8,
+      "reached": 992,
+      "n": 992,
+      "sec": 0.7,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 7.79,
+      "soc_min": 33.8
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 9,
+      "reached": 992,
+      "n": 992,
+      "sec": 1.8,
+      "sorties": 6,
+      "timing": 0,
+      "miss": 0,
+      "energy": 8.728,
+      "soc_min": 20.6
+     },
+     "N_crit": 3
+    }
+   },
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "n_actions": 1,
+     "reached": 127,
+     "n": 992,
+     "sec": 1.2,
+     "fail": {
+      "k": 127,
+      "t": 1980.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N2": {
+     "feasible": false,
+     "n_actions": 2,
+     "reached": 171,
+     "n": 992,
+     "sec": 1.2,
+     "fail": {
+      "k": 171,
+      "t": 2420.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N3": {
+     "feasible": true,
+     "n_actions": 8,
+     "reached": 992,
+     "n": 992,
+     "sec": 0.7,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 7.79,
+     "soc_min": 33.8
+    },
+    "N4": {
+     "feasible": true,
+     "n_actions": 9,
+     "reached": 992,
+     "n": 992,
+     "sec": 1.8,
+     "sorties": 6,
+     "timing": 0,
+     "miss": 0,
+     "energy": 8.728,
+     "soc_min": 20.6
+    },
+    "N_crit": 3
+   },
+   "N_crit": 3,
+   "greedy_topk_main": 600,
+   "elapsed_s": 119.2
+  },
+  "p526": {
+   "model": "p526",
+   "l_dir": 122.0,
+   "l_acc": 116.0,
+   "l_bh": 126.0,
+   "transport": {
+    "instances": 1922,
+    "cells": 1052,
+    "union_s": 10520.0,
+    "sortie_sum_s": 19220.0,
+    "first_t": 560.0,
+    "per_sortie": {
+     "0": 47,
+     "1": 95,
+     "2": 137,
+     "3": 64,
+     "4": 108,
+     "5": 130,
+     "6": 46,
+     "7": 182,
+     "8": 43,
+     "9": 87,
+     "10": 151,
+     "11": 63,
+     "12": 81,
+     "13": 107,
+     "14": 92,
+     "15": 126,
+     "16": 84,
+     "17": 126,
+     "18": 38,
+     "19": 115
+    }
+   },
+   "palette_pts": 140,
+   "relay_phases_ok": true,
+   "cand_pts": 1256,
+   "cover_cells": 1052,
+   "peak_concurrent": 4,
+   "phases": 5,
+   "multi_phases": 4,
+   "min_phase_s": 440.0,
+   "max_phase_s": 4590.0,
+   "short_phases": 1,
+   "greedy_by_topk": {
+    "topk200": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 142,
+      "n": 1052,
+      "sec": 0.7,
+      "fail": {
+       "k": 142,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 186,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 186,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 236,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 236,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1052,
+      "n": 1052,
+      "sec": 1.0,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 10.017,
+      "soc_min": 32.1
+     },
+     "N_crit": 4
+    },
+    "topk400": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 142,
+      "n": 1052,
+      "sec": 0.7,
+      "fail": {
+       "k": 142,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 186,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 186,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 236,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 236,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1052,
+      "n": 1052,
+      "sec": 1.2,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 10.017,
+      "soc_min": 32.1
+     },
+     "N_crit": 4
+    },
+    "topk600": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 142,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 142,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 186,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 186,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 236,
+      "n": 1052,
+      "sec": 0.8,
+      "fail": {
+       "k": 236,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1052,
+      "n": 1052,
+      "sec": 1.4,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 10.017,
+      "soc_min": 32.1
+     },
+     "N_crit": 4
+    }
+   },
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "n_actions": 1,
+     "reached": 142,
+     "n": 1052,
+     "sec": 0.8,
+     "fail": {
+      "k": 142,
+      "t": 1980.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N2": {
+     "feasible": false,
+     "n_actions": 2,
+     "reached": 186,
+     "n": 1052,
+     "sec": 0.8,
+     "fail": {
+      "k": 186,
+      "t": 2420.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N3": {
+     "feasible": false,
+     "n_actions": 3,
+     "reached": 236,
+     "n": 1052,
+     "sec": 0.8,
+     "fail": {
+      "k": 236,
+      "t": 2920.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N4": {
+     "feasible": true,
+     "n_actions": 10,
+     "reached": 1052,
+     "n": 1052,
+     "sec": 1.4,
+     "sorties": 7,
+     "timing": 0,
+     "miss": 0,
+     "energy": 10.017,
+     "soc_min": 32.1
+    },
+    "N_crit": 4
+   },
+   "N_crit": 4,
+   "greedy_topk_main": 600,
+   "elapsed_s": 164.2
+  },
+  "p526ub": {
+   "model": "p526ub",
+   "l_dir": 122.0,
+   "l_acc": 116.0,
+   "l_bh": 126.0,
+   "transport": {
+    "instances": 1953,
+    "cells": 1055,
+    "union_s": 10550.0,
+    "sortie_sum_s": 19530.0,
+    "first_t": 550.0,
+    "per_sortie": {
+     "0": 49,
+     "1": 99,
+     "2": 138,
+     "3": 66,
+     "4": 108,
+     "5": 131,
+     "6": 48,
+     "7": 185,
+     "8": 43,
+     "9": 87,
+     "10": 153,
+     "11": 65,
+     "12": 81,
+     "13": 109,
+     "14": 96,
+     "15": 128,
+     "16": 84,
+     "17": 128,
+     "18": 40,
+     "19": 115
+    }
+   },
+   "palette_pts": 140,
+   "relay_phases_ok": true,
+   "cand_pts": 1130,
+   "cover_cells": 1055,
+   "peak_concurrent": 4,
+   "phases": 6,
+   "multi_phases": 3,
+   "min_phase_s": 440.0,
+   "max_phase_s": 2670.0,
+   "short_phases": 1,
+   "greedy_by_topk": {
+    "topk200": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 143,
+      "n": 1055,
+      "sec": 0.6,
+      "fail": {
+       "k": 143,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 187,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 187,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 237,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 237,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1055,
+      "n": 1055,
+      "sec": 0.8,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 9.948,
+      "soc_min": 32.8
+     },
+     "N_crit": 4
+    },
+    "topk400": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 143,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 143,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 187,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 187,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 237,
+      "n": 1055,
+      "sec": 1.0,
+      "fail": {
+       "k": 237,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1055,
+      "n": 1055,
+      "sec": 1.3,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 9.948,
+      "soc_min": 32.8
+     },
+     "N_crit": 4
+    },
+    "topk600": {
+     "N1": {
+      "feasible": false,
+      "n_actions": 1,
+      "reached": 143,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 143,
+       "t": 1980.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N2": {
+      "feasible": false,
+      "n_actions": 2,
+      "reached": 187,
+      "n": 1055,
+      "sec": 0.7,
+      "fail": {
+       "k": 187,
+       "t": 2420.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N3": {
+      "feasible": false,
+      "n_actions": 3,
+      "reached": 237,
+      "n": 1055,
+      "sec": 0.8,
+      "fail": {
+       "k": 237,
+       "t": 2920.0,
+       "reason": "无可行换位"
+      }
+     },
+     "N4": {
+      "feasible": true,
+      "n_actions": 10,
+      "reached": 1055,
+      "n": 1055,
+      "sec": 1.7,
+      "sorties": 7,
+      "timing": 0,
+      "miss": 0,
+      "energy": 9.948,
+      "soc_min": 32.8
+     },
+     "N_crit": 4
+    }
+   },
+   "greedy": {
+    "N1": {
+     "feasible": false,
+     "n_actions": 1,
+     "reached": 143,
+     "n": 1055,
+     "sec": 0.7,
+     "fail": {
+      "k": 143,
+      "t": 1980.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N2": {
+     "feasible": false,
+     "n_actions": 2,
+     "reached": 187,
+     "n": 1055,
+     "sec": 0.7,
+     "fail": {
+      "k": 187,
+      "t": 2420.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N3": {
+     "feasible": false,
+     "n_actions": 3,
+     "reached": 237,
+     "n": 1055,
+     "sec": 0.8,
+     "fail": {
+      "k": 237,
+      "t": 2920.0,
+      "reason": "无可行换位"
+     }
+    },
+    "N4": {
+     "feasible": true,
+     "n_actions": 10,
+     "reached": 1055,
+     "n": 1055,
+     "sec": 1.7,
+     "sorties": 7,
+     "timing": 0,
+     "miss": 0,
+     "energy": 9.948,
+     "soc_min": 32.8
+    },
+    "N_crit": 4
+   },
+   "N_crit": 4,
+   "greedy_topk_main": 600,
+   "elapsed_s": 162.9
+  }
+ }
+}

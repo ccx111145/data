@@ -1,0 +1,76 @@
+{
+ "hover_cap_s": 7232.7,
+ "note": "dcore.relay_flight 负下降高度修正后重算",
+ "blackout": {
+  "base_med": 1122.1,
+  "base_p10": 853.4,
+  "base_p90": 1408.3,
+  "base_max": 2035.7,
+  "air_med": 480.1,
+  "air_p10": 244.0,
+  "air_p90": 748.2,
+  "air_max": 1249.0
+ },
+ "star": {
+  "base_rate": 0.7167,
+  "base_ok": 711,
+  "base_deficit_cells": 12304,
+  "air_rate": 0.9294,
+  "air_ok": 922,
+  "air_deficit_cells": 1241,
+  "n_cells": 992,
+  "span_med_cells": 126,
+  "span_p90_cells": 297
+ },
+ "greedy": {
+  "N2_base": {
+   "ok": false,
+   "reached": 171,
+   "n": 992,
+   "actions": 2,
+   "fail": {
+    "k": 171,
+    "t": 2420.0,
+    "reason": "无可行换位"
+   },
+   "sec": 0.5
+  },
+  "N2_air": {
+   "ok": false,
+   "reached": 301,
+   "n": 992,
+   "actions": 3,
+   "fail": {
+    "k": 301,
+    "t": 3950.0,
+    "reason": "无可行换位"
+   },
+   "sec": 0.6
+  },
+  "N3_base": {
+   "ok": true,
+   "reached": 992,
+   "n": 992,
+   "actions": 8,
+   "fail": null,
+   "sec": 0.5,
+   "sorties": 6,
+   "timing": 0,
+   "miss": 0,
+   "energy": 7.79,
+   "soc_min": 33.8
+  },
+  "N3_air": {
+   "ok": false,
+   "reached": 915,
+   "n": 992,
+   "actions": 13,
+   "fail": {
+    "k": 915,
+    "t": 11060.0,
+    "reason": "在空/驻留超时且无可行换位"
+   },
+   "sec": 1.1
+  }
+ }
+}

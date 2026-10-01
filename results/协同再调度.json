@@ -1,0 +1,124 @@
+{
+ "generated": "2026-09-24 00:18:18",
+ "note": "只调整架次开始时刻（箱-架次归属/顺序/机型/指派不变），最小化跨度—黑障不等式赤字；同时记录运输代价变化",
+ "params": {
+  "grid_s": 10.0,
+  "iters": 600,
+  "restarts": 4,
+  "K": 200,
+  "seed": 20260419,
+  "n_cells": 992
+ },
+ "results": {
+  "base": {
+   "mode": "base",
+   "w_s": 1291.6,
+   "baseline": {
+    "deficit_cells": 23500,
+    "deficit_s": null,
+    "deficit_note": "赤字以需求格计；需求格并非 10 s 等距，故不折算为秒",
+    "solo_cells": 927,
+    "n_cells": 992,
+    "span_median_s": 1265.0,
+    "worst": {
+     "k": 239,
+     "t": 3100.0,
+     "gap_cells": 113,
+     "gap_s": 1130.0
+    },
+    "makespan": 12392.1,
+    "tardiness": 252725.6,
+    "hard_violation_s": 0.0,
+    "ontime_rate": 0.8375
+   },
+   "after": {
+    "deficit_cells": 23500,
+    "deficit_s": null,
+    "solo_cells": 927,
+    "n_cells": 992,
+    "span_median_s": 1265.0,
+    "worst": {
+     "k": 239,
+     "t": 3100.0,
+     "gap_cells": 113,
+     "gap_s": 1130.0
+    },
+    "n_shifted": 0,
+    "max_shift_s": 0.0,
+    "total_shift_s": 0.0,
+    "makespan": 12392.1,
+    "tardiness": 252725.6,
+    "hard_violation_s": 0.0,
+    "ontime_rate": 0.8375
+   },
+   "deficit_reduction_pct": 0.0,
+   "deficit_note": "赤字 = Σ_k max(0, need_k − span[j_k])，单位为需求格；需求格平均间距约 11 s 且不等距，故不折算为秒",
+   "residue_zero": false,
+   "trace": [
+    {
+     "it": 0,
+     "deficit_cells": 23500,
+     "makespan": 12392.1,
+     "tardiness": 252725.6,
+     "hard_violation_s": 0.0,
+     "ontime_rate": 0.8375
+    }
+   ]
+  },
+  "air": {
+   "mode": "air",
+   "w_s": 172.4,
+   "baseline": {
+    "deficit_cells": 1461,
+    "deficit_s": null,
+    "deficit_note": "赤字以需求格计；需求格并非 10 s 等距，故不折算为秒",
+    "solo_cells": 927,
+    "n_cells": 992,
+    "span_median_s": 1265.0,
+    "worst": {
+     "k": 188,
+     "t": 2590.0,
+     "gap_cells": 18,
+     "gap_s": 180.0
+    },
+    "makespan": 12392.1,
+    "tardiness": 252725.6,
+    "hard_violation_s": 0.0,
+    "ontime_rate": 0.8375
+   },
+   "after": {
+    "deficit_cells": 1461,
+    "deficit_s": null,
+    "solo_cells": 927,
+    "n_cells": 992,
+    "span_median_s": 1265.0,
+    "worst": {
+     "k": 188,
+     "t": 2590.0,
+     "gap_cells": 18,
+     "gap_s": 180.0
+    },
+    "n_shifted": 0,
+    "max_shift_s": 0.0,
+    "total_shift_s": 0.0,
+    "makespan": 12392.1,
+    "tardiness": 252725.6,
+    "hard_violation_s": 0.0,
+    "ontime_rate": 0.8375
+   },
+   "deficit_reduction_pct": 0.0,
+   "deficit_note": "赤字 = Σ_k max(0, need_k − span[j_k])，单位为需求格；需求格平均间距约 11 s 且不等距，故不折算为秒",
+   "residue_zero": false,
+   "trace": [
+    {
+     "it": 0,
+     "deficit_cells": 1461,
+     "makespan": 12392.1,
+     "tardiness": 252725.6,
+     "hard_violation_s": 0.0,
+     "ontime_rate": 0.8375
+    }
+   ]
+  }
+ }
+}

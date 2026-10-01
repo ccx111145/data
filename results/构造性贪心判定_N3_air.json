@@ -1,0 +1,9 @@
+{
+ "N": 3,
+ "mode": "air",
+ "feasible": false,
+ "fail_k": 915,
+ "fail_t": 11060.0,
+ "reason": "在空/驻留超时且无可行换位",
+ "actions": 13
+}

@@ -1,0 +1,32 @@
+{
+ "purpose": "如实记录：无剪枝 N=2 判定在本算力预算内未能跑完（这就是论文里不主张 that 的原因）",
+ "claim_in_paper_it_qualifies": "正文只主张『在候选集 C0 ∪ 每格 top-12 上，递推未找到可行调度』，不主张『关闭状态剪枝后的无条件判定』。",
+ "script": "code/obstruction.py（去掉 --no-exact 即启用 exact_two_relay）",
+ "invocation": "python code/obstruction.py --mode base   # 不带 --no-exact",
+ "exact_two_relay_params": {
+  "topk": 12,
+  "exact": true,
+  "max_states": 400000,
+  "grid_s": 10.0,
+  "N": 2
+ },
+ "attempted": [
+  {
+   "date": "2026-09-24",
+   "mode": "base",
+   "wall_clock_minutes": 26,
+   "cpu_seconds": 1501,
+   "peak_working_set_mb": 555,
+   "outcome": "UNFINISHED",
+   "action": "人工终止",
+   "note": "进程持续占用 CPU 且内存稳定增长，未进入收尾；判定状态空间在 topk=12 下仍超出预算。"
+  }
+ ],
+ "consequence_for_the_manuscript": [
+  "论文关于 N=2 的结论一律表述为『在声明的有限候选集上未找到可行调度』，而不是『关闭剪枝后的无条件判定』。",
+  "论文 §VII『What we did not manage to establish』第 (i) 条即指此事。",
+  "该负面结果本身是可复现的证据：任何人按上面的 invocation 重跑都会观察到同样的不收敛。"
+ ],
+ "status": "recorded_negative_result",
+ "generated": "2026-09-24"
+}

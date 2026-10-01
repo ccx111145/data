@@ -1,0 +1,53 @@
+{
+ "n_cells": 992,
+ "T_s": 11290.0,
+ "step_s": 10.0,
+ "T_cap_s": 7232.7,
+ "bound_energy": 2,
+ "results": {
+  "air": {
+   "mode": "Mode 2 空中转场",
+   "n_cells": 992,
+   "n_cand": 2436,
+   "cells_uncoverable": 0,
+   "cells_single_provider": 0,
+   "cells_multi_provider": 992,
+   "span_median_s": 1265.0,
+   "span_p90_s": 2979.0,
+   "span_max_s": 3970.0,
+   "w_min_s": 83.1,
+   "w_median_s": 367.8,
+   "release_at_wmin": 0.9919,
+   "release_at_wmed": 0.9022,
+   "mu_max_s": 3970.0,
+   "bound_by_w": 48,
+   "bound_energy": 2,
+   "bound_combined": 48,
+   "n_cand_pool": 2471,
+   "n_cand_c0": 2436,
+   "c0_ratio": 0.9858
+  },
+  "base": {
+   "mode": "Mode 1 基地返航",
+   "n_cells": 992,
+   "n_cand": 2436,
+   "cells_uncoverable": 0,
+   "cells_single_provider": 0,
+   "cells_multi_provider": 992,
+   "span_median_s": 1265.0,
+   "span_p90_s": 2979.0,
+   "span_max_s": 3970.0,
+   "w_min_s": 410.6,
+   "w_median_s": 991.4,
+   "release_at_wmin": 0.881,
+   "release_at_wmed": 0.6179,
+   "mu_max_s": 3970.0,
+   "bound_by_w": 10,
+   "bound_energy": 2,
+   "bound_combined": 10,
+   "n_cand_pool": 2471,
+   "n_cand_c0": 2436,
+   "c0_ratio": 0.9858
+  }
+ }
+}

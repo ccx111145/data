@@ -1,0 +1,33 @@
+{
+ "q1": {
+  "scheme": "S1-最少架次",
+  "n_sortie": 18,
+  "energy": 59.227,
+  "worktime": 28779.6,
+  "n_front": 2,
+  "n_pareto_area": 16,
+  "runtime": 0.2
+ },
+ "coverage": {
+  "n_seg": 236,
+  "n_direct": 116,
+  "n_relay": 54,
+  "n_none": 66,
+  "t_direct": 18004.738,
+  "t_relay": 6361.64,
+  "t_none": 7949.523,
+  "n_sample": 6775,
+  "n_uncovered": 1674,
+  "relay_used": 3
+ },
+ "tables": {
+  "Q1_单点组批": 18,
+  "Q2_运输架次": 20,
+  "Q2_逐箱交付": 80,
+  "Q3_中继架次": 3,
+  "Q3_通信保障": 236,
+  "Q4_分区配置": 5
+ },
+ "header_ok": true,
+ "elapsed_s": 0.7
+}

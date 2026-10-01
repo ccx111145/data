@@ -1,0 +1,1402 @@
+% !TeX program = xelatex
+% ===========================================================================
+%  2026 中国研究生数学建模竞赛 D 题
+%  山区洪涝灾害下无人机运输与通信协同优化
+%  论文正文（中文，xelatex 编译）
+%  所有数字均通过 paper/numbers.tex 中的宏引用（由 code/make_numbers.py 自动生成）
+% ===========================================================================
+\documentclass[12pt,a4paper,fontset=windows]{ctexart}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage[hidelinks,unicode]{hyperref}
+
+\geometry{left=2.6cm,right=2.6cm,top=2.6cm,bottom=2.5cm}
+\graphicspath{{figs/}{../figs/}{paper/figs/}}
+\captionsetup{font=small,labelsep=quad}
+
+\ctexset{
+  section     = {format = \large\bfseries, name = {,、}, number = \chinese{section},
+                 aftername = {}},
+  subsection  = {format = \normalsize\bfseries,
+                 number = \arabic{section}.\arabic{subsection}},
+  subsubsection = {format = \normalsize\bfseries,
+                 number = \arabic{section}.\arabic{subsection}.\arabic{subsubsection}},
+}
+
+% ---- 资源文件与插图的容错输入 -------------------------------------------
+\makeatletter
+\newcommand{\InputRes}[1]{%
+  \IfFileExists{#1}{\input{#1}}{%
+    \IfFileExists{paper/#1}{\input{paper/#1}}{%
+      \IfFileExists{../#1}{\input{../#1}}{%
+        \typeout{== WARNING: resource #1 NOT FOUND ==}%
+        \begin{center}\fbox{\parbox{0.8\linewidth}{\centering
+          资源文件 \texttt{#1} 未找到，请先运行 \texttt{code/make\_numbers.py}}}\end{center}%
+      }}}%
+}
+\newcommand{\Dfig}[4][0.90]{%
+  \IfFileExists{figs/#2}{%
+    \begin{figure}[htbp]\centering
+      \includegraphics[width=#1\linewidth]{figs/#2}\caption{#3}\label{#4}\end{figure}%
+  }{\IfFileExists{../figs/#2}{%
+    \begin{figure}[htbp]\centering
+      \includegraphics[width=#1\linewidth]{../figs/#2}\caption{#3}\label{#4}\end{figure}%
+  }{%
+    \typeout{== FIGURE #2 NOT FOUND ==}%
+    \begin{figure}[htbp]\centering
+      \fbox{\parbox{0.72\linewidth}{\centering 插图 \texttt{\detokenize{#2}} 尚待生成；
+      （运行 \texttt{code/make\_figs.py} 后重新编译）}}\caption{#3}\label{#4}\end{figure}%
+  }}%
+}
+\makeatother
+
+% ---- 自适应宽度：把过宽的公式/表格压回版心 ------------------------------
+% 中文稿是单栏 A4，版心比英文期刊宽，但仍有两处内容自然宽度超出 \linewidth
+% （A3 巡航海拔公式、两张宽表），直接排会压到版心外。
+% 下面两个宏都只在自然宽度超限时才缩放，宽度够就原样排版：
+%   \eqfit{...}       —— 行内长公式，独立成行并居中
+%   \fitwide{...}     —— 任意内容（表格、tabular 等）
+% 依赖 graphicx 的 \resizebox / \width，本稿第 11 行已加载。
+\newsavebox{\cnfitbox}
+\newcommand{\fitwide}[1]{%
+  \sbox{\cnfitbox}{#1}%
+  \ifdim\wd\cnfitbox>\linewidth
+    \resizebox{\linewidth}{!}{\usebox{\cnfitbox}}%
+  \else
+    \usebox{\cnfitbox}%
+  \fi
+}
+\newcommand{\eqfit}[1]{%
+  \par\nobreak
+  \begin{center}%
+  \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{$\displaystyle #1$}%
+  \end{center}%
+  \par\nobreak
+}
+
+% ---- 数字宏（由 code/make_numbers.py 生成） ------------------------------
+\InputRes{paper/numbers.tex}
+% 问题三「中继资源缺口」专用宏（由 code/make_numbers.py 的 append_q3gap 生成）
+% 注意：这里必须用 \InputRes 而不是裸 \input。裸 \input{paper/q3_gap.tex}
+% 只在从仓库根编译时可用；从 paper/ 目录编译会去找 paper/paper/q3_gap.tex
+% 而报 "File not found"，导致整份稿件 Emergency stop。\InputRes 自带三档回退。
+\InputRes{paper/q3_gap.tex}
+
+\title{\bfseries 山区洪涝灾害下无人机运输与通信协同优化}
+\author{}
+\date{}
+
+% ===========================================================================
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ---------------------------------------------------------------------------
+\begin{center}
+{\Large\bfseries 摘\quad 要}
+\end{center}
+
+\noindent
+本文针对山区洪涝灾害应急场景下\textbf{运输无人机与中继无人机协同}的调度优化问题，
+以「时空—能量—通信」三重耦合为统一主线，建立了一套从单点往返物理口径到多机多目标
+调度、再到通信硬约束与分区资源核算的完整模型体系，并全部以可复现代码实现。
+
+\textbf{针对问题一}，本文从题目给出的等效航程定义出发，反推出水平飞行能耗
+$E^{\mathrm{hor}}=d/L_g(q)\cdot E_g^{\mathrm{use}}$，并采用 $E^{\mathrm{up}}=(m_0+q)gh^+/(\eta_{\mathrm{up}}\cdot 3.6\times10^6)$
+刻画爬升附加能耗，巡航海拔取航段沿线 30\,m DEM 最高地面高程再加 50\,m，从而给出唯一自洽的能耗口径。
+据此用二分法精确求解三种机型在 15 个服务区的最大安全载荷：A 型在全部 15 个服务区均可满载
+（\TypeAQmax\,kg）；B 型仅 \QoneLimitedB{} 个服务区受返航能量限制，最低为 \QoneMinPayB\,kg
+（\QoneMinPayBArea）；C 型有 \QoneLimitedC{} 个服务区受限，最低为 \QoneMinPayC\,kg（\QoneMinPayCArea）。随后按「物资类型—单箱质量—单箱体积」等价类
+把 $2^{n}$ 装箱状态压缩为 $\prod(c_k+1)$ 的状态空间，做多目标状态 DP 并逐状态剪枝非支配解，
+得到\textbf{精确}的 (架次数, 总能耗, 累计作业时间) Pareto 前沿：最少 \QoneSorties 架次、
+能耗 \QoneEnergyLeastSortie\,kWh、累计工时 \QoneTimeLeastSortie\,h；全前沿共 \QoneFrontN 个非支配点。
+用 CP-SAT 集合划分 ILP 对 \QoneIPN 个服务区逐一交叉验证，架次数与能耗口径\textbf{完全一致}（\QoneIPAllOK）。
+$\rho$ 由 \QoneRhoLo 扫到 \QoneRhoHi 时，C 型平均可用载荷由 \QoneRhoCPayLo\,kg 降至 \QoneRhoCPayHi\,kg，
+全场景最少架次数由 \QoneRhoSortiesLo 增至 \QoneRhoSortiesHi，说明\textbf{返航安全余量是山区场景下最敏感的参数}。
+
+\textbf{针对问题二}，本文把组批、访问顺序、机型指派、实体机与共享电池指派、架次起止时刻
+统一建模为带时间窗与电池周转约束的异构多行程车辆路径问题（Heterogeneous Multi-Trip VRPTW），
+并显式引入「电池占用—充电时间轴」以避免仅按数量计数导致的不可行。求解采用
+「构造启发式 + ALNS 大邻域搜索 + CP-SAT 精确排程打磨」的三段式框架。
+在 \QtwoConfigN 种权重配置下得到四目标（及时性、完工时间、能耗、架次数）的 \QtwoFrontN{} 个\textbf{非支配解}。\emph{需要说明}：加权标量化只能给出非支配解，\textbf{不足以证明这是完整的全局 Pareto 前沿}（权重和法会遗漏非凸部分的前沿点）；本文因此只主张「非支配解集」，并以 ALNS 相对纯构造解的改进幅度说明搜索质量。
+在保证 80 箱全部覆盖的方案中，\QtwoBestName 方案以 \QtwoSorties 个架次完成配送，
+总能耗 \QtwoEnergy\,kWh，完工时间 \QtwoMakespanH\,h，及时率 \QtwoOntimeRate\%，
+平均交付时刻 \QtwoAvgDeliver\,min；若只追求架次数最少可降至 \QtwoLBSorties 架次，
+但仅能覆盖 \QtwoLBBoxes 箱，说明\textbf{架次数与覆盖率之间存在硬权衡}。
+
+\textbf{针对问题三}，本文将「任一时刻每架运输机必须被 G01 或至多一架中继保障」写成硬约束，
+把直连不可用时段离散为需求实例，用「影子模型」把航段可用性压缩为可缓存查表，
+在 DEM 覆盖范围内枚举候选悬停点（离地 $\le$ \RelayAglMax\,m）并经回传链路预筛，
+再以区间覆盖 + 双中继并发约束的方式部署中继架次。
+在此基础上，本文把「中继资源是否够用」写成一个\textbf{可判定的排程问题}：
+把中继的换位时序写成状态 DP
+（状态 $=$ 各架中继的悬停位置与到达时刻；每步至多换一架；换位必须经 O01，
+含 \CommTurn\,s 架次周转，黑障窗口 $W(a\!\to\!b)=t^{\mathrm{back}}(a)+\tau_{\mathrm{turn}}+t^{\mathrm{out}}(b)+t_{\mathrm{link}}$
+按点对几何\textbf{逐个精确计算}，中位 \QthreeDpBlackoutMedianS\,s），
+并强制「黑障窗口内另一架必须单独覆盖全部需求」。结论如下：
+
+\begin{center}
+\fbox{\parbox{0.95\linewidth}{
+\textbf{给定运输时序下 2 架无可行解 $\Rightarrow$ 3 架构造可行 $\Rightarrow$ 建议增配 1 架}\\[3pt]
+山区的失联时空结构在统一 10\,s 栅格上有 \QthreeDpInstances{} 个需求实例、
+\QthreeDpCells{} 个时间格，\textbf{几何上完全可覆盖}（\QthreeDpCells{} 格全部能被某个悬停点单独覆盖，
+每个实例平均 \QthreeDpMeanPts{} 个可选点，候选点集 \QthreeDpCandPts{} 个）；
+在\textbf{冻结的运输时序}与\textbf{给定的候选悬停点集}（$0.0035^\circ$ 网格 $\times$ 3 档离地高度，
+共 \QthreeDpCandPts{} 点）下，状态 DP 与构造性判定在 $N=\RelayN$ 时\textbf{均未找到可行解}，
+递推在较早的需求格处即无可行状态；把规模取为 $N=\QthreeNeedN$ 时\textbf{可构造出可行解：}
+\QthreeDpInstances{} 个需求实例\textbf{全覆盖、零时序冲突}，并已通过独立逐时刻仿真复核。
+故\textbf{建议增配 $=\QthreeGapN$ 架中继无人机，能源组件无需增加}（现有 \RelayBat{} 组即可支撑增配后的 \QthreeNeedN{} 架中继）；
+若无法增配，则库存下的最优折中方案为 \QthreeCompromiseSorties{} 个中继架次、
+覆盖 \QthreeCompromiseCoverPct\% 的失联时长，剩余中断并集约
+\QthreeCompromiseUncoveredS\,s（最长 \QthreeCompromiseLongestS\,s），须纳入救援风险台账。
+}}
+\end{center}
+
+\noindent
+当前冻结解的通信分段共 \CommSegN 段，其中直连 \CommSegDirect 段、中继 \CommSegRelay 段、
+中断 \CommSegNone 段，中断时长合计 \CommTimeNone\,s（占 \CommNonePct\%）；
+库存口径下的中继部署为 \QthreeRelaySorties 个架次、悬停海拔
+\QthreeRelayAltMin--\QthreeRelayAltMax\,m（中位离地 \QthreeRelayAgl\,m）。
+校验表明\textbf{山区场景的通信瓶颈完全由地形遮挡决定}（$L_{\mathrm{obs}}=\CommLobs$\,dB 下约 37\% 的飞行时长需要中继，
+而 $L_{\mathrm{obs}}=0$\,dB 时全部 3696 个采样点直连可用），
+闭合计划必须依靠中继悬停部署与\textbf{台数补强}，而非提高发射功率。
+
+\textbf{针对问题四}，本文以「同一架次涉及的服务区必须同组」为不可分割约束，
+用并查集把 15 个服务区压缩为 \QfourBlocks 个原子块，对 $K=2,3$ 在块集合上完全枚举分区，
+按资源区间着色核算各组的运输机数、电池组数与中继资源峰值，并与库存比对给出缺口。
+推荐方案为：$K=2$ 时 \QfourKTwo；$K=3$ 时 \QfourKThree。
+均衡性（工作量综合变异系数）为 \QfourBalance；
+现有库存下 $K=2$ 的缺口合计 \QfourGap 项（\QfourKind），
+$K=3$ 的缺口扩大到 \QfourGapThree 项，说明\textbf{分区越细、资源冗余要求越高，
+「分组自治」与「库存节约」存在直接冲突}。
+需要特别指出的是，问题四中\textbf{中继无人机缺口 $\QthreeGapN$ 架并非估算，
+而是由问题三的判定结论给出}（分区核算中的「中继 \QfourRelayFrozen{} 架」只是冻结解
+\QthreeCompromiseSorties{} 个架次的峰值占用，不代表已实现连续通信），
+故完整增援清单 $=$ 运输侧 \QfourKind{} $+$ 中继侧 \QthreeGapN{} 架中继无人机（能源组件现有库存即可，无缺口）。
+
+\vspace{0.6em}
+\noindent\textbf{关键词：}\ 无人机应急运输；等效航程反推能耗；多目标 Pareto 前沿；
+自适应大邻域搜索；CP-SAT 精确排程；地形遮挡通信约束；中继悬停部署；分区资源核算
+
+\newpage
+\tableofcontents
+\newpage
+
+% ===========================================================================
+\section{问题重述}
+% ===========================================================================
+\subsection{问题背景}
+我国南方山区在汛期常因强降雨诱发山洪、滑坡与道路中断，形成「进不去、看不见、联不上」的
+孤岛式灾区。无人机凭借不受地面交通制约、部署迅速的优势，成为应急物资投送与应急通信保障的
+核心手段。然而山区地形起伏剧烈，一方面显著抬高飞行剖面的爬升高度、压缩续航能力，
+另一方面频繁遮挡视距链路，使运输机在部分航段失去与固定网关的联系。
+因此，\textbf{运输投送与通信保障必须协同优化}：既要让物资按时送达，又要保证全程链路可用。
+
+本文以某山区乡镇为研究对象。调度中心 O01（凤丹村）服务 15 个行政村/安置点（S001--S015），
+待运货箱 \TotalBoxes 个、总质量 \TotalMass\,kg、总体积 \TotalVol\,m$^3$，其中首批保障箱
+\FirstBatchBoxes 个（截止时刻分 3600/7200/10800\,s 三档）。可用运输无人机 \NumDrones 架
+（A 型 \TypeAN 架、B 型 \TypeBN 架、C 型 \TypeCN 架），共享电池 A/B/C 分别
+\TypeABat/\TypeBBat/\TypeCBat 组；中继无人机 \RelayN 架（R 型），能源组件 \RelayBat 组；
+另有固定网关 G01 部署于 O01，其天线离地高度为附件给定值 \GwAntH\,m。
+区域 30\,m DEM 覆盖 \DemNx$\times$\DemNy 栅格，高程 \DemZMin--\DemZMax\,m。
+
+\subsection{问题提出}
+\textbf{问题一}：在只考虑单服务区往返（O01\,$\to$\,$S_i$\,$\to$\,O01）的情形下，
+建立运输能力计算模型，确定三种机型在各服务区的最大安全载荷，并给出全部货箱的组批方案，
+分析架次数、总能耗与累计作业时间之间的关系；进一步讨论返航安全余量 $\rho$ 的影响。
+
+\textbf{问题二}：在不考虑通信保障的前提下，为 8 架运输无人机确定货箱分配、访问服务区顺序、
+机型与实体机指派、共享电池周转以及各架次起止时刻，在满足载重、体积、续航、时限与电池
+不重叠约束下，优化配送及时性、完成时间、能耗与架次数。
+
+\textbf{问题三}：在问题二基础上引入通信约束。要求任一时刻每架在飞运输机都能与 G01
+建立直连链路，或同时与某架中继建立接入链路且该中继与 G01 回传可用；
+否则视为通信中断。需确定 2 架中继无人机的悬停位置、悬停海拔、服务时段与能源组件，
+使运输与通信协同完成，并给出联合完成时间与总能耗。
+
+\textbf{问题四}：将 15 个服务区划分为 2 组或 3 组，各组独立配置运输无人机、电池组与中继资源，
+分析配置规模、冗余度与均衡性，并核算与现有库存之间的缺口。划分必须满足
+\textbf{同一运输架次涉及的服务区同组}这一不可分割约束。
+
+% ===========================================================================
+\section{问题分析}
+% ===========================================================================
+\subsection{四问的递进关系}
+四问并非彼此独立，而是沿「物理层 $\to$ 决策层 $\to$ 通信层 $\to$ 组织层」逐级叠加：
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{问题一是物理层底座}。它只保留「单机单点往返」这一个最小闭环，
+   用于标定全题唯一的一套能耗/时间口径。若此层口径不统一，后续所有架次数、
+   能耗与可行性判定都会漂移。其输出（最大安全载荷、单架次能耗与时长）
+   是问题二装箱可行性的直接输入。
+\item \textbf{问题二在物理层之上加决策维度}。多机、多箱、多服务区、共享电池、
+   时间窗共同作用，使问题从「单点装箱」跃升为资源受限的多行程路径问题，
+   并首次出现「多目标」——及时性、完工时间、能耗与架次数彼此冲突。
+\item \textbf{问题三再加通信耦合}。通信约束不改变一架次能装多少货，却会把
+   「任一架次在任何时刻都必须被保障」变成对时间轴的全局约束，
+   从而反向压缩可行排程空间，并引入第二类飞行器（中继）与第二类资源（能源组件）。
+   本问的关键已不在「选哪个悬停点」（几何上处处可覆盖），
+   而在\textbf{「用几架中继才能把手里的悬停点按时间接力起来」}——
+   即一个带换位黑障窗口的资源可行性判定问题，本文用状态 DP 在声明的候选集与剪枝口径下给出判定证据。
+\item \textbf{问题四在解的空间结构上做切割}。它冻结组批、顺序与中继安排，
+   只问「如何把已有关联关系切成 $K$ 组，各组自行配备资源是否够用」。
+   因此它是对问题三解的一个\textbf{割集问题}，必须先有问题三的架次—服务区关联表。
+\end{enumerate}
+
+\subsection{统一主线：时空—能量—通信三重耦合}
+本文用一条主线贯穿全文：\textbf{一切决策最终都折算到「时间轴」与「能量账本」两本账簿上，
+而通信约束则是这两本账簿之外的一条硬性可行性筛选}：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{空间}决定距离与航段剖面（沿线最高地面），进而决定爬升高度；
+\item \textbf{能量}决定单架次能装多少货（最大安全载荷）、能飞多远（等效航程），
+      并通过返航余量 $\rho$ 形成硬性可行域；
+\item \textbf{时间}由「准备 + 装载 + $\sum$(爬升/巡航/下降) + 交接」构成，
+      并通过电池的「占用—充电」时间轴与无人机占用互斥形成排程可行域；
+\item \textbf{通信}把每架运输机在每个时刻的三维位置映射为「直连/中继/中断」三态，
+      要求中断集合为空，从而对时间轴施加额外的可行性约束。
+\end{itemize}
+
+% ===========================================================================
+\section{模型假设与符号说明}
+% ===========================================================================
+\subsection{关键假设}
+题目在能耗与链路细节上留有解释空间。为保证全文口径唯一、结果可复现，
+本文显式声明以下假设（后文一律遵循）：
+
+\begin{description}[leftmargin=3.2em,itemsep=3pt,style=nextline]
+\item[\textbf{A1（等效航程反推水平能耗）}]
+题目未给出水平飞行能耗的显式公式，但给出了「等效航程」$L_g(q)$ 的定义。
+本文据此认为 $L_g(q)$ 就是「一组电池在载荷 $q$ 下能够水平飞行的距离」，
+于是水平能耗按比例反推：
+\begin{equation}
+E^{\mathrm{hor}}_{g}(d,q)=\frac{d}{L_g(q)}\,E_g^{\mathrm{use}},\qquad
+L_g(q)=L_g^{0}-\left(L_g^{0}-L_g^{F}\right)\left(\frac{q}{Q_g}\right)^{3/2},
+\end{equation}
+其中 $L_g^{0},L_g^{F}$ 为机型 $g$ 的空载/满载标准航程。这是与题面定义唯一自洽的读法。
+\item[\textbf{A2（爬升附加能耗）}]
+爬升阶段按能量守恒折算，取爬升能耗效率 $\eta_{\mathrm{up}}=\TypeAEta$：
+\begin{equation}
+E^{\mathrm{up}}_{g}=\frac{(m_0+q)\,g\,h^{+}}{\eta_{\mathrm{up}}\cdot 3.6\times10^{6}}\ \text{[kWh]},
+\end{equation}
+质量取该航段\textbf{实际质量}（空机 $m_0$ 加当前载荷 $q$）。下降阶段能耗效率按题目取 0，
+即不计下降附加能耗（下降过程视为势能回收或由电机制动吸收）。
+\item[\textbf{A3（巡航海拔取航段 DEM 最高地面 + 50\,m）}]
+每个航段（含去程与回程）的巡航海拔取「该航段沿线 30\,m DEM 像元最高地面高程」与
+「两端点附件给定地面海拔」的较大者再加 50\,m：
+\eqfit{H_{\mathrm{cruise}}=\max\!\big(\max_{\text{沿线}}z_{\mathrm{DEM}},\ z_a,\ z_b\big)+50}
+去程与回程采用同一巡航海拔，以保证剖面可执行。
+\item[\textbf{A4（作业高度口径）}]
+调度中心 O01 的作业高度取其地面海拔（\ElevO\,m，不额外加高）；
+服务区的作业高度取地面海拔加 30\,m（投送悬停高度）。连续访问多个服务区时，
+每次投送完毕后自该服务区 30\,m 作业高度\textbf{重新爬升}至下一航段巡航海拔。
+\item[\textbf{A5（地形遮挡判定与采样步长）}]
+链路遮挡按两端点三维连线与沿途 30\,m DEM 逐点比较判定（端点本身不计入遮挡），
+沿线按 25\,m 水平步长重采样；判定准则为连线上任一点高度低于该点地面高程即视为遮挡。
+\emph{口径说明}：这是\textbf{沿线重采样}而非「逐像素遍历」——
+采样点沿视线按 $25$\,m 等距取，相邻点可能落在同一 DEM 像素内、也可能跨像素，
+因此它是对连续视线的\textbf{离散近似}，在极少数掠射（grazing）情形下
+可能与逐像素遍历给出不同判定。本文选择沿线重采样有两个理由：
+$25\,\mathrm{m}<30\,\mathrm{m}$（DEM 像素尺寸），采样密度高于栅格分辨率，
+不会系统性漏掉整块地形；采样点高度取所属像素值，在跨像素处相当于取两端较大者，
+因而\textbf{等价于对 DEM 做保守包络}。稳健性方面，把步长改为 $10$\,m 与 $50$\,m 重算，
+可通信采样点比例与中断时长的变化均在 $1\%$ 以内（见 \S\ref{sec:sens}）。
+不引入菲涅尔区余隙，遮挡一律附加固定损耗 $L_{\mathrm{obs}}=\CommLobs$\,dB。
+\item[\textbf{A6（链路门限双向取小）}]
+链路可用判定使用最大允许传播损耗
+$L_{\max}^{a\to b}=P_t^{a}+G_t^{a}+G_r^{b}-L_{\mathrm{sys}}-P_{\mathrm{th}}$，
+其中 $P_{\mathrm{th}}=P_{\mathrm{sens}}+M=\CommPth$\,dBm，$L_{\mathrm{sys}}=\CommLsys$\,dB；
+一条双向链路（如中继回传）取两个方向允许损耗的\textbf{较小者}作为瓶颈门限。
+传播损耗用 FSPL：$L=32.45+20\lg f_{\mathrm{MHz}}+20\lg D_{\mathrm{km}}$，$f=\CommF$\,MHz，
+三维距离 $D$ 由水平 Haversine 距离与高度差合成。
+\item[\textbf{A7（通信状态判定的优先级）}]
+若直连可用则判为「直连」；否则若存在某架中继，其接入链路与回传链路\textbf{同一时刻同时可用}，
+则判为「中继」；其余判为「中断」。任一时刻每架运输机只能由 G01 或\textbf{至多一架}中继保障，
+中继之间不允许多跳。
+\item[\textbf{A8（平面距离近似）}]
+水平距离统一用球面 Haversine 公式（$R=6371008.8$\,m）计算，不做高斯投影；
+在 8\,km 量级上该近似相对误差小于 $0.1\%$。
+\item[\textbf{A9（电池口径）}]
+题目给出「共享电池总数包含机上初始使用数」，故实际可周转备用数为「总数 $-$ 在飞实体机数」。
+电池初始 SOC 为 100\%，再次投入前必须充至 100\%，且不得低于返航电量下限 $\rho_g$。
+充电采用两阶段等效模型：SOC $<90\%$ 段占 $T_{\mathrm{full}}$ 的 65\%，
+$90\%\sim100\%$ 段占 35\%，各段按 SOC 增量线性折算。
+同一资源的占用与充电时段不得重叠，不同资源可并行充电。
+\item[\textbf{A10（返航安全余量）}]
+架次总能耗必须满足 $E\le(1-\rho_g)E_g^{\mathrm{use}}$，三种运输机型均取 $\rho_g=\Rho\%$，
+中继取同一比例。去程载荷 $q$、回程载荷 0。
+\item[\textbf{A11（时效判定时刻）}]
+货箱是否「及时」以其\textbf{交付完成时刻}（即无人机抵达服务区并完成交接的时刻）判定，
+而非架次开始时刻。
+\item[\textbf{A12（货箱不可拆分）}]
+\TotalBoxes 个货箱全部不可拆分，每个货箱在整份方案中只能被安排一次；
+同一服务区内同（物资类型, 单箱质量, 单箱体积）的货箱在数学上完全可互换。
+\item[\textbf{A13（中继架次的口径：一次架次 = O01 $\to$ 单一悬停点 $\to$ O01）}]
+一架中继的一次出动（一个\textbf{架次}）只允许服务\textbf{一个}悬停位置：
+自 O01 起飞、爬升巡航至该悬停点、建链 \CommLink\,s 后开始驻留服务、服务结束返航 O01。
+若需要更换悬停位置，必须\textbf{先返回 O01}，再经过架次周转时间 $\tau_{\mathrm{turn}}=\CommTurn$\,s
+（换装能源组件、检查与再出动）后重新起飞，即\textbf{不允许在两个悬停点之间直接转场}。
+因此一次换位造成的通信空档（本文称\textbf{黑障窗口}）为
+\begin{equation}\label{eq:blackout}\tag{W}
+W(a\!\to\! b)=t^{\mathrm{back}}(a)+\tau_{\mathrm{turn}}+t^{\mathrm{out}}(b)+t_{\mathrm{link}},
+\end{equation}
+其中 $t^{\mathrm{out}}(\cdot),t^{\mathrm{back}}(\cdot)$ 为 O01 与悬停点之间的单程飞行时间，
+按其三维剖面（沿线 DEM 最高地面 $+50$\,m 的巡航海拔、爬升效率 $\eta_{\mathrm{up}}$ 与计划起飞总质量
+$M_{\mathrm{TO}}=\RelayMtow$\,kg）由问题一同一套口径算出，$t_{\mathrm{link}}=\CommLink$\,s 为建链时间。
+$W$ 随换位点对 $(a,b)$ \textbf{逐个精确计算}（\QthreeDpBlackoutMinS--\QthreeDpBlackoutMaxS\,s，
+中位 \QthreeDpBlackoutMedianS\,s），而非取常数。
+\item[\textbf{A14（中继的服务与能源口径）}]
+中继驻留期间的服务功率为悬停功率 $\RelayPhover$\,kW 加通信附加 $\RelayPcomm$\,kW；
+单次悬停时长受\textbf{一组能源组件可用能量}限制（可用能量 $\RelayEuse$\,kWh、
+返航电量下限 $\Rho\%$），超限时必须回 O01 换装组件，
+故同一悬停点的连续驻留会被拆成多个架次。中继同样遵守 A9 的充电时间轴与
+「再次投入前充至 100\%」要求。
+\item[\textbf{A15（中继覆盖判定）}]
+在时刻 $t$，某中继悬停点 $c$ 对运输机 $k$ 有效，当且仅当\textbf{接入链路}
+（$k\to c$，门限 $L_{\max}^{\mathrm{acc}}$）与\textbf{回传链路}（$c\to$ G01，门限 $L_{\max}^{\mathrm{bh}}$）
+在同一时刻同时可用；两架中继的覆盖可以\textbf{取并集}（不同运输机可由不同中继保障），
+但同一架运输机不得同时占用两架中继，也不允许多跳。
+\end{description}
+
+\subsection{符号说明}
+主要符号见表~\ref{tab:symbols}，服务区与机型基础数据见表~\ref{tab:nodes}、表~\ref{tab:types}。
+
+\InputRes{paper/tables.tex}
+
+% ===========================================================================
+\section{数据预处理}
+% ===========================================================================
+\subsection{DEM 与坐标系}
+区域数字高程模型为 Copernicus GLO-30（DSM），地理坐标系 EPSG:4326，
+栅格分辨率 $1/3600^\circ\approx\DemCell$\,m，规模 \DemNx$\times$\DemNy，
+行序自北向南、列序自西向东，高程范围 \DemZMin--\DemZMax\,m，无 NoData 空洞。
+本文的 DEM 读取、索引与沿线采样全部封装在统一的物理核心库中，
+所有涉及地形的计算（爬升高度、视线遮挡）均调用同一份栅格，避免出现「两套地形」。
+
+\subsection{节点海拔口径}
+调度中心与服务区的地面海拔取附件给定值（题目要求「参数以附件给定值为准」），
+而 DEM 最近邻采样值可能与之存在数米差异。本文的处理口径是：
+\textbf{作业高度用附件给定值，巡航海拔用 $\max(\text{DEM 沿线最高},\ \text{两端给定值})+50$}，
+从而在保留附件权威性的同时，让巡航高度严格高于实际地形。
+沿线采样按 25\,m 步长重采样后取最大值，等价于对 30\,m 栅格做保守包络。
+
+\subsection{服务区、货箱与机型}
+15 个服务区的直线距离自 \DemNear\,km（\DemNearID）到 \DemFar\,km（\DemFarID）不等，
+地面海拔 \ElevMin--\ElevMax\,m，人口合计 \PopTotal 人。
+待运物资共 \TotalBoxes 箱 / \TotalMass\,kg，其中 \CargoOneName\ \CargoOneN 箱（\CargoOneM\,kg）
+占比最高。机型的载重—体积—能量参数见表~\ref{tab:types}。
+
+一个需要在建模阶段就注意的结构性事实是：A、B 型机的\textbf{体积舱远小于其载重能力}
+（\TypeAVcap\,m$^3$ / \TypeAQmax\,kg，\TypeBVcap\,m$^3$ / \TypeBQmax\,kg），
+因此\textbf{体积约束往往先于质量约束起作用}；而 C 型机（\TypeCVcap\,m$^3$ / \TypeCQmax\,kg）
+是绝对运力主力，其受限因素是长航段下的返航能量。这决定了问题一的组批瓶颈来自
+「体积与载质量的整数装箱」，而非单机航程。
+
+\Dfig[0.86]{fig_env.png}{镇龙乡 30\,m DEM 晕渲地形与调度中心 O01、服务区 S001--S015 分布}{fig:env}
+
+% ===========================================================================
+\section{问题一：单点往返运输能力与货箱组批}
+% ===========================================================================
+\subsection{单架次往返的物理模型}
+一次「单点往返」架次为 O01\,$\to$\,$S_i$\,$\to$\,O01。按假设 A3、A4，
+去程与回程具有相同的巡航海拔 $H_{\mathrm{cruise}}$，故
+\begin{align}
+h^{+}_{\text{去}}&=H_{\mathrm{cruise}}-H_{O01}, & h^{-}_{\text{去}}&=H_{\mathrm{cruise}}-H_{S_i},\\
+h^{+}_{\text{回}}&=H_{\mathrm{cruise}}-H_{S_i}, & h^{-}_{\text{回}}&=H_{\mathrm{cruise}}-H_{O01},
+\end{align}
+其中 $H_{O01}$ 为 O01 地面海拔，$H_{S_i}$ 为服务区地面海拔 $+30$\,m。
+航段飞行时间与能耗为
+\begin{equation}
+t=\frac{h^{+}}{v_{\uparrow}}+\frac{d}{v_c}+\frac{h^{-}}{v_{\downarrow}},\qquad
+E=\underbrace{\frac{d}{L_g(q)}E_g^{\mathrm{use}}}_{E^{\mathrm{hor}}}
++\underbrace{\frac{(m_0+q)gh^{+}}{\eta_{\mathrm{up}}\cdot3.6\times10^{6}}}_{E^{\mathrm{up}}}.
+\end{equation}
+\noindent\textbf{水平能耗项的假设强度（须如实声明）}：
+上式把水平能耗写成 $E^{\mathrm{hor}}=d\,E_g^{\mathrm{use}}/L_g(q)$，
+实质是把题目给出的「满载等效航程 $L_g(Q_g)$」按\textbf{线性外推}到任意载荷 $q$，
+即假定\emph{单位距离能耗与 $E^{\mathrm{use}}/L_g(q)$ 成正比、且等效航程随载荷线性变化}。
+该外推的合理性与风险是：
+(i) 它\textbf{恰好复现题目给定的端点}——$q=Q_g$ 时退化为满载等效航程的定义式本身，
+$q=0$ 时退化为按空机重量的等效航程；
+(ii) 它\textbf{忽略了诱导阻力随速度与姿态的非线性}，在载荷接近满载、航段较长时
+可能\emph{低估}能耗，因而对「返航安全余量」这一硬约束偏乐观；
+(iii) 因此本文把水平能耗整体施加 $\pm10\%$ 扰动并报告结论变化（见 \S\ref{sec:sens}），
+最大安全载荷与最终方案在该扰动下均未改变定性结论。
+若需更严格，应改用题目未提供的极曲线/功率曲线数据做 Breguet 型积分，
+这超出本题数据范围，列入局限（\S\ref{sec:limits}）。
+
+架次总时长还要叠加工位准备 $t_{\mathrm{prep}}$、逐箱装载 $t_{\mathrm{load}}$、
+服务区交接 $t_{\mathrm{hand}}^{\mathrm{base}}+n_{\mathrm{box}}t_{\mathrm{hand}}^{\mathrm{box}}$：
+\begin{equation}
+T_{\text{架次}}=t_{\mathrm{prep}}+t_{\mathrm{load}}n_{\mathrm{box}}
++\sum_{\text{航段}}t_{\text{航段}}+\sum_{\text{服务区}}\big(t^{\mathrm{base}}_{\mathrm{hand}}+t^{\mathrm{box}}_{\mathrm{hand}}n_{\mathrm{box}}\big).
+\end{equation}
+
+\subsection{最大安全载荷：二分求解}
+受返航安全余量约束 $E(q)\le(1-\rho_g)E_g^{\mathrm{use}}$，
+且 $E(q)$ 关于 $q$ 严格单调递增（水平项经 $L_g(q)$ 递减、爬升项线性递增），
+故最大安全载荷
+\begin{equation}
+q^{\max}_g(S_i)=\min\Big\{Q_g,\ \sup\{q: E_g(d_i,q)\le(1-\rho_g)E_g^{\mathrm{use}}\}\Big\}
+\end{equation}
+可用二分法以 $10^{-3}$\,kg 精度精确求得：先检验 $q=0$ 与 $q=Q_g$ 两端，
+再对 $[0,Q_g]$ 做 30 次二分。结果见图~\ref{fig:q1payload} 与表~\ref{tab:payload}。
+
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item A 型在全部 \NumAreas 个服务区均可满载 \TypeAQmax\,kg，B 型全部可满载 \TypeBQmax\,kg；
+\item C 型在 \QoneLimitedC 个服务区（\QoneLimAreaList）受返航能量限制，
+      最低 \QoneMinPayC\,kg（\QoneMinPayCArea），即损失 \QonePayCLoss\,kg 运力，
+      但仍在 \QoneMaxPayCLim\,kg 以上，足以容纳最大单类货物组合。
+\end{itemize}
+\textbf{结论一}：山区场景下 A、B 型的瓶颈是体积舱而非能量；C 型的瓶颈是长航段返航能量。
+
+\Dfig[0.92]{fig_q1_payload.png}{三机型在 15 个服务区的最大安全载荷（虚线为载重上限）}{fig:q1payload}
+
+\subsection{组批模型：按物资类型分组的状态 DP}
+设服务区 $S_i$ 的货箱按（物资类型, 单箱质量, 单箱体积）分为 $K$ 类，第 $k$ 类有 $c_k$ 箱，
+$K\le4$、$\prod(c_k+1)\le 324$。由于同类货箱完全可互换，
+一个架次只需记录「各类装了几箱」这一\textbf{构成向量} $\mathbf{a}\in\prod[0,c_k]$。
+令 $\mathcal{A}$ 为所有可行构成（质量 $\le Q_g$、体积 $\le V_g$、能耗 $\le(1-\rho_g)E_g^{\mathrm{use}}$）
+及其机型选项的集合，则组批问题等价于
+\begin{equation}
+\min\ \sum_{\mathbf{a}\in\mathcal{A}}x_{\mathbf{a}}\cdot\big(\text{指标}\big)
+\quad\text{s.t.}\quad \sum_{\mathbf{a}}a_k x_{\mathbf{a}}=c_k,\ \forall k;\qquad x_{\mathbf{a}}\in\mathbb{Z}_{\ge0},
+\end{equation}
+其中每个 $\mathbf{a}$ 可搭配 A/B/C 三种机型（机型之间再按能耗—时间做非支配剪枝）。
+
+\textbf{精确性说明}：本文不做「先按贪心装箱再修补」，而是在状态空间
+$\prod[0,c_k]$ 上做\textbf{状态 DP}，状态转移为「再开一个架次（含机型选择）」，
+并对每个状态的解集做非支配剪枝（容忍度 $\varepsilon_E=5\times10^{-4}$\,kWh，$\varepsilon_T=0.5$\,s）。
+由于状态空间仅覆盖各类箱数的组合，所得 (架次数, 总能耗, 累计作业时间) 前沿
+对原问题仍是\textbf{精确}的。
+
+全局方案按各服务区解耦：给定权重 $(w_c,w_E,w_T)$，各服务区独立取其 Pareto 集合中
+加权最小的方案；由于各服务区相互解耦，全场景可行集是各服务区 Pareto 集的 Minkowski 和，再对权重单纯形做 26 格扫描即得\textbf{全场景 Pareto 前沿的近似枚举}，
+共 \QoneFrontN 个非支配点。取其中最少架次方案 S1，结果见
+表~\ref{tab:q1schemes}、图~\ref{fig:q1pareto}：
+最少 \QoneSorties 架次即可覆盖全部 \TotalBoxes 箱，
+总能耗 \QoneEnergyLeastSortie\,kWh，累计作业时间 \QoneTimeLeastSortie\,h；
+若允许增加 \QoneSaveESorties 个架次换取更低能耗，总能耗可再降 \QoneSaveEPct\%（最省能耗方案）。
+
+\Dfig[0.95]{fig_q1_pareto.png}{问题一 Pareto 前沿：(架次数,\,总运输能耗,\,累计作业时间)}{fig:q1pareto}
+
+\subsection{与 CP-SAT 集合划分 ILP 的交叉验证}
+为避免 DP 实现细节引入偏差，本文另建一个\textbf{集合划分整数规划}模型作为独立校验：
+把每个可行「构成 $\times$ 机型」作为一列，以「每类货箱恰好被覆盖一次」为约束，
+分别以最小化架次数、最小化能耗为目标调用 CP-SAT 求解。
+对 \QoneIPN 个服务区逐一对比（表~\ref{tab:q1check}）：
+架次数一致 \QoneIPConsistCount/\QoneIPN，最少架次下的最优能耗一致 \QoneIPConsistEnergy/\QoneIPN，
+全局最小能耗一致 \QoneIPConsistGlobal/\QoneIPN，即\textbf{两套独立方法给出同一结论}（\QoneIPAllOK）。
+
+\subsection{返航安全余量 $\rho$ 的灵敏度}
+把 $\rho$ 从 \QoneRhoLo 扫到 \QoneRhoHi（步长 0.05），重复上述全部计算，结果见表~\ref{tab:rho}
+与图~\ref{fig:q1rho}：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item C 型平均可用载荷由 \QoneRhoCPayLo\,kg 降至 \QoneRhoCPayHi\,kg，共降 \QoneRhoCPayDrop\,kg；
+\item C 型「受限服务区数」由 \QoneRhoLimCLo 增至 \QoneRhoLimCHi；
+\item 全场景最少架次数由 \QoneRhoSortiesLo 增至 \QoneRhoSortiesHi（跨度 \QoneRhoSortiesSpan 架次）。
+\end{itemize}
+\textbf{结论二}：$\rho$ 每提高 5 个百分点，将稳定地推高架次数，
+是比载重上限更敏感的运力约束；工程上应在电池健康度允许范围内尽量取小 $\rho$，
+或通过增设临时充电点等效降低 $\rho$。
+
+\Dfig[0.9]{fig_q1_rho.png}{返航安全余量 $\rho$ 灵敏度：最大安全载荷（左轴）与架次数/能耗（右轴）}{fig:q1rho}
+
+% ===========================================================================
+\section{问题二：多机多目标运输调度}
+% ===========================================================================
+\subsection{问题定义}
+给定货箱集合 $\mathcal{B}$（\TotalBoxes 箱）、无人机集合 $\mathcal{U}$（\NumDrones 架，分属 A/B/C 型）、
+电池集合与 15 个服务区，决策：
+(i) 架次划分（每架次访问的服务区子集与访问顺序）；
+(ii) 机型与实体机指派；
+(iii) 共享电池指派与充电周转；
+(iv) 各架次开始时刻。
+目标为四目标：及时性（延误量）、完工时间、总能耗、架次数。
+
+\subsection{多目标 MILP 形式化}
+定义 0--1 变量 $y_k$（架次 $k$ 是否启用）、$x_{k,d}$（架次 $k$ 由无人机 $d$ 执行）、
+$z_{k,g}$（架次 $k$ 用机型 $g$）、$b_{k,e}$（架次 $k$ 使用电池 $e$）、
+$u_{k,a}$（架次 $k$ 访问服务区 $a$）、$o_{k,a}$（货箱 $a$ 由架次 $k$ 承运），
+连续变量 $s_k$（开始时刻）、$f_k$（结束时刻）、$T_a$（货箱交付完成时刻）。
+模型为
+\begin{align}
+\min\quad & \Big(\sum_{a}\max(0,T_a-D_a),\ \max_k f_k,\ \sum_k E_k,\ \sum_k y_k\Big)\\
+\text{s.t.}\quad
+& \sum_{k}o_{k,a}=1 && \forall a \quad\text{（每箱恰好一次）}\\
+& \sum_{a\in\mathcal{B}_a} m_a o_{k,a}\le \sum_g Q_g z_{k,g},\quad
+  \sum_{a}v_a o_{k,a}\le \sum_g V_g z_{k,g} && \forall k \quad\text{（载重/体积）}\\
+& E_k\le\sum_g(1-\rho_g)E_g^{\mathrm{use}}z_{k,g} && \forall k \quad\text{（返航余量）}\\
+& f_k=s_k+T_k,\quad s_k\ge f_{k'}+t_{\mathrm{turn}} && \text{（同机/电池不重叠）}\\
+& T_a=s_k+\mathrm{off}_{k,a} && \forall a\in k \quad\text{（交付完成）}\\
+& T_a\le \underline{D}_a && \forall a:\ \text{硬时限（医疗与首批）}\\
+& \text{电池充电时间轴可行} && \text{（见 6.3 节）}
+\end{align}
+其中 $\mathrm{off}_{k,a}$ 为服务区 $a$ 在架次 $k$ 内的相对交付偏移，
+由访问顺序与各航段时长按问题一同一套口径递推得到。
+
+\noindent\textbf{该 MILP 的完备性边界（避免「列了式子就等于全形式化」的误读）}：
+上式的价值在于\textbf{精确定义}目标函数、覆盖约束、载重/体积约束、返航余量约束、
+交付时刻递推、硬时限约束与顺序不重叠约束；但它\textbf{不是一个被求解到最优的模型}，原因有三：
+(i) 架次集合本身是决策变量（$y_k$ 的支撑集未知），上式属\textbf{集合划分}型模型，
+变量数与货箱的组合方式同阶，直接求解不现实；
+(ii) $E_k$ 与 $T_k$ 都不是 $z_{k,g}$ 的线性函数——$E_k$ 含 $d/L_g(q)$ 的倒数项与爬升项，
+$T_k$ 含按访问顺序的分段求和；严格写法需要\textbf{分段线性化或外逼近}，本文未展开；
+(iii) 电池充电时间轴的可行域依赖具体时刻，属\textbf{析取约束}，需大 M 或时域展开才能线性化。
+因此本文的求解路线是「\textbf{以上述 MILP 定义问题 $+$ 以 ALNS 生成架次集合
+$+$ 以 CP-SAT 在固定架次集合的邻域内求精确排程}」，并对上式约束逐条做回归检验
+（\S\ref{sec:q2result} 列出 8 项校验），而\textbf{不宣称求解了上述 MILP}。
+相应地，问题二报告的是\textbf{可行解与相对改进，而非最优性间隙}。
+
+\subsection{求解框架：ALNS + CP-SAT 打磨}
+问题规模为 \TotalBoxes 箱 / \NumDrones 机 / \NumAreas 点，属 NP-hard 的异构多行程 VRPTW，
+故采用三段式：
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{构造启发式}：按紧急度（硬时限—期望时刻—优先系数）排序货箱，
+  贪心装箱并选机型；对多服务区架次用精确枚举（$\le6$ 个点）或最近邻 + 2-opt
+  确定使「作业时间最短、能耗次之」的访问顺序。
+\item \textbf{ALNS 自适应大邻域搜索}：destroy 算子（随机移除、最差移除、服务区整块移除、
+  最大能耗架次移除）与 repair 算子（紧急优先插入、最小增量插入、随机噪声插入）配对，
+  按历史成功率自适应更新权重；目标为四目标的加权和，权重配置见表~\ref{tab:q2configs}。
+\item \textbf{CP-SAT 精确排程打磨}：固定架次集合后，把「指派 + 起止时刻 + 电池周转」
+  交给 CP-SAT 求最优，得到该邻域内的精确排程；若目标改善则回到 ALNS 继续。
+\end{enumerate}
+\textbf{电池时间轴}是全模型的隐性难点：题目给出「共享电池总数含机上初始使用数」，
+故可周转备用数仅为「总数 $-$ 在飞实体机数」。本文为每组电池维护「占用区间 + 充电区间」
+两条时间轴，强制同一电池的占用与充电互不重叠，并按两阶段充电模型折算充电时长，
+从而避免「只数电池个数」导致的时间上不可行的伪可行解。
+
+\subsection{求解结果与 Pareto 前沿}\label{sec:q2result}
+五种权重配置的对比见表~\ref{tab:q2configs}，四目标平行坐标图见图~\ref{fig:q2pareto}。
+在保证 \TotalBoxes 箱全部覆盖的方案中，\QtwoBestName 以
+\QtwoSorties 架次完成配送：总能耗 \QtwoEnergy\,kWh，完工时间 \QtwoMakespanH\,h，
+及时 \QtwoOntime 箱 / \QtwoBoxes 箱（及时率 \QtwoOntimeRate\%），
+平均交付时刻 \QtwoAvgDeliver\,min，最晚交付 \QtwoMaxDeliver\,min。
+只追求架次数最少的 \QtwoLBName 方案可压到 \QtwoLBSorties 架次、
+能耗 \QtwoLBEnergy\,kWh、完工 \QtwoLBMakespanH\,h，但\textbf{仅覆盖 \QtwoLBBoxes 箱}，
+即漏运 \TotalBoxes{} 箱中的 $7$ 箱（覆盖率约 $91\%$）。
+\emph{必须纠正一个易犯的误读}：该解是在\textbf{放松了覆盖约束}
+（允许漏运）之后得到的，因此 \QtwoLBSorties{} 架次\textbf{不构成}原问题
+（\TotalBoxes{} 箱必须全部送达）架次数的下界——少运 7 箱当然可以少飞架次，
+这只说明「若允许漏运，架次数可压到 \QtwoLBSorties」，\textbf{不能}反推
+「全覆盖至少需要 \QtwoLBSorties{} 架次」。本文因此\textbf{不主张任何架次数下界}：
+对全覆盖问题只报告\textbf{已找到的最好可行解} \QtwoSorties{} 架次及其全部校验结果。
+严格下界的求取需要对集合划分模型做列生成/分支定价，列为后续工作（\S\ref{sec:limits}）。
+最及时方案为 \QtwoBestTardyName，延误量 \QtwoBestTardy\,h、及时率 \QtwoBestTardyOn\%。
+
+Dfig 展示的甘特图（图~\ref{fig:q2gantt}）显示：
+C 型机（U07/U08）承担了绝大部分货量并几乎全程满载连续作业，
+A/B 型机因体积舱限制，主要承担医疗、卫生等小体积高时效物资；
+斜纹段为电池充电周转，可见 C 型电池（$T_{\mathrm{full}}=\TypeCTfull$\,s）在长架次后
+需要 2000--2600\,s 量级的恢复时间，是限制 C 型连续出动的主要瓶颈。
+
+\Dfig[0.92]{fig_q2_gantt.png}{问题二运输架次甘特图（实心 = 架次作业，斜纹 = 电池充电周转）}{fig:q2gantt}
+\Dfig[0.9]{fig_q2_pareto.png}{问题二四目标平行坐标图（粗线为 Pareto 前沿点）}{fig:q2pareto}
+
+% ===========================================================================
+\section{问题三：通信约束下的运输—中继协同}
+% ===========================================================================
+\subsection{通信硬约束}
+依据假设 A6、A7，对任一运输架次 $k$ 在时刻 $t$ 的三维位置 $\mathbf{p}_k(t)$，链路状态为
+\begin{equation}
+\mathrm{state}_k(t)=
+\begin{cases}
+\text{直连}, & L_{\mathrm{FSPL}}(\mathbf{p}_k,\mathbf{g})\le L_{\max}^{\mathrm{dir}},\\
+\text{中继}, & \exists r\in\mathcal{R}:\ L_{\mathrm{FSPL}}(\mathbf{p}_k,\mathbf{r})\le L_{\max}^{\mathrm{acc}}
+              \ \wedge\ L_{\mathrm{FSPL}}(\mathbf{r},\mathbf{g})\le L_{\max}^{\mathrm{bh}},\\
+\text{中断}, & \text{其他},
+\end{cases}
+\end{equation}
+其中 $\mathbf{g}$ 为 G01（O01 地面 $+$ 天线离地高度），$\mathcal{R}$ 为在服务的中继集合。
+硬约束要求 $\forall k,t:\ \mathrm{state}_k(t)\ne$ 中断，
+且任一时刻每架运输机至多被一架中继保障（中继之间不允许多跳）。
+
+值得注意的是，门限换算后直连允许损耗 $L_{\max}^{\mathrm{dir}}$ 对应的\textbf{无遮挡}自由空间距离约 \DirectRange\,km（远大于本场址 $8$\,km 量级的服务半径），而一旦发生地形遮挡，附加损耗后允许距离迅速收缩到 $4$\,km 量级，
+\textbf{决定链路可用性的几乎只有地形遮挡}——这也解释了为什么中继部署必须
+逐点按 DEM 视线判定，而不能用简单距离阈值替代。
+
+\subsection{影子模型：把通信压缩为可缓存查表}
+通信判定若在每个搜索步都完整重算，代价无法承受。本文利用一个结构性事实：
+\textbf{航段的巡航海拔只取决于两端点与沿线 DEM}，因此「某机型在某航段上直连不可用的时长占比」
+可以一次性算好并缓存；同理，节点处的垂直段（爬升/下降/投送悬停）只取决于节点与高度，
+也可缓存为布尔值。由此，架次的通信缺口时长
+\begin{equation}
+\mathrm{gap}(k)=\sum_{\text{航段}}\Big[t^{\mathrm{climb}}_{ab}\overline{\chi_a}+t^{\mathrm{cruise}}_{ab}\varphi_{ab}
++t^{\mathrm{desc}}_{ab}\overline{\chi_b}+\mathbb{1}[b\ne O01]\,t^{\mathrm{hand}}_b\chi_b\Big]
+\end{equation}
+退化为一组 $O(\text{航段数})$ 的查表，使\textbf{通信感知的邻域搜索}成为可能。
+
+\subsection{候选悬停点与覆盖矩阵}\label{sec:q3cover}
+在 DEM 覆盖范围内按 $0.0035^\circ$ 经纬网格（$\approx350$--$390$\,m，约为 30\,m DEM 像元的 12 倍）$\times$ 悬停离地高度
+（100--300\,m，上限 \RelayAglMax\,m）枚举候选点，
+先用回传链路（中继 $\to$ G01）预筛，仅保留回传可用点。
+对精细航迹扫描（10\,s 步长）得到的每个「直连不可用」需求实例 $(t,k,\mathbf{p})$，
+计算覆盖矩阵 $\mathrm{cov}[(t,k),c]=\mathbb{1}[\text{接入可用}\wedge\text{回传可用}]$。
+实现上用向量化的批量视线判定，一次可对上千个采样点求遮挡。
+
+\subsection{中继部署：区间覆盖 + 并发约束}
+按假设 A13，一次中继架次只能悬停在一个点上，故对每个候选点 $c$，其「可用时段」定义为
+至少能覆盖该时刻一个需求实例的极大连续时段，一个 (候选点, 时段) 组合即一个候选中继架次，
+其占用区间为「起飞 $\to$ 悬停建链 $\to$ 服务 $\to$ 返航 $\to$ 架次周转」。
+于是中继部署等价于
+\begin{equation}
+\min\ \sum_j y_j \quad\text{s.t.}\quad
+\sum_{j:\ \mathrm{cov}[i,c_j]\wedge t_i\in[t^0_j,t^1_j]} y_j\ge1,\ \forall i;\qquad
+\sum_{j:\ t\in\mathrm{occ}_j} y_j\le |\mathcal{R}|,\ \forall t,
+\end{equation}
+用 CP-SAT 求解（布尔变量 $y_j$ + 可选区间变量 + 累积约束）。
+该模型同时处理了\textbf{双中继并发上限}（\RelayN 架）与\textbf{每个需求实例必须被覆盖}两个要点。
+本文还给出一个等价的 DP/区间覆盖版本用于交叉核对：
+先求「单位置可独立覆盖的极大时段」（single-run），再对剩余时段做最小覆盖，
+其中 \texttt{Q3\_槽位诊断.xlsx} 记录了每个 300\,s 槽位的需求点数、可覆盖点数与最少悬停点数，
+用于定位覆盖瓶颈槽位。
+
+对照表~\ref{tab:q3relay} 与图~\ref{fig:q3gantt} 可见：\RelayN{} 架中继在库存口径下只能排出
+\QthreeRelaySorties{} 个架次、悬停合计 \QthreeRelayHoverLike\,s，说明\textbf{几何上处处可覆盖，
+但时序上排不出连续覆盖}。这正是下一小节要用严格方法裁决的核心问题。
+
+\subsection{中继资源不足的判定证据与边界}\label{sec:q3infeasible}
+\subsubsection{把「中继资源不足」写成判定问题}
+上文第 \ref{sec:q3cover} 节说明每个「直连不可用」实例都有大量可选悬停点（平均 \QthreeDpMeanPts{} 个），
+因此「排不出连续覆盖」\textbf{不能}归因于候选点不够，只能归因于\textbf{时序}。
+为了把这一判断从「启发式搜索失败」升级为\textbf{可审计的判定证据}，本文把中继的换位时序写成状态 DP。
+先统一离散口径：以 $\Delta=10$\,s 为步长构造统一时间栅格，并\textbf{只保留「至少有一架运输机处于直连不可用」的时刻}，共得 \QthreeDpCells{} 个\textbf{需求时间格}
+（记格 $k$ 的时刻为 $t_k$），并构造需求集合
+\begin{equation}
+\mathcal{D}_k=\Big\{(\text{运输架次},\ t)\ :\ t\in[t_k,t_k+10),\ \text{该架次在 }t\text{ 时刻直连不可用}\Big\},
+\end{equation}
+共 \QthreeDpInstances{} 个需求实例；同一格内最多有 \QthreeDpPeakConcurrent{} 架运输机同时失联，
+即某些格要求\textbf{同时}覆盖多个 $(\text{架次},\text{时刻})$ 对。
+
+\noindent\textbf{格号约定（避免歧义）}：格号 $k$ 从 $0$ 开始、\textbf{只在有需求的时刻上连续编号}
+（即 $k$ 是「第 $k+1$ 个存在失联的时刻」，而非「第 $k$ 个 $10$\,s 槽」）。
+本算例中 $t_0=\QthreeDpTZero$\,s 为该运输方案下最早的失联时刻，
+相邻需求格的平均间隔约 $11.4$\,s，因此\textbf{格号与秒数并不相等}；
+例如本文反复引用的\textbf{第 \QthreeDpInfeasibleCell{} 格对应 $t=\QthreeDpInfeasibleT$\,s}，
+其含义是「第 \QthreeDpInfeasibleCell{} 个存在失联的时刻（0 起编号）」。
+\emph{（该崩溃格的具体位置依赖候选点规模，见 \S\ref{sec:q3robust} 的稳健性讨论。）}
+
+候选悬停点集 $\mathcal{C}$（$|\mathcal{C}|=\QthreeDpCandPts$：DEM 覆盖范围内 $0.0035^\circ$ 经纬网格
+$\times$ 3 档悬停离地高度，并经回传链路预筛）对每个实例给出覆盖关系
+$\mathrm{cov}[i,c]\in\{0,1\}$，其中 $\mathrm{cov}[i,c]=1$ 当且仅当接入链路与回传链路在 $t_i$ 时刻\textbf{同时}可用。
+
+\subsubsection{状态、可行性与转移}\label{sec:q3dp}
+设中继机队规模为 $N$。取 10\,s 栅格，则\textbf{状态}
+\begin{equation}\label{eq:dpstate}\tag{S}
+s_k=\big((p_1,\sigma_1,\varrho_1),\dots,(p_N,\sigma_N,\varrho_N)\big),\qquad
+p_i\in\mathcal{C}\cup\{\mathrm{IDLE}\},\quad \sigma_i,\varrho_i\le t_k
+\end{equation}
+表示「第 $i$ 架中继当前悬停在 $p_i$、在时刻 $\sigma_i$ \textbf{到达}该位置、
+且本轮\textbf{离开 O01} 的时刻为 $\varrho_i$」；
+$\mathrm{IDLE}$ 表示该架尚未出动或已返航待命（此时不提供任何覆盖，且 $\varrho_i=t_k$）。
+第三个分量 $\varrho_i$ 是\textbf{能源约束 A14 进入递推的唯一通道}：能源组件按「一架次一组」使用，
+一次出动期间的飞行与悬停能耗连续累积，故必须约束\textbf{连续在空时长}而非仅「单点驻留时长」。
+
+状态 $s_k$ 在第 $k$ 格\textbf{可行}，当且仅当
+\begin{equation}\label{eq:dpvalid}\tag{V}
+\bigcup_{i:\ p_i\ne\mathrm{IDLE}} \mathrm{cov}[\cdot,p_i]\ \supseteq\ \mathcal{D}_k
+\qquad\text{（位置的覆盖并集必须覆盖该格全部失联实例）},
+\end{equation}
+其中「取并集」对应假设 A15：不同运输机可由不同中继保障。
+\textbf{转移}（每步至多换位一架）：
+选一架 $i$ 从 $p_i$ 换到 $p'\ne p_i$，令 $W(p_i\!\to\!p')$ 为式~(\ref{eq:blackout}) 的黑障窗口（\textbf{以秒计的时间长度}），
+则必须同时满足
+\begin{align}\label{eq:dpmove}
+&\text{(a) 被换的一架已到位：}\quad \sigma_i\le t_j;\tag{T1}\\
+&\text{(b) 其余各架均已在位：}\quad \sigma_j\le t_j,\quad \forall j\ne i;\tag{T2}\\
+&\text{(c) 黑障窗口内由其余 $N-1$ 架独立支撑：}\quad
+   \bigcup_{j\ne i}\mathrm{cov}[\cdot,p_j]\supseteq \mathcal{D}_{k'},\quad \forall k'\in[j+1,\,k-1];\tag{T3}\\
+&\text{(d) 新状态可行：}\quad \bigcup_{j}\mathrm{cov}[\cdot,p_j]\supseteq \mathcal{D}_k ;\tag{T4}\\
+&\text{(e) 能源组件 A14 未超限：}\quad
+   t_k-\varrho_i^{\,(k)}\le T^{\mathrm{cap}},\quad \forall i:\ p_i\ne\mathrm{IDLE}.\tag{T5}
+\end{align}
+其中 $T^{\mathrm{cap}}=\big((1-\rho)E^{\mathrm{use}}-e^{\mathrm{fly}}\big)/(P^{\mathrm{hov}}+P^{\mathrm{com}})$
+为一组能源组件的\textbf{等效可用悬停时长}（本算例 $\approx\QthreeEnergyCap$\,s）。
+
+\noindent\textbf{窗口为何按时间戳索引（而不是按 $\lceil W/\Delta\rceil$ 折成格数）}：
+(T1)--(T3) 里的 $j$ 不是 $\lceil W/\Delta\rceil$，而是按\textbf{时间戳}回查得到的
+\begin{equation}\label{eq:jwin}\tag{W$'$}
+j=j_k=\max\bigl\{j:\ t_j\le t_k-W(p_i\!\to\!p')\bigr\},
+\end{equation}
+即「$t_k$ 往前推 $W$ 秒」所落在的需求格下标；窗口覆盖 $[t_j,t_k]$。
+需求格\emph{并非}均匀的 $10$\,s 网格——它只记录「存在失联」的时刻，
+本算例平均间隔约 $11.4$\,s 且不等距（口径说明见 \S\ref{sec:q3robust}）。
+若按 $w=\lceil W/\Delta\rceil$ 折成格数再写成 $t_k-w$，就把「格数」当成了「秒数」：
+窗口实际长度会被算成约 $1.14W$（即 $\lceil W/10\rceil\times 11.4$\,s），
+带来约 $14\%$ 的系统性放大，且	extbf{随 $W$ 增长而变大}，不是固定偏差。
+本文 DP 实现取 (W$'$) 的时间戳口径，与 $(\star)$ 检验、协同再调度实验共用
+\texttt{code/span\_util.py} 的同一套窗口函数，保证全文只有一个窗口定义。
+(T5) 的实现方式是\textbf{状态过滤}：任何一个分量的连续在空时长一旦超过 $T^{\mathrm{cap}}$，
+该状态即被判为不可行并从 DP 表中删除，于是 DP 会自动寻找「必须返航换组件」的时刻；
+\emph{Mode 1} 下每次换位经 O01，等价于更换一组组件，故 $\varrho_i$ 在换位时重置为 $t_k$；
+\emph{Mode 2}（空中转场）下 $\varrho_i$ 保持不变，只有返航 O01 才重置——
+这正是两种模式在能源口径上的差别。
+约束 (c) 是模型的关键：换位过程有 $W$ 秒的黑障窗口，窗口内被换的那一架既不在旧位置也不在新位置，
+因此当 $N=2$ 时\textbf{另一架必须单独覆盖窗口内的全部需求}——这既是物理事实，也是「2 架不够」的根源。
+
+\noindent\textbf{初始状态与终止条件}：取
+$s_0=\big((\mathrm{IDLE},\,t_0,\,t_0)\big)_{i=1}^{N}$（全部中继停在地面 O01，
+本轮在空计时自 $t_0$ 起算）。$\mathrm{IDLE}$ 不提供覆盖，故 $s_0$ 不满足 (V)，
+第 0 格必然触发一次 $\mathrm{IDLE}\to p'$ 的出动转移；该转移仍受 (T2)/(T3) 约束，
+但\textbf{出动本身不存在黑障两难}（其余各架此时都在原地），
+只是把「地面准备 $+$ 去程 $+$ 建链」计入时间轴：
+$t^{\mathrm{depart}}=t^{\mathrm{link}}-\big(t^{\mathrm{out}}(p')+t^{\mathrm{link}}_{\mathrm{setup}}\big)\ge 0$。
+终止条件为递推到最后一个需求格；目标函数只统计状态发生变化的换位次数，
+即\textbf{悬停架次数}。
+
+\noindent\textbf{全部时间项的落点清单（避免「模型里没有这些时间」的误解）}：
+
+\begin{center}
+\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{7.2cm}@{}}
+\toprule
+时间项 & 含义 & 在 DP / 构造性判定中的落点 \\
+\midrule
+$t_{\mathrm{prep}}+t_{\mathrm{load}}$ & 机位准备与装载 & 属于运输侧，已计入问题一/二的架次时长 \\
+$t^{\mathrm{out}}(p)$ & O01 $\to$ 悬停点 $p$ 的去程 & 转移可行性：须 $t_k-t^{\mathrm{out}}(p')\ge\sigma_i$ \\
+$t^{\mathrm{link}}_{\mathrm{setup}}$ & 到位后建立接入/回传链路 & 与 $t^{\mathrm{out}}$ 一起决定覆盖时段左端点 \\
+$t^{\mathrm{turn}}$ & 落地周转（换组件、复位） & 换位经 O01 时，在下一轮出动的可用时刻中累计 \\
+$t^{\mathrm{back}}(p)$ & 返回 O01 的返程 & (T3) 窗口右端、以及下一轮出动的可用时刻 \\
+$t^{\mathrm{chg}}$ & 能源组件两阶段充电 & 经 $T^{\mathrm{cap}}$ 间接进入 A14 的容量过滤 \\
+$W(a\!\to\!b)$ & 换位黑障窗口 & 转移条件 (T1)--(T3) 的窗口下标 $j_k$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{两点必须明确}：(i) DP 的\textbf{目标只数悬停架次（建链次数）}，
+运输侧的准备/装载/交接时间不进入中继目标；(ii) 状态分量 $\varrho_i$ 表示「本轮离开 O01 的时刻」，
+在 $\mathrm{IDLE}\to p'$ 时置为 $t_k$；\emph{Mode 1} 下每次换位都经 O01，故也置为 $t_k$。
+于是「回 O01 更换一组能源组件后重新出动」\textbf{不需要额外的决策变量}——
+它由 $\varrho_i$ 的重置配合 (T5) 的容量过滤自动表达，这正是把 $\varrho_i$ 写进状态的原因。
+目标为极小化换位数（即中继架次数）。
+
+\noindent\textbf{完备性的边界（必须如实声明）}：式 (\ref{eq:dpstate})--(\ref{eq:dpmove})
+给出的\textbf{无剪枝}递推在「转移每步至多换位一架、换位必须经 O01、位置取自 $\mathcal{C}$」
+三条建模约定下是\textbf{状态完备}的——若某格可行状态集为空，则该约定下确实不存在 $N$ 架可行调度。
+但本文的\textbf{可运行实现做了四类剪枝}，它们\textbf{会破坏完备性}：
+(i) 候选点按每格覆盖贡献取前 $k$ 个；
+(ii) 状态按支配关系剪枝（保留松弛量最小的若干条）；
+(iii) 每个「键」（已到位架数、覆盖签名、在空剩余档）只保留有限条；
+(iv) 总状态数上限截断。
+因此实现的输出\textbf{只能主张为}：\emph{在候选点集 $\mathcal{C}$ 与剪枝策略 $P$ 下，
+未找到 $N=2$ 的可行调度}。为把这一主张做到尽可能强，本文做了两件事：
+(a) 以\textbf{独立于 DP 的构造性判定}（贪心换位，见 \S\ref{sec:q3robust}）复核——
+二者在\emph{不同的}需求格处各自失败，说明结论不是某一个实现的偶然；
+(b) 做\textbf{候选集逐档放大}的稳健性实验，给出失败格随候选规模的变化规律
+（12 $\to$ \QthreeFailCellHigh{} 格），从而把「结论对参数稳健」这一经验事实
+与「数学意义上的无解证明」严格区分开。
+完整的无剪枝判定、以及「重新优化运输时序后是否仍无解」，均列为后续工作（\S\ref{sec:limits}）。
+
+\subsubsection{黑障窗口的精确计算}
+$W(a\!\to\!b)$ 不取常数，而按换位点对的\textbf{三维几何逐个精确计算}：
+O01 与悬停点之间的单程飞行时间由
+$t^{\mathrm{out}}=\sum_{\text{航段}}\big(h^{+}/v_{\uparrow}+d/v_c+h^{-}/v_{\downarrow}\big)$
+给出，巡航海拔按假设 A3 取沿线 30\,m DEM 最高地面 $+50$\,m，
+爬升能耗效率取 $\eta_{\mathrm{up}}=\TypeAEta$、质量取计划起飞总质量 $\RelayMtow$\,kg，
+水平距离用 Haversine（假设 A8）。
+在 \QthreeDpCandPts{} 个候选点上枚举全部点对（\QthreeDpCandPairs{} 对）后，
+按\textbf{精确秒数}（\emph{不使用任何窗口截断}）统计全部 \QthreeDpBlackoutPairs{} 个 Mode 1 点对，
+黑障窗口 $W$ 的分布为：最小 \QthreeDpBlackoutMinS\,s、中位 \QthreeDpBlackoutMedianS\,s、
+平均 \QthreeDpBlackoutMeanS\,s、最大 \QthreeDpBlackoutMaxS\,s，
+其中 \QthreeDpBlackoutGePct\% 的点对超过 1100\,s。
+\emph{（口径声明：早期版本曾在 DP 中对 $W$ 施加一个截断上限 $W_{\max}$ 以控制状态规模，
+该截断\textbf{已移除}——现在 DP 按式~(\ref{eq:jwin}) 用\textbf{精确秒数}以时间戳回查窗口下标，
+即 $j_k=\max\{j:t_j\le t_k-W\}$，不再把窗口折成格数，故不再引用 $W_{\max}$。）}
+对比之下，任务期被中继需求切成 \QthreeDpPhases{} 个相位，其中\textbf{\QthreeDpShortPhases{} 个相位的时长短于 1400\,s}
+（最短仅 \QthreeDpShortPhaseMinS\,s）——换位代价与相位长度\textbf{同量级甚至更长}，
+这正是接力无法衔接的量化证据。
+
+\subsubsection{结论：$N=2$ 未找到可行解（在给定运输时序与候选点集下）}
+取 $N=\RelayN$（库存）运行上述 DP，结果如下：
+
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{几何上完全可覆盖}：\QthreeDpCells{} 个时间格\textbf{全部}能被某一个悬停点单独覆盖
+（即上文 A15 意义下的「单点全覆盖格」\QthreeDpSingleCoverCells{} 个），每个实例平均有
+\QthreeDpMeanPts{} 个可选悬停点。\textbf{因此「排不出来」与候选点密度无关。}
+\item \textbf{时序上无解}：DP 递推至第 \QthreeDpInfeasibleCell{} 格（$t=\QthreeDpInfeasibleT$\,s）
+时可行状态集\textbf{为空}。即：\textbf{在假设 A13/A14 下，\RelayN{} 架中继无法维持全程连续通信。}
+\item \textbf{崩溃的直接原因}：$t=\QthreeDpInfeasibleT$\,s 恰是「相位 02（\QthreeDpShortPhaseMinS\,s 的短相）
+$\to$ 相位 03」的交接点，而该交接要求一架中继在 \QthreeDpShortPhaseMinS{} 量级的短相内完成
+「返航 $+$ 周转 $+$ 再出动 $+$ 建链」，代价中位 \QthreeDpBlackoutMedianS\,s，
+且黑障窗口内另一架无法单独覆盖全部需求（即转移条件 (T3) 不成立）。
+\end{itemize}
+
+\begin{center}
+\fbox{\parbox{0.94\linewidth}{\centering
+\textbf{结论（受限口径，须如实理解）}\\[2pt]
+在\textbf{冻结的运输时序}与\textbf{给定候选点集}下，2 架中继\textbf{未找到}满足全程连续通信的
+调度方案：状态 DP 与构造性判定分别在不同需求格处无可行状态。
+该结论与前文「几何上处处可覆盖」相互独立——\textbf{瓶颈是时序，不是几何}。\\[2pt]
+\textbf{必须同时声明三点}：(i) DP 的候选点集按每格前 $k$ 个截断、状态按代价与数量剪枝，
+故其输出\textbf{不构成「完整状态空间无解」的证明}（见 \S\ref{sec:q3robust}）；
+(ii) 该结论\textbf{只对冻结的运输时序成立}，原题允许重新决定组批、路线与运输开始时刻，
+本文\textbf{未}证明「所有允许的运输—中继联合调度都不存在 2 架可行方案」；
+(iii) 已完成\textbf{构造性验证}的是 $N=\QthreeNeedN$ 时的可行性（给出具体方案并逐时刻复核）。}}
+\end{center}
+
+该结论对当前已做\textbf{通信兼容化优化}的运输方案成立（问题三已在 ALNS 目标中加入
+「单点可覆盖率」与「并发失联时长」两项指标，把同时失联架次数压低到 \QthreeDpPeakConcurrent{} 架，
+单点可覆盖比例达 \QthreeCompromiseCoverRate\%），并被独立复算脚本（\texttt{results/检查说明.md}）
+与独立同学的复算一致。需要强调结论的\textbf{确切含义}：它说的是「在这套候选集与剪枝策略下、
+这段冻结时序内搜不到」，而\textbf{不是}「放宽候选点或延长搜索时间也一定搜不到」——
+后者正是上文 (i)(ii) 明确不主张的。（本文还记录了一次\textbf{关闭剪枝}的尝试：
+它在 \QthreeDpCandPts{} 量级的候选集上耗 $1501$\,s 仍未终止，故本稿的否定结论一律
+限定为「候选集 $+$ 剪枝」口径，见 \S\ref{sec:q3robust}。）在\emph{当前}搜索口径下，
+可行的消除路径是\textbf{增加中继台数}或\textbf{改变任务时序}（见第 \ref{sec:q3robust} 节）。
+
+\subsection{最小增配方案：$N=3$ 达成全程连续通信}\label{sec:q3minadd}
+把同一 DP 的中继规模取为 $N=\QthreeNeedN$（即新增 \QthreeGapN{} 架），
+在完全相同的候选点集、相同的黑障窗口、相同的覆盖判定下重新求解，得到：
+
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{存在可行解}，且 \QthreeDpInstances{} 个需求实例\textbf{全覆盖}、
+\textbf{零时序冲突}（转移条件 (T3) 在每一步均成立）；
+\item 状态 DP 直接输出的中继架次数为 \QthreeNThreeSorties{} 个。
+由于\textbf{单次驻留（或在空）时长上限已作为状态过滤条件写入 DP 递推}（见假设 A14 与
+\S\ref{sec:q3dp} 的 (T5)），DP 输出的每一个架次都已满足「一组能源组件」的容量约束，
+最长单次悬停 \QthreeNThreeMaxHoverS\,s $\le$ 容量 \QthreeEnergyCap\,s，
+故\textbf{无需再做「回 O01 换组件」的额外拆分}，架次数仍为 \QthreeNThreeSortiesSplit{} 个；
+总悬停 \QthreeNThreeHoverS\,s、总能耗 \QthreeNThreeEnergy\,kWh，
+最低返航 SOC 仍不低于 20\% 下限；
+\item 因此在\textbf{已完整验证的配置}中，最小可行规模为 $N=\QthreeNeedN$，
+相对库存需\textbf{增配 \QthreeGapN{} 架中继无人机}（能源组件无需增加）。
+\emph{这不等于「数学上最少必须 3 架」}——2 架在更强的候选集/无剪枝搜索下是否仍不可行，
+以及通过重新优化运输时序能否降到 2 架，均列为后续工作（见 \S\ref{sec:q3robust} 与
+\S\ref{sec:limits}）。
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{中继方案对比：2 架库存下的最优折中 与 3 架（最小增配）连续方案}
+\label{tab:q3relaycmp}
+\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{4.6cm}@{}}
+\toprule
+指标 & 2 架最优折中 & 3 架最小增配 \\
+\midrule
+中继架次数（个） & \QthreeCompromiseSorties & \QthreeNThreeSortiesCell \\
+失联时长覆盖率 & \QthreeCompromiseCoverPct\% & 100\% \\
+未覆盖的中断并集（s） & \QthreeCompromiseUncoveredS & 0 \\
+未覆盖需求实例（个） & ——（实例级单点可覆盖 \QthreeCompromiseCoverRate\%） & \QthreeNThreeMiss{} / \QthreeDpInstances \\
+时序冲突数（个） & 不可行（DP 第 \QthreeDpInfeasibleCell{} 格崩溃） & \QthreeNThreeConflicts \\
+中继总能耗（kWh） & \QthreeCompromiseEnergy & \QthreeNThreeEnergy \\
+中继悬停合计（s） & \QthreeCompromiseHover & \QthreeNThreeHoverS \\
+是否满足连续通信 & \textbf{否}（未闭合 \QthreeCompromiseUncoveredS\,s） & \textbf{是}（全覆盖、零冲突） \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+\begin{minipage}{0.95\linewidth}
+\footnotesize 注：「2 架最优折中」即库存约束下的最优可行方案（\QthreeCompromiseSorties{} 个架次、
+\QthreeCompromiseHover\,s 悬停），其\QthreeCompromiseUncoveredS\,s 未覆盖中断并集的时段清单见
+\texttt{results/检查说明.md} 第 9 项（最长一段 \QthreeCompromiseLongestS\,s）；
+另有 \QthreeCompromiseOutagePhaseN{} 个相位因换位来不及而\textbf{未派中继}，
+这些相位的时长合计 \QthreeCompromiseOutagePhaseS\,s（该口径为「相位时长求和」，
+与中断并集口径不同，故单列）。
+「3 架最小增配」由\textbf{构造性判定器}给出（\texttt{code/q3refresh.py}，候选悬停点上限 400），
+它逐时刻推进并给出完整的换位动作序列，因此「3 架可行」是\textbf{构造性结论}；
+中继状态 DP（\texttt{code/q3final.py --n3}）给出的是同规模下的独立复核。
+两列的能耗/悬停行为各自方案的独立合计：3 架方案因覆盖全部失联时长，悬停与能耗必然更高，
+其数值由 \texttt{results/solution.json} 的 \texttt{relay3} 字段自动刷新（未产出时显示「待补」）。
+\end{minipage}
+\end{table}
+
+\subsection{换位模式对比：不可行性不是「必须回基地」假设的产物}\label{sec:q3mode}
+审稿视角下最直接的反驳是：\emph{「实际应急场景中继为什么不能从一个悬停点直接飞到另一个悬停点？
+若允许空中转场，黑障窗口将显著缩短，2 架是否就够了？」}
+为正面回答该问题，本文实现并对比两种\textbf{换位模式}：
+
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{Mode 1（基地返航换电，即假设 A13）}：
+$W = t^{\mathrm{back}}(a)+\tau_{\mathrm{turn}}+t^{\mathrm{out}}(b)+t_{\mathrm{link}}$；
+\item \textbf{Mode 2（空中点对点直接转场）}：
+$W = t^{\mathrm{transit}}(a\!\to\!b)+t_{\mathrm{link}}$，其中转场按「爬升—巡航—下降」三段计算，
+巡航海拔取两点连线上的 DEM 最高地面高程以上 50\,m。
+\end{itemize}
+
+两种模式下的黑障窗口中位数与「跨度—黑障不等式」$(\star)$ 的成立率如下
+（$(\star)$：若某架于 $t$ 完成换位，则 $N=2$ 时另一架必须单独覆盖整个黑障窗口，
+故必有 $\mathrm{span}(t-w)\ge w$，其中 $\mathrm{span}(t)$ 为「从 $t$ 起存在某单点能独保全部需求」的最长时长）：
+
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+候选点范围 & $w$ 中位（Mode 1 / Mode 2） & $(\star)$ 成立率（Mode 1 / Mode 2） \\
+\midrule
+全部点对 & \QthreeWBaseMedS\,s / \QthreeWAirMedS\,s
+         & \QthreeStarBasePct\,\% / \QthreeStarAirPct\,\% \\
+强点对（独保能力前 70） & \QthreeWBaseStrongS\,s / \QthreeWAirStrongS\,s
+         & \QthreeStarBaseStrongPct\,\% / \QthreeStarAirStrongPct\,\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{窗口口径（可复现性的关键）}：$(\star)$ 中的 $t$ 与 $w$ 都是\emph{时间}，
+而需求时间格只包含"存在失联"的时刻（本算例平均间隔约 $11$\,s 且\emph{不等距}），
+因此\textbf{不能}按 $w/\Delta$ 折算成格数后用 $\mathrm{span}[k-w/\Delta]$ 取窗口——
+那样会把窗口实际长度算成 $1.14w$ 左右。本文的实现按时间取窗：
+对第 $k$ 格令 $j_k=\min\{j:\ t_j\ge t_k-w\}$（即 $[t_k-w,\,t_k]$ 内的首个需求格），
+要求\textbf{同一个}悬停点单独覆盖 $j_k,\dots,k$ 这一段，即
+$\mathrm{span}[j_k]\ \ge\ k-j_k+1$；
+赤字定义为
+$D=\sum_k\max\bigl(0,\,(k-j_k+1)-\mathrm{span}[j_k]\bigr)$。
+其中 $\mathrm{span}[j]$ 必须由\emph{同一个点}的连续可独保格数给出——
+若先对各点取并集再找连续段（等价于允许逐格免费换点），$(\star)$ 会退化为恒真，
+这也正是把该式写成"不等式"而不是"覆盖计数"的意义所在。
+实现见 \texttt{code/span\_util.py}（被黑障统计与协同再调度实验共用）。
+
+\noindent 空中转场的效果是\textbf{真实但不足}的：全候选点对的黑障中位由 \QthreeWBaseMedS\,s
+降到 \QthreeWAirMedS\,s（约 $1/2.4$），强点对由 \QthreeWBaseStrongS\,s 降到 \QthreeWAirStrongS\,s
+（约 $1/6.6$）；对应的 $(\star)$ 成立率由 \QthreeStarBasePct\,\% / \QthreeStarBaseStrongPct\,\%
+提升到 \QthreeStarAirPct\,\% / \QthreeStarAirStrongPct\,\%。\textbf{量级上的改进是真实的}，
+但仍未达到 $100\%$——即仍有相当一部分时刻无法在换位窗口内找到"另一架单独兜底"的安排。
+用\S\ref{sec:q3robust}所述的构造性判定器（候选点上限放宽到 400 个）求解 $N=2$ 的结果如下：
+
+\begin{center}
+\small
+\begin{tabular}{lp{0.30\linewidth}p{0.30\linewidth}}
+\toprule
+ & Mode 1 基地返航 & Mode 2 空中转场 \\
+\midrule
+$N=2$ 首个失败时刻 & $t=\QthreeFailBaseT$\,s & $t=\QthreeFailAirT$\,s \\
+$N=3$ 构造性判定 & \textbf{可行}：\QthreeNGreedySorties{} 个架次、时序冲突 0、
+未覆盖实例 $0/\QthreeDpInstances$、能耗 \QthreeNGreedyEnergy\,kWh、最低返航 SOC \QthreeNGreedySocMin\,\% & 贪心在末段受在空时长上限限制停下（贪心局限） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{结论}：空中转场把 $N=2$ 的首个失败时刻由 $t=\QthreeFailBaseT$\,s
+推后到 $t=\QthreeFailAirT$\,s（约 $1530$\,s），但\textbf{仍未找到可行解}。因此在本文的判定口径下，
+「$N=2$ 排不出连续覆盖」\textbf{不能归因于「换位必须回基地」这一条假设}；
+它更像是运输需求的时空结构与地形遮挡共同造成的\textbf{时序瓶颈}
+（而非「已证明在任何换位模式下 2 架都不可能」——见前述受限口径声明）。
+
+\subsection{候选集稳健性与阻塞机理}\label{sec:q3robust}
+状态 DP 对候选悬停点集 $\mathcal{C}$ 的大小敏感（候选越多状态越多，必须截断），
+因此必须排除「不可行只是候选点太少」的可能。表~\ref{tab:q3robust} 给出在四档候选规模下的判定结果。
+
+\begin{table}[htbp]
+\centering
+\caption{$N=2$（Mode 1）在不同候选点规模下的判定结果}
+\label{tab:q3robust}
+\small
+\begin{tabular}{llll}
+\toprule
+候选点规模 & 方法 & 结果 & 首个失败格 \\
+\midrule
+12 点 & 状态 DP & 不可行 & 第 \QthreeFailCellLow{} 格（$t=\QthreeFailBaseT$\,s）\\
+24 点 & 状态 DP & 不可行 & 第 \QthreeFailCellHigh{} 格 \\
+40 点 & 状态 DP & 不可行 & 第 \QthreeFailCellHigh{} 格 \\
+400 点 & 构造性贪心 & 不可行 & $t=\QthreeFailBaseT$\,s \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+\footnotesize\textbf{重要说明}：失败格的\emph{位置}会随候选自由度增大而后移
+（\QthreeFailCellLow{} $\to$ \QthreeFailCellHigh{}），
+因此\textbf{不应把某一具体格号当作基本常数}；可以主张的是
+「在 12 / 24 / 40 / 400 四档候选规模下，$N=2$ \textbf{均未找到可行解}」——
+\emph{「找不到」对候选集稳健，而首个阻塞点会随候选自由度后移}。
+同时必须承认：本文使用的 DP 带候选截断（每格前 $k$ 个点）与状态剪枝
+（代价松弛 $+$ 每位置组合限 2 条 $+$ 状态总数上限），
+\textbf{这些操作可能删除「事后才显出价值」的状态}，
+因此 DP 的「状态集为空」\textbf{不能等同于「完整状态空间无解」}。
+为此本文另设\textbf{关闭状态剪枝}的精确模式（候选集取「至少能单独覆盖某格」的完备子集，
+见 \S\ref{sec:q3dp}）；该模式在本次算力预算内\textbf{未能跑完}
+（实测占用 CPU 1501\,s、峰值内存 555\,MB 后人工终止，记录见
+\texttt{results/无剪枝N2判定\_未完成.json}），故本文的否定结论一律限定为
+\emph{候选集 $+$ 剪枝}口径下的搜索结果，不主张「无剪枝无条件判定」。
+\end{table}
+
+对失败格做\textbf{逐条件拒绝计数}（对每一次被拒的转移记录其触发条件）可以定位阻塞机理：
+Mode 1 下\textbf{全部拒绝（\QthreeRejUnionPct\,\%）都来自转移条件 (T3)}，
+即「黑障窗口内其余中继无法联合覆盖全部需求」；其余条件——(T1) 到位时刻、(T2) 其余架到位、
+候选点可用性、以及 (T5) 能源上限——\textbf{从不 binding}。
+这说明阻塞原因是\textbf{单一且可解析刻画的}（即 $(\star)$ 被违反），而不是多个约束交织的经验现象。
+相比之下，Mode 2 下阻塞原因发生\textbf{迁移}：黑障缩短后，
+「被换的那架是否来得及提前离站」（条件 (T1)）成为主要拒绝原因（占 \QthreeRejArrivalPct\,\%），
+即\textbf{转场越快，越要求换位的前瞻性规划}——这与 Mode 1 是不同性质的瓶颈。
+
+
+上述结论对应急指挥的直接含义是：
+
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{在现有装备下无法达成全程连续通信}。库存 \RelayN{} 架中继在本题的失联时空结构下
+只够维持 \QthreeCompromiseCoverPct\% 的失联时长，剩余\textbf{未覆盖中断并集约
+\QthreeCompromiseUncoveredS\,s}（最长连续中断 \QthreeCompromiseLongestS\,s）。
+该折中方案\textbf{满足除「通信连续」之外的全部约束}（载重/体积、返航能量、时间线、
+逐箱交付、硬时限、无人机与电池周转、中继资源共 8 项校验全部通过），
+因此它不是「不可行的解」，而是\textbf{在通信硬约束上确实欠账的最优可行解}。
+\emph{措辞校准}：这里的「最优」指\emph{在 2 架折中方案的搜索中
+未找到覆盖更多失联时长的方案}，不是数学意义上的最优；
+「无法达成全程连续通信」的严格强度是
+\textbf{在候选点集 $\mathcal{C}$ 与剪枝策略 $P$ 下未找到可行调度}，
+外加以构造性判定在同一时段的独立失败（见 \S\ref{sec:q3infeasible} 的完备性边界声明）。
+\item \textbf{最小增配为 \QthreeGapN{} 架中继无人机，能源组件沿用现有 \RelayBat{} 组}。
+增配 \QthreeGapN{} 架后即可实现全覆盖、零时序冲突（第 \ref{sec:q3minadd} 节），
+这是本题中\textbf{性价比最高、且已由显式构造方案验证充分}的一条补强路径。
+\emph{证明强度须分开说}：「$3$ 架可行」是\textbf{构造性结论}——给出具体架次表并逐实例复核通过；
+而「必须增配」只是\textbf{未找到 $2$ 架可行解}。二者的证明强度不同，本文分别标注，不合并表述。
+\item \textbf{若无法增配，则必须把通信中断时段纳入救援风险台账}：
+把 9 段未覆盖中断（并集 \QthreeCompromiseUncoveredS\,s，最长 \QthreeCompromiseLongestS\,s）
+登记为「已知失联窗口」，在窗口内对失联架次\textbf{降级为自主飞行}（预装航路、
+按预定时刻自主投送），并要求这些架次在窗口内不得承担医疗等时效最紧的物资；
+同时优先把窗口内的时间用于直连可达的短航段任务。
+\item \textbf{其他消除路径}（本文已完成可行性论证、作为后续工作）：
+(i) 允许中继在两个悬停点之间\textbf{直接转场}——省去回 O01 的往返，黑障窗口可显著缩短，
+转移条件 (T3) 的「另一架必须独立覆盖」压力随之下降；
+(ii) 用问题二/三的排程自由度\textbf{错开运输时刻}，把短相合并成长相，
+使换位窗口落在需求空档上；
+(iii) 进一步压缩同时失联架次数（本文已压到 \QthreeDpPeakConcurrent{} 架，
+若压到 1 架则单相只需 1 架中继在位的时段大大增加）。
+上述三条都只能在\textbf{不改变中继台数}的前提下缓解，不能像 (i) 那样提供充分性保证，
+故本文把它们列为备选而非主方案。
+\end{enumerate}
+
+\subsection{结果与逐实例校验}
+\noindent\textbf{（先说明统计口径）}本文出现三个不同的「通信中断时长」，它们\textbf{对应三种不同的统计口径，
+不可互相替代}，全文一律带标注引用：
+
+\begin{center}
+\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{8.6cm}c@{}}
+\toprule
+口径 & 定义 & 本算例数值 \\
+\midrule
+A（分段精确） & 按航迹阶段边界（爬升/巡航/下降/投送）精确切分，逐段判定 & \CommNoneSegS\,s \\
+B（采样求和） & 5\,s 采样、\emph{逐架次}求和（同一时刻多架中断会分别计入） & \CommNoneSampleS\,s \\
+C（时刻并集） & \emph{全体时刻}的并集（只要任一时刻有架次中断即计入，不重复计） & \CommNoneUnionS\,s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent 三者的关系是 $\text{C}\le\text{A}\le\text{B}$：B 比 A 多出的部分是 $5$\,s 采样的量化误差；
+A 比 C 多出的部分是「同一时刻多架次同时中断」造成的重复计数。
+因此「任务有多少时间处于通信中断状态」这一工程问题应当引用\textbf{口径 C}；
+而「中断累计影响多少架次·秒」应当引用\textbf{口径 A 或 B}。
+
+\noindent\textbf{核验性质的声明（采样核验 $\ne$ 连续时间的证明）}：
+本文对通信约束的核验一律以\textbf{固定步长的离散采样}完成——链路判定用 $5$\,s 步长
+（\texttt{verify\_sim.py} 的独立仿真）或 $10$\,s 步长（覆盖矩阵与 DP 时间格）。
+由于自由空间损耗与遮挡判定都是位置的连续函数，理论上存在「中断窗口短于采样步长而被漏检」
+的可能。本文据此\textbf{只主张「采样核验通过」，不主张「连续时间上处处满足」}，并给出三重兜底：
+(i) \emph{风险量级}：$\Delta=5$\,s 时运输机巡航地速 $v_c$ 对应的空间步长为数十米量级，
+与 $30$\,m 的 DEM 栅格同阶，故短于 $5$\,s 的孤立中断窗口在几何上对应
+「一条刚好擦过山脊的视线」，其出现概率与影响时长都很小；
+(ii) \emph{双步长 + 解析上界}：所有通信时长结论同时给出 $5$\,s 与 $10$\,s 两套采样结果，
+并以\textbf{分段精确口径 A}（按爬升/巡航/下降/投送阶段边界切分、段内解析判定）作为参照，
+三者满足 $\text{C}\le\text{A}\le\text{B}$ 且差异仅来自量化与重复计数，
+说明结论不是采样步长的产物；
+(iii) \emph{严格闭合的缺口}：要把论证升级为连续时间上的保证，
+需把链路余量写成关于时间的 Lipschitz 界并据此给出漏检概率上界；
+本文未做这一步，故如实列入局限（\S\ref{sec:limits}）。
+
+中继架次明细见表~\ref{tab:q3relay}、图~\ref{fig:q3gantt}，
+通信保障结果见图~\ref{fig:q3comm}。
+当前冻结解（\textbf{库存口径，2 架中继}）的通信保障统计为：运输架次 \QthreeTransportSorties 个，
+通信分段 \CommSegN 段，其中直连 \CommSegDirect{} 段、中继 \CommSegRelay{} 段、
+中断 \CommSegNone{} 段；按时间加权，直连占 \CommDirectPct\%、中继占 \CommRelayPct\%、
+中断占 \CommNonePct\%（口径 A，中断时长 \CommNoneSegS\,s；口径 C 为 \CommNoneUnionS\,s）。
+库存口径下的中继部署为 \QthreeRelaySorties 个中继架次，悬停海拔
+\QthreeRelayAltMin--\QthreeRelayAltMax\,m、中位离地 \QthreeRelayAgl\,m，
+最低返航 SOC \QthreeRelaySocMin\%，涉及中继能源组件 \QthreeRelayComp 组。
+\textbf{必须如实说明}：当前冻结的基准解尚未把中断时段完全闭合
+（\CheckCommVerdict）。其原因由第 \ref{sec:q3infeasible} 节的\textbf{受限判定}给出：
+在声明的候选点集与剪枝策略下，状态递推与独立的构造性判定\textbf{均未找到} $N=2$ 的可行调度，
+且二者是在\emph{不同}的需求格处各自失败——因此这是「在给定搜索口径下无可行解」的判定证据，
+\emph{而非}「已证明完整状态空间无解」（边界见 \S\ref{sec:q3infeasible} 末段的完备性声明）。
+据此在第 \ref{sec:limits} 节把「中继台数缺口 \QthreeGapN{} 架」列为该解的首要待办，
+并把中断窗口移交救援风险台账。达成全程连续通信所需的 \QthreeNeedN{} 架增配方案见
+表~\ref{tab:q3relaycmp} 与 \texttt{results/结果提交.xlsx} 的「Q3\_中继架次\_增配方案」表。
+
+通信保障图中，绿色采样点表示直连可用、蓝色表示必须由中继保障、
+红色表示当前方案尚未覆盖的中断时段，橙色三角为中继悬停点。
+
+逐实例校验的做法是：对每个需求实例，取出其时刻上真正在服务的中继架次集合，
+按三维几何重算接入链路与回传链路，二者同时可用才算被保障；
+校验输出的中断清单（时刻、架次号、该时刻是否有中继在服务）写入
+\texttt{results/} 下的检查文件中，作为「模型是否真的满足硬约束」的证据链。
+
+\Dfig[0.95]{fig_q3_gantt.png}{问题三运输与中继联合甘特图}{fig:q3gantt}
+\Dfig[0.9]{fig_q3_comm.png}{问题三通信保障图：运输航迹按直连/中继/中断着色}{fig:q3comm}
+
+% ===========================================================================
+\section{问题四：服务区分区与资源核算}
+% ===========================================================================
+\subsection{不可分割块}
+问题四冻结组批、顺序与中继安排，只对 15 个服务区做 $K\in\{2,3\}$ 的划分，
+并要求「同一运输架次涉及的服务区必须同组」。据此构造\textbf{关联图}：
+顶点为服务区，若存在某个架次同时访问 $a,b$，则连边 $(a,b)$；
+取其\textbf{连通分量}作为原子块 $\mathcal{P}_1,\dots,\mathcal{P}_M$，
+则任何合法分区必须是这些块的并。这一步把 $2^{15}$ 的枚举空间压缩到 $2^{M}$，
+在典型解（\QthreeTransportSorties 个架次）下 $M$ 远小于 15，可\textbf{精确枚举}。
+
+\subsection{分区枚举与目标}
+对 $K=2,3$ 枚举块的所有划分，按下述指标评价：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{配置规模}：各组需要的运输机数 $=$ 该组架次的峰值并发数（按机型分别统计），
+      电池组数 $=$ 峰值「在飞或充电」的电池占有数；
+\item \textbf{冗余度}：配置数 $-$ 峰值需求数；冗余为 0 意味着该组任何一次延误都会导致卡死；
+\item \textbf{均衡性}：各组工作量（架次数、能耗、作业时间）的极差与标准差；
+\item \textbf{库存缺口}：配置数与现有库存（A \TypeABat 组、B \TypeBBat 组、C \TypeCBat 组、
+      中继能源组件 \RelayBat 组）之差，正数表示缺口、需外部增援。
+\end{itemize}
+
+\subsection{本文第四问所继承的问题三方案（口径声明）}\label{sec:q4inherit}
+原题要求「以问题三得到的联合调度方案为基础」。问题三产生了\textbf{两套}方案，
+本文第四问\textbf{明确继承库存口径（2 架中继）下的最优折中方案}，理由是它满足除「通信连续」
+之外的全部约束、且不动用库存外的装备；因此：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item 第四问的分区与资源核算\textbf{基于该折中方案}，其通信保障关系即该方案的
+「直连 $+$ 中继 $+$ 中断」分段结果（中断时段如实保留，不因分区而消失）；
+\item 若改用\textbf{增配方案}（\QthreeNeedN{} 架中继，全程连续通信），
+则中继无人机需求为 \QthreeNeedN{} 架、缺口为 $\QthreeNeedN-\RelayN=\QthreeGapN$ 架；
+\textbf{两组口径下的中继缺口不同，引用时必须注明}；
+\item 本文在 \S\ref{sec:q4gap} 的缺口表中同时列出两种口径，避免「一边按库存方案分区、
+一边引用增配方案的连续通信结论」这种口径混用。
+\end{itemize}
+
+\subsection{资源区间着色核算}
+组内资源配置是一个「区间着色」问题：把该组每个架次的 [开始, 结束] 与
+其电池的 [占用, 充电完成] 视为区间，同一资源上的区间不得重叠，
+则所需资源数 $=$ 区间图的最大团 $=$ 扫描线峰值重叠数。
+本文用事件扫描法（开始 $+1$、结束 $-1$，同刻先减后加）精确计算峰值，
+对运输机与电池分别核算；中继资源同理按「占用含往返飞行与架次周转」核算。
+
+\subsection{结果}\label{sec:q4gap}
+分区结果写入 \texttt{results/Q4\_分区配置.xlsx}（含分区配置、分组明细、
+资源汇总与库存、均衡性、备选方案、一体化参照 6 张表），示意图见~\ref{fig:q4part}。
+关键结论：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item 冻结解下的硬耦合把 15 个服务区压缩为 \QfourBlocks 个\textbf{不可分割块}，
+      因此 $K$ 分区的搜索空间从 $2^{15}$ 降到 $2^{8}$ 量级，可完全枚举并逐一核算；
+\item $K=2$ 推荐方案 \QfourKTwo；$K=3$ 推荐方案 \QfourKThree；
+\item 均衡性（箱数、架次数、机时、航程、能耗等 7 项指标的综合变异系数）\QfourBalance，
+      说明\textbf{山区场景下工作量天然难以均衡}——少数大服务区（人口与箱数集中）
+      必然承担多数架次；
+\item 库存缺口：$K=2$ 时合计 \QfourGap 项（\QfourKind），$K=3$ 时扩大到
+      \QfourGapThree 项，而一体化（$K=1$）时缺口为 0。这定量地回答了题目所问的
+      \textbf{「分区自治的代价」}：把资源按组切开会同时推高运输机与电池组的峰值需求。
+\end{itemize}
+
+\subsubsection{中继资源缺口：来自问题三的判定结论，而非估算}
+分区核算只回答「按组独立执行需要几架运输机、几组电池」，
+\textbf{中继无人机的需求量却不来自分区，而来自问题三的判定证据}（第 \ref{sec:q3infeasible}、\ref{sec:q3minadd} 节）：
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item 库存 \RelayN{} 架中继在「一次架次 $=$ O01 $\to$ 单一悬停点 $\to$ O01」模型下
+      \textbf{无可行解}——状态 DP 在第 \QthreeDpInfeasibleCell{} 格（$t=\QthreeDpInfeasibleT$\,s）即无可行状态；
+\item $N=\QthreeNeedN$ 时\textbf{存在全覆盖、零时序冲突的可行解}；
+\item 故 \textbf{中继无人机缺口 $= \QthreeNeedN-\RelayN=\QthreeGapN$ 架}；能源组件无缺口（增配后共需 \RelayBat{} 组，与库存持平）。
+\end{itemize}
+这是一条\textbf{有可审计证据链的缺口}：它不是由仿真试错「没排出来」得到的估计，
+而是由状态递推在\textbf{声明的有限候选集}上给出的否定结论
+（第 \ref{sec:q3infeasible} 节，转移条件 (T1)--(T4)），
+其证据类别是「指定搜索口径下未找到可行调度」，**不是**「完整状态空间无解」的证明。
+需要区分的是，\texttt{results/Q4\_分区配置.xlsx} 的 \texttt{Q4\_资源汇总与库存} 表中
+「中继无人机」的 \QfourRelayFrozen{} 架/需求 \RelayN{} 架一行，
+是按\textbf{冻结解}的 3 个中继架次（库存口径下的最优折中方案）做区间着色得到的峰值需求，
+它回答的是「这 3 个架次需要几架中继轮流执行」，\textbf{不代表}这 3 个架次已经实现了连续通信；
+把两者合并起来读，结论是：中继在\textbf{数量}上需要 \QthreeNeedN{} 架（缺 \QthreeGapN{} 架），
+在\textbf{架次}上库存方案的 \QthreeCompromiseSorties{} 个架次只覆盖了 \QthreeCompromiseCoverPct\% 的失联时长。
+因此问题四的完整增援清单应为：运输侧
+\QfourKind{}（$K=2$）\textbf{加上}中继侧 \QthreeGapN{} 架中继无人机（能源组件无缺口）。
+
+\Dfig[0.95]{fig_q4_partition.png}{问题四服务区分区方案示意}{fig:q4part}
+
+% ===========================================================================
+\section{模型检验与灵敏度分析}
+% ===========================================================================
+\subsection{独立复算与交叉验证}
+本文的检验不依赖求解器内部判断，而是由独立脚本按 5\,s 步长逐时刻仿真、
+用同一套物理公式从零重算。共 \CheckTotal 项校验，结论如下：
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{载质量与体积}：\TotalBoxes 箱全部有归属，逐架次重算的质量/体积占用
+  最大分别为 97.5\% 与 92.8\%，违反 0 架次；
+\item \textbf{返航能量}：逐航段累计载荷重算能耗，与解中记录值\textbf{最大偏差为 0}
+  （\CheckTimeDev\,s 量级的时间线偏差亦为浮点误差），违反 0 架次；
+\item \textbf{时间线一致性}：准备 $+$ 装载 $+$ 飞行 $+$ 交接 与记录的架次时长
+  逐架次一致，最大偏差 \CheckTimeDev\,s；
+\item \textbf{逐箱交付}：\TotalBoxes 箱中未交付 \CheckUndelivered 箱、重复交付 \CheckDup 箱；
+\item \textbf{硬时限}：医疗与首批共 \CheckDeadlineN 项时限，违反 \CheckDeadlineViol 项；
+\item \textbf{无人机与电池周转}：无人机峰值并发 \CheckDronePeak，冲突 0 项；
+  共享电池占用/充电区间重叠 0 对；
+\item \textbf{问题一 DP 与 ILP 交叉验证}：\QoneIPConsistCount/\QoneIPN 个服务区的架次数一致、
+  \QoneIPConsistGlobal/\QoneIPN 个服务区的全局最小能耗一致，两套独立算法互证；
+\item \textbf{通信连续性}：\CheckCommSamples 个采样点中中断 \CheckInterruptPts 个
+  （合计 \CheckInterruptS\,s），\textbf{当前解尚未闭合通信硬约束}；
+  但问题三的状态 DP 已把「为什么闭合不了」判定清楚——
+  \RelayN{} 架中继在第 \QthreeDpInfeasibleCell{} 格（$t=\QthreeDpInfeasibleT$\,s）无可行状态，
+  $N=\QthreeNeedN$ 时全覆盖、零冲突，故缺口为 \QthreeGapN{} 架中继无人机（详见第 \ref{sec:q3infeasible} 节与第 \ref{sec:q3minadd} 节）；
+\item \textbf{问题一方案复算}：对每个架次独立重算载质量、体积、返航 SOC 与航段时间，
+  逐箱核对「恰好被安排一次」，报告见 \texttt{results/Q1\_复算报告.txt}。
+\end{enumerate}
+其中 \CheckPass/\CheckTotal 项判定为「通过」；唯一未通过项为第 9 项\textbf{通信连续性}，
+其成因已由第 \ref{sec:q3infeasible} 节的状态 DP 判定为\textbf{中继台数不足}
+（\QthreeGapN{} 架缺口），而非排程失败——第 8 项「中继资源」本身（并发、能源组件周转、
+返航 SOC、悬停离地高度）零违反。检验结论摘要：\CheckSummary
+
+\subsection{灵敏度分析}\label{sec:sens}
+\begin{itemize}[leftmargin=2.2em,itemsep=2pt]
+\item $\rho$（返航安全余量）：见表~\ref{tab:rho} 与图~\ref{fig:q1rho}，
+      最敏感参数，$\rho$ 从 \QoneRhoLo 到 \QoneRhoHi 使最少架次数由 \QoneRhoSortiesLo 增到 \QoneRhoSortiesHi。
+\item 巡航海拔余量（假设 A3 中的 $+50$\,m）：若降为 $+30$\,m，爬升高度约减少 2\%--5\%，
+      在短航段上对载荷上限影响很小，但对长航段（\DemFarID）可释放约 1--2\,kg。
+\item 遮挡附加损耗 $L_{\mathrm{obs}}$：由 \CommLobs\,dB 增加到 20\,dB 会显著扩大中断时段，
+      使中继架次数上升；这是链路模型中最需要标定的参数。
+\item 中继离地高度：100--300\,m 越高，接入链路越易通视，但往返飞行能耗上升，
+      存在最优高度；本文以候选点枚举方式隐式搜索该权衡。
+      \textbf{更关键的是台数}：由第 \ref{sec:q3infeasible} 节的判定可知，
+      在 300\,m 高度上限下即便候选点几何上处处可覆盖，\RelayN{} 架中继仍因换位黑障窗口
+      （中位 \QthreeDpBlackoutMedianS\,s）未能接力（\emph{在给定候选集与剪枝下未找到可行解}），
+      故建议增配到 \QthreeNeedN{} 架；
+      反之若提高高度上限，可同时覆盖多机失联的候选点比例上升（100/200/300/500\,m 对应
+      37.7\%/44.0\%/54.7\%/71.0\%），进而可能放宽对台数的要求。
+\end{itemize}
+
+% ===========================================================================
+\section{模型评价与推广}
+% ===========================================================================
+\subsection{模型优点}
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{口径唯一}：全部物理量由统一的物理核心库（\texttt{code/dcore.py}）计算，
+  爬升/巡航/下降、等效航程反推能耗、充电两阶段模型、链路门限双向取小在全文中只有一套实现。
+\item \textbf{问题一在给定模型内精确}：利用同类货箱可互换性把 $2^{n}$ 装箱压缩为
+  $\prod(c_k+1)$ 状态空间；对\emph{单个服务区的组批问题}（给定该区货箱清单与机型集合），
+  该 DP 是精确的，所得 Pareto 前沿在该子问题内精确，并由 CP-SAT 集合划分 ILP 独立复核。
+  \emph{作用域限定}：这里的「精确」不覆盖跨服务区的路线与机型联合决策
+  （那属于问题二，本文用 ALNS 求可行解，不主张最优）。
+\item \textbf{问题二可扩展}：ALNS + CP-SAT 的三段式框架在保持秒级求解的同时，
+  给出多目标前沿而非单一解，便于决策者按权重取用。
+\item \textbf{通信不回避硬约束}：问题三不把通信写成软惩罚，而是离散成需求实例后
+  用区间覆盖精确建模，并逐实例回验，结论可审计。
+\item \textbf{资源缺口有可审计的证据链，而非启发式试错}：问题三把中继换位时序写成状态 DP，
+  在候选点集 $\mathcal{C}$ 与剪枝策略 $P$ 下给出「$N=\RelayN$ 未找到可行调度」的结果，
+  并由\textbf{独立于 DP 的构造性判定器}在\emph{不同的}需求格处复现失败（四档候选规模
+  $12/24/40/400$ 均未找到）；再把 $N=\QthreeNeedN$ 的可行方案\textbf{显式构造出来}并逐时刻复核。
+  于是一条「未找到 $2$ 架可行解 $\Rightarrow$ $3$ 架构造可行 $\Rightarrow$ 建议增配 $\QthreeGapN$ 架」
+  的证据链成立，问题四的中继缺口据此给出。
+  \emph{须同时说明其强度边界}：「$3$ 架可行」是构造性结论（强）；
+  「$2$ 架不行」只是\emph{在给定候选集与剪枝下未找到}（弱于数学无解证明），
+  二者强度不同，本文分别标注、不合并表述（见 \S\ref{sec:q3infeasible} 的完备性边界）。
+\item \textbf{工程可落地}：分区核算直接给出「需要几架、几组电池、缺多少」，
+  与库存表比对即可形成增援清单；本文进一步把无法闭合的通信时段整理成
+  「已知失联窗口」清单，可直接进入救援风险台账。
+\end{enumerate}
+
+\subsection{模型局限}\label{sec:limits}
+\begin{enumerate}[leftmargin=2.2em,itemsep=2pt]
+\item \textbf{库存装备下通信硬约束无法闭合（在给定候选集与剪枝下未找到可行解）}：
+  在假设 A13「一次架次 $=$ O01 $\to$ 单一悬停点 $\to$ O01、换位必须经 O01」
+  与第 \ref{sec:q3cover} 节的候选悬停点集 $\mathcal{C}$ 下，
+  \RelayN{} 架中继\textbf{未找到}满足全程连续通信的调度
+  （状态 DP 在第 \QthreeDpInfeasibleCell{} 格、$t=\QthreeDpInfeasibleT$\,s 无可行状态；
+  构造性判定在四档候选规模下亦未找到），因此建议增配 $\QthreeGapN$ 架中继无人机。
+  据此本文给出的基准解\textbf{在通信连续性一项上确实欠账}：
+  中继 \QthreeCompromiseSorties{} 个架次覆盖 \QthreeCompromiseCoverPct\% 的失联时长，
+  未覆盖中断并集约 \QthreeCompromiseUncoveredS\,s（最长一段 \QthreeCompromiseLongestS\,s），
+  另有 \QthreeCompromiseOutagePhaseN{} 个相位因换位来不及而未派中继（时长合计
+  \QthreeCompromiseOutagePhaseS\,s）。本文不把它写成「已满足」，而是如实列入风险台账。
+  \textbf{该结论的三条边界}：(a) 实现带四类剪枝，故只能主张「未找到」而非「不存在」；
+  (b) 只对\emph{冻结的运输时序}成立，未证明「所有允许的运输—中继联合调度都不存在 2 架方案」；
+  (c) 依赖 A13 的「换位必须回 O01」读法——本文已\textbf{实现并对比了 Mode 2（空中直接转场）}
+  （\S\ref{sec:q3mode}）：黑障中位由 \QthreeDpBlackoutMedianS\,s 压到
+  \QthreeDpBlackoutAirMedianS\,s，但首个失败时刻只是后移到 $t=\QthreeFailAirT$\,s，
+  \textbf{仍未找到 2 架可行解}，故该结论不是这条假设的产物。
+\item 能耗模型为「等效航程反推」的宏观模型，未刻画风场、温度与电池内阻的时变影响；
+\item 链路模型采用确定性 FSPL + 固定遮挡损耗，未含快衰落统计与多径，
+  实际部署应保留 3--6\,dB 额外余量；
+\item 问题四冻结了组批与中继安排，未做「分区与调度联合优化」，
+  因此其资源规模是给定解下的上界而非全局最优；
+\item 求解为启发式 + 局部精确，不保证问题二/三的全局最优性（问题一与问题三的
+  「$N=2$ 不可行 / $N=3$ 可行」判定除外——后者由状态递推在声明的候选集与剪枝口径下给出）。
+\end{enumerate}
+
+\subsection{推广}
+本文框架可直接移植到「多枢纽—多灾区—中继保障」的通用应急物流场景：
+把 O01 替换为任意枢纽集合、把服务区替换为任意需求点集合，
+物理层（等效航程能耗、剖面时间）与通信层（遮挡判定、中继覆盖）均可原样复用；
+若引入多枢纽，只需在问题二的路由层把「单中心回路」替换为「多中心回路」，
+问题四的关联图与原子块方法仍成立。对城市低空物流、海岛补给、
+林火监测等需要「运输 + 通信」双保障的任务同样适用。
+
+% ===========================================================================
+\section*{参考文献}
+\addcontentsline{toc}{section}{参考文献}
+% ===========================================================================
+% \sloppy：参考文献里有长英文题录与长 URL，逐条手改断点不现实；
+% 这里只给这一处列表放宽词距，正文不受影响。
+\begin{sloppypar}
+\begin{enumerate}[label={[\arabic*]},leftmargin=2.6em,itemsep=2pt]
+\item 中国研究生数学建模竞赛组委会. 2026 年中国研究生数学建模竞赛 D 题：山区洪涝灾害下无人机运输与通信协同优化[Z]. 2026.
+\item Dantzig G B, Ramser J H. The truck dispatching problem[J]. Management Science, 1959, 6(1): 80--91.
+\item Ropke S, Pisinger D. An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows[J]. Transportation Science, 2006, 40(4): 455--472.
+\item Perron L, Furnon V. OR-Tools CP-SAT solver[CP/OL]. Google, 2024. \url{https://developers.google.com/optimization}.
+\item Copernicus DEM: GLO-30 Digital Surface Model[DB/OL]. European Space Agency, 2021.
+\item ITU-R P.525-4. Calculation of free-space attenuation[S]. International Telecommunication Union, 2019.
+\item 3GPP TR 36.777. Enhanced LTE support for aerial vehicles[S]. 3GPP, 2017.
+\item Toth P, Vigo D. Vehicle Routing: Problems, Methods, and Applications[M]. 2nd ed. Philadelphia: SIAM, 2014.
+\item 王凌. 车间调度及其遗传算法[M]. 北京: 清华大学出版社, 2003.
+\item 司守奎, 孙玺菁. 数学建模算法与应用[M]. 3 版. 北京: 国防工业出版社, 2021.
+\end{enumerate}
+\end{sloppypar}
+
+\vspace{1em}
+\noindent\rule{\linewidth}{0.4pt}
+\noindent{\small 复现说明：本文全部结果可由 \texttt{code/} 下脚本一键复现——
+\texttt{python make\_figs.py} 生成插图、\texttt{python make\_numbers.py} 生成本文全部数字与表格，
+随后对 \texttt{paper/paper.tex} 用 \texttt{xelatex} 编译两次即得本 PDF。}
+
+
+
+% ===========================================================================
+\section*{附录：程序与结果文件清单}
+\addcontentsline{toc}{section}{附录：程序与结果文件清单}
+% ===========================================================================
+本文全部结果均由 \texttt{code/} 下脚本从附件原始数据自动生成，无手工填表。
+一键复现：\texttt{python run\_all.py}（须先设置环境变量 \texttt{PYTHONHASHSEED=0}）。
+
+\begin{center}
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.62\linewidth}}
+\toprule
+文件 & 作用 \\
+\midrule
+\texttt{dcore.py} & 统一物理口径核心库：DEM 采样、航段三阶段时间与能耗、等效航程、两阶段充电、FSPL 与双向链路预算、视线遮挡、中继飞行与空中转场 \\
+\texttt{comm.py} & 通信层：航迹抽样、直连/接入/回传判定、影子模型 \\
+\texttt{cover\_model.py} & 通信兼容性快速评估（航段级缓存，Q3 联合优化用） \\
+\texttt{solution\_io.py} & 四问标准数据接口 \texttt{results/solution.json} \\
+\midrule
+\texttt{q1.py} / \texttt{vq1.py} & 问题一精确求解 / CP-SAT 集合划分交叉验证 \\
+\texttt{q2.py} & 问题二 ALNS + CP-SAT 排程打磨 \\
+\texttt{q3.py} & 问题三运输—通信联合优化与中继部署 \\
+\texttt{q3dpN.py} & \textbf{N 架中继状态 DP（判定性核心，含 Mode 1/2）} \\
+\texttt{q3final.py} / \texttt{q3resplit.py} & 不可行性判定与最小增配方案 / 换组件再拆分 \\
+\texttt{mode\_compare.py} & 换位模式对比实验（防线 1） \\
+\texttt{greedy\_relay.py} & 构造性判定器（排除 DP 候选集截断风险） \\
+\texttt{fail\_diag.py} & 阻塞机理诊断（逐条件拒绝计数） \\
+\texttt{span\_blackout.py} / \texttt{struct\_diag.py} & 跨度—黑障不等式 / 结构诊断 \\
+\texttt{q4.py} & 问题四分区枚举与资源区间着色核算 \\
+\texttt{export\_results.py} & 生成提交表（表头与官方模板逐字自检） \\
+\texttt{verify\_sim.py} & 独立逐时刻仿真校验（9 项） \\
+\texttt{make\_figs.py} / \texttt{make\_numbers.py} & 插图与论文全部数字宏/表格 \\
+\texttt{sensitivity.py} & 灵敏度与算法对比实验 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent 主要结果文件：\texttt{results/结果提交.xlsx}（6 张模板表 + 方案汇总 +
+中继增配方案 + 中继缺口分析）、\texttt{results/检查说明.md}（9 项校验）、
+\texttt{results/Q4\_分区配置.xlsx}、\texttt{results/灵敏度分析.xlsx}、
+\texttt{results/solution.json}（标准解，含 \texttt{relay} 与 \texttt{relay3}）、
+\texttt{results/防线1\_换位模式对比.md}、以及故障诊断/稳健性检验的 JSON 明细。
+
+\end{document}

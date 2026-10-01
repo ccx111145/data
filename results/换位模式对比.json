@@ -1,0 +1,53 @@
+{
+ "hover_cap_s": 7232.7,
+ "rows": [
+  {
+   "N": 1,
+   "mode": "base",
+   "feasible": false,
+   "reason": "第 127 格（t=1980 s）无可行状态",
+   "elapsed": 0.3,
+   "mode_name": "Mode 1 基地返航换电"
+  },
+  {
+   "N": 2,
+   "mode": "base",
+   "feasible": false,
+   "reason": "第 171 格（t=2420 s）无可行状态",
+   "elapsed": 3.2,
+   "mode_name": "Mode 1 基地返航换电"
+  },
+  {
+   "N": 1,
+   "mode": "air",
+   "feasible": false,
+   "reason": "第 127 格（t=1980 s）无可行状态",
+   "elapsed": 0.3,
+   "mode_name": "Mode 2 空中直接转场"
+  },
+  {
+   "N": 2,
+   "mode": "air",
+   "feasible": false,
+   "reason": "第 684 格（t=7990 s）无可行状态",
+   "elapsed": 442.7,
+   "mode_name": "Mode 2 空中直接转场"
+  }
+ ],
+ "summary": {
+  "base": {
+   "min_N": null,
+   "tested": [
+    1,
+    2
+   ]
+  },
+  "air": {
+   "min_N": null,
+   "tested": [
+    1,
+    2
+   ]
+  }
+ }
+}

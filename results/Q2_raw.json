@@ -1,0 +1,108 @@
+{
+ "summary": {
+  "P1-架次优先": {
+   "makespan": 9486.474272675274,
+   "energy": 59.86868978014735,
+   "count": 17,
+   "tardiness": 252152.644839448,
+   "nlate": 6,
+   "hard_violation": 0.0,
+   "ontime": 67,
+   "nbox": 73,
+   "ontime_rate": 0.9178082191780822,
+   "avg_deliver": 4509.086828178038,
+   "max_deliver": 8942.644791020495,
+   "polish": "ls"
+  },
+  "P2-及时优先": {
+   "makespan": 13668.87869307088,
+   "energy": 73.30567080464326,
+   "count": 20,
+   "tardiness": 111377.34099703813,
+   "nlate": 15,
+   "hard_violation": 0.0,
+   "ontime": 65,
+   "nbox": 80,
+   "ontime_rate": 0.8125,
+   "avg_deliver": 5249.527830818154,
+   "max_deliver": 13200.078797797323,
+   "polish": "ls"
+  },
+  "P3-能耗优先": {
+   "makespan": 11868.407463355723,
+   "energy": 67.38052678952096,
+   "count": 19,
+   "tardiness": 308957.9242413626,
+   "nlate": 11,
+   "hard_violation": 0.0,
+   "ontime": 69,
+   "nbox": 80,
+   "ontime_rate": 0.8625,
+   "avg_deliver": 4929.3874726636805,
+   "max_deliver": 11187.167911998455,
+   "polish": "ls"
+  },
+  "P4-完工优先": {
+   "makespan": 10229.686264824297,
+   "energy": 67.7646749262783,
+   "count": 18,
+   "tardiness": 202747.6403573689,
+   "nlate": 11,
+   "hard_violation": 0.0,
+   "ontime": 69,
+   "nbox": 80,
+   "ontime_rate": 0.8625,
+   "avg_deliver": 4866.035461016299,
+   "max_deliver": 9530.461737595053,
+   "polish": "ls"
+  },
+  "P5-均衡": {
+   "makespan": 10376.69173393915,
+   "energy": 68.16123396082521,
+   "count": 19,
+   "tardiness": 159766.88410991168,
+   "nlate": 14,
+   "hard_violation": 0.0,
+   "ontime": 66,
+   "nbox": 80,
+   "ontime_rate": 0.825,
+   "avg_deliver": 4978.987369487676,
+   "max_deliver": 9907.891838665595,
+   "polish": "ls"
+  }
+ },
+ "front": [
+  {
+   "name": "P1-架次优先",
+   "count": 17,
+   "energy": 59.86868978014735,
+   "makespan": 9486.474272675274,
+   "tard": 252152.644839448,
+   "hard": 0.0
+  },
+  {
+   "name": "P2-及时优先",
+   "count": 20,
+   "energy": 73.30567080464326,
+   "makespan": 13668.87869307088,
+   "tard": 111377.34099703813,
+   "hard": 0.0
+  },
+  {
+   "name": "P4-完工优先",
+   "count": 18,
+   "energy": 67.7646749262783,
+   "makespan": 10229.686264824297,
+   "tard": 202747.6403573689,
+   "hard": 0.0
+  },
+  {
+   "name": "P5-均衡",
+   "count": 19,
+   "energy": 68.16123396082521,
+   "makespan": 10376.69173393915,
+   "tard": 159766.88410991168,
+   "hard": 0.0
+  }
+ ]
+}

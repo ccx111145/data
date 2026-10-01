@@ -1,0 +1,28 @@
+{
+  "rho": {
+    "A": 0.2,
+    "B": 0.2,
+    "C": 0.2
+  },
+  "makespan": 12392.079577822373,
+  "energy": 69.09305102057722,
+  "n_transport": 20,
+  "polish": "ls",
+  "scheme": "C3-及时优先",
+  "tardiness": 252725.64515817707,
+  "ontime_rate": 0.8375,
+  "hard_violation": 0.0,
+  "nbox": 80,
+  "relay_energy": 2.2617509694731526,
+  "n_relay": 3,
+  "relay_hover": 4860.0,
+  "joint_makespan": 12392.079577822373,
+  "uncov_time": 17240.550527384552,
+  "cover_rate": 0.9622206677491231,
+  "uncov_peak": 3,
+  "uncov_excess": 120.0,
+  "comm_ok": false,
+  "comm_miss": 806,
+  "relay_outage_s": 6380.0,
+  "relay_outage_n": 3
+}

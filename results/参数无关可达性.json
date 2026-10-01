@@ -1,0 +1,20 @@
+{
+ "note": "参数无关、不限制换位时机的 N=2 可达性判定（物理必要条件版）",
+ "n_cells": 992,
+ "T_s": 11290.0,
+ "T_cap_s": 7232.7,
+ "energy_cap_enforced": false,
+ "results": {
+  "base": {
+   "mode": "base",
+   "feasible": false,
+   "C0_size": 220,
+   "sec": 2332.6,
+   "max_state": 47310,
+   "fail": {
+    "k": 166,
+    "t": 2370.0
+   }
+  }
+ }
+}

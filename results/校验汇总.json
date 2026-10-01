@@ -1,0 +1,185 @@
+{
+ "solution": {
+  "rho": {
+   "A": 0.2,
+   "B": 0.2,
+   "C": 0.2
+  },
+  "makespan": 12392.079577822373,
+  "energy": 69.09305102057722,
+  "n_transport": 20,
+  "polish": "ls",
+  "scheme": "C3-及时优先",
+  "tardiness": 252725.64515817707,
+  "ontime_rate": 0.8375,
+  "hard_violation": 0.0,
+  "nbox": 80,
+  "relay_energy": 2.282,
+  "n_relay": 3,
+  "relay_hover": 4860.0,
+  "joint_makespan": 12392.079577822373,
+  "uncov_time": 17240.550527384552,
+  "cover_rate": 0.9622206677491231,
+  "uncov_peak": 3,
+  "uncov_excess": 120.0,
+  "comm_ok": false,
+  "comm_miss": 806,
+  "relay_outage_s": 6380.0,
+  "relay_outage_n": 3,
+  "relay_analysis": {
+   "tested_at": "2026-09-23 20:55:02",
+   "physics": "cruise = max(航段/端点地形, 悬停点地形) + 50 m（修正后）",
+   "n2_feasible": false,
+   "n2_msg": "2 架中继在“每架次返回 O01”模型下无可行换位（贪心与状态 DP 一致）",
+   "n_relay_required": 3,
+   "n2_sorties": 3,
+   "n2_miss": 806,
+   "n2_outage_n": 3,
+   "n2_outage_s": 6380.0,
+   "n2_energy": 2.282,
+   "n2_hover": 4860.0,
+   "n2_cover_pct": 44.5,
+   "n2_cover_cells": 441,
+   "n2_cells": 992,
+   "n3_ok": true,
+   "n3_sorties": 6,
+   "n3_miss": 0,
+   "n3_timing_conflicts": 0,
+   "n3_energy_violations": 0,
+   "n3_energy": 7.79,
+   "n3_hover": 20990.0,
+   "n3_max_hover": 6060.0,
+   "n3_drones": [
+    "R01",
+    "R02",
+    "R03(增配)"
+   ],
+   "n3_soc_min": 33.8,
+   "n3_method": "构造性贪心（可行性证据），候选悬停点上限 400",
+   "struct": {
+    "cand_pts": 2471,
+    "instances": 1454,
+    "cells": 992,
+    "peak_concurrent": 3,
+    "single_cover_cells": 992,
+    "mean_pts": 774.7,
+    "phases": 6,
+    "multi_phases": 3,
+    "min_phase_s": 440.0,
+    "max_phase_s": 2650.0,
+    "short_phases": 3,
+    "energy_cap_s": 7232.727272727273
+   }
+  },
+  "relay_resplit_removed": "旧物理模型下产生，与 relay_analysis 冲突，已删除（见 q3refresh.py）"
+ },
+ "n_transport": 20,
+ "n_relay": 3,
+ "checks": [
+  {
+   "no": "1",
+   "name": "载质量/体积",
+   "rate": "0.00% (0/20)",
+   "verdict": "通过"
+  },
+  {
+   "no": "2",
+   "name": "返航能量",
+   "rate": "0.00% (0/20)",
+   "verdict": "通过"
+  },
+  {
+   "no": "3",
+   "name": "时间线一致性",
+   "rate": "0.00% (0/20)",
+   "verdict": "通过"
+  },
+  {
+   "no": "4",
+   "name": "逐箱交付时刻",
+   "rate": "0.00% (0/80)",
+   "verdict": "通过"
+  },
+  {
+   "no": "5",
+   "name": "硬时限",
+   "rate": "0/46",
+   "verdict": "通过"
+  },
+  {
+   "no": "6",
+   "name": "无人机资源冲突",
+   "rate": "0 项超限",
+   "verdict": "通过"
+  },
+  {
+   "no": "7",
+   "name": "共享电池周转",
+   "rate": "0 对重叠 / 0 处充电余量不足",
+   "verdict": "通过"
+  },
+  {
+   "no": "8",
+   "name": "中继资源",
+   "rate": "0/0/0/0",
+   "verdict": "通过"
+  },
+  {
+   "no": "9",
+   "name": "通信连续性",
+   "rate": "中断 8050 s / 1610 个采样点",
+   "verdict": "不通过"
+  }
+ ],
+ "energy": {
+  "e_max": 6.3963592919061885,
+  "marg_min": 0.003640708093811895,
+  "ratio_pct": [
+   26.899145303196203,
+   26.92519196822897,
+   52.34693749287628,
+   66.48837357763759,
+   73.65649766591973,
+   79.81602824082763,
+   79.95449114882736
+  ]
+ },
+ "time_line_max_dev": 9.094947017729282e-13,
+ "delivery": {
+  "n_box": 80,
+  "n_undelivered": 0,
+  "n_dup": 0,
+  "n_dev": 0
+ },
+ "deadline": {
+  "n_med": 16,
+  "n_fb": 30,
+  "v_med": 0,
+  "v_fb": 0,
+  "max_med": 0.0,
+  "max_fb": 0.0
+ },
+ "drone_peak": {
+  "B": 2,
+  "C": 2
+ },
+ "battery_overlap": 0,
+ "relay": {
+  "n": 3,
+  "peak": 1,
+  "ovl": 0,
+  "soc_bad": 0,
+  "agl_bad": 0,
+  "e_bad": 0
+ },
+ "comm": {
+  "n_sample": 6531,
+  "t_direct": 18113.121301241918,
+  "t_relay": 6435.0,
+  "t_none": 8050.0,
+  "union_none": 5533.693707655552,
+  "n_none_sample": 1610,
+  "n_int": 9
+ },
+ "elapsed_s": 1.0
+}

@@ -1,0 +1,38 @@
+{
+ "n_cells": 992,
+ "T_s": 11290.0,
+ "T_cap_s": 7232.7,
+ "N": 2,
+ "mode": "base",
+ "energy_cap_enforced": false,
+ "max_states": 600000,
+ "sweep": [
+  {
+   "verdict": "INFEASIBLE",
+   "reason": "第 171 格（t=2420 s）无可行状态",
+   "fail_k": 171,
+   "fail_t": 2420.0,
+   "max_state": 96,
+   "n_cand": 2436,
+   "sec": 32.9,
+   "topk": 12
+  },
+  {
+   "verdict": "INFEASIBLE",
+   "reason": "第 225 格（t=2960 s）无可行状态",
+   "fail_k": 225,
+   "fail_t": 2960.0,
+   "max_state": 24,
+   "n_cand": 2436,
+   "sec": 229.2,
+   "topk": 24
+  },
+  {
+   "verdict": "UNFINISHED",
+   "detail": "cell 494: |S_k| = 615059 > max_states = 600000",
+   "sec": 4463.1,
+   "topk": 48
+  }
+ ],
+ "conclusion": "至少一档未跑完：不可行性只在已跑完的候选口径上成立，必须如实标注搜索边界"
+}

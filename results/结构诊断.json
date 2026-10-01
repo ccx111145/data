@@ -1,0 +1,45 @@
+{
+ "alone_runs": {
+  "n": 25784,
+  "median_s": 170.0,
+  "mean_s": 283.2,
+  "p90_s": 730.0,
+  "max_s": 4990.0
+ },
+ "blackout": {
+  "base_median_s": 1126.7,
+  "base_p10_s": 888.5,
+  "base_p90_s": 1366.5,
+  "air_median_s": 465.8,
+  "air_p10_s": 231.6,
+  "air_p90_s": 720.7
+ },
+ "singleton_span": {
+  "median_s": 1265.0,
+  "p90_s": 2979.0,
+  "max_s": 3970.0
+ },
+ "opportunity": {
+  "Mode 1": {
+   "w_median_s": 1126.7,
+   "opp_frac": 0.5494,
+   "opp_cells": 545,
+   "n_cells": 992,
+   "longest_opp_span_s": 4430.0
+  },
+  "Mode 2": {
+   "w_median_s": 465.8,
+   "opp_frac": 0.8569,
+   "opp_cells": 850,
+   "n_cells": 992,
+   "longest_opp_span_s": 8130.0
+  }
+ },
+ "fail_cell": {
+  "k": 171,
+  "t": 2420.0,
+  "max_singleton_span_s": 1180.0,
+  "need_base_s": 1130.0,
+  "need_air_s": 470.0
+ }
+}
