@@ -36,6 +36,10 @@ import subprocess
 import sys
 import time
 
+# TeX 二进制按 环境变量 -> PATH -> 本机常见位置 解析，不硬编码绝对路径。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from dcore import find_bin as ask_bin                              # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PY = sys.executable
@@ -115,7 +119,7 @@ def main():
         elif st == "fig":
             rc |= run("figs", ["make_figs.py"])
             rc |= run("numbers", ["make_numbers.py"])
-            xelatex = r"H:\texlive\2024\bin\windows\xelatex.exe"
+            xelatex = ask_bin("xelatex")
             if os.path.exists(xelatex):
                 for _ in range(2):
                     subprocess.run([xelatex, "-interaction=nonstopmode",
@@ -161,7 +165,7 @@ def check_env():
             line("依赖 " + mod, "OK")
         except Exception as e:                                    # noqa: BLE001
             line("依赖 " + mod, "缺失：%r" % (e,), False)
-    xelatex = r"H:\texlive\2024\bin\windows\xelatex.exe"
+    xelatex = ask_bin("xelatex")
     line("xelatex", xelatex if os.path.exists(xelatex) else "未找到（论文编译阶段会跳过）",
          True)
     for f in ("solution.json", "结果提交.xlsx", "检查说明.md", "Q4_说明.md",

@@ -22,13 +22,14 @@ import os
 import shutil
 import subprocess
 import time
+from dcore import find_bin as ask_bin
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(BASE, "paper_en", "main.tex")
 DST = os.path.join(BASE, "paper_en", "main_elsarticle.tex")
-XELATEX = r"H:\texlive\2024\bin\windows\xelatex.exe"
-PDFLATEX = r"H:\texlive\2024\bin\windows\pdflatex.exe"
-BIBTEX = r"H:\texlive\2024\bin\windows\bibtex.exe"
+XELATEX = ask_bin("xelatex")
+PDFLATEX = ask_bin("pdflatex")
+BIBTEX = ask_bin("bibtex")
 
 PREAMBLE_EL = r"""%==============================================================================
 %  Elsevier (elsarticle) version — DERIVED FILE, do not edit by hand.

@@ -139,7 +139,8 @@ new_tail = '''def check_env():
             line("依赖 " + mod, "OK")
         except Exception as e:                                    # noqa: BLE001
             line("依赖 " + mod, "缺失：%r" % (e,), False)
-    xelatex = r"H:\\texlive\\2024\\bin\\windows\\xelatex.exe"
+    from dcore import find_bin as _fb
+        xelatex = _fb("xelatex")
     line("xelatex", xelatex if os.path.exists(xelatex) else "未找到（论文编译阶段会跳过）",
          True)
     for f in ("solution.json", "结果提交.xlsx", "检查说明.md", "Q4_说明.md",

@@ -45,13 +45,14 @@ import sys
 import tempfile
 import time
 import zipfile
+from dcore import find_bin as ask_bin
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER = os.path.join(BASE, "paper_en")
 FIGS = os.path.join(BASE, "figs")
 DEFAULT_OUT = r"C:\Users\ASUS\Desktop\D题_投稿包"
-XELATEX = r"H:\texlive\2024\bin\windows\xelatex.exe"
-BIBTEX = r"H:\texlive\2024\bin\windows\bibtex.exe"
+XELATEX = ask_bin("xelatex")
+BIBTEX = ask_bin("bibtex")
 
 # ---- 匿名化 ------------------------------------------------------------------
 # 英文名/单位/邮箱/学号：任一出现在对外文件里就算泄漏。大小写敏感 + 词边界，

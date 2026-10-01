@@ -108,7 +108,8 @@ def main():
         rc_all |= rc
 
     # ---------- 4) 编译论文 ----------
-    xelatex = r"H:\texlive\2024\bin\windows\xelatex.exe"
+    from dcore import find_bin as _fb
+    xelatex = _fb("xelatex")
     if os.path.exists(xelatex):
         for _ in range(2):
             sh([xelatex, "-interaction=nonstopmode", "paper/paper.tex"], DST, timeout=1200)

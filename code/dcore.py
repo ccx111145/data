@@ -76,6 +76,67 @@ G = 9.80665          # m/s^2
 J_PER_KWH = 3.6e6
 R_EARTH = 6371008.8  # m
 
+
+# ---------------------------------------------------------------------------
+# 外部可执行文件解析
+#
+# 原先各脚本把 TeX 二进制硬编码成 H:\texlive\2024\bin\windows\xelatex.exe，
+# 别人 clone 本仓库后必然跑不通。这里统一成"环境变量 → PATH → 本机常见位置"
+# 三级回退，仓库里不再依赖任何人的绝对路径。
+# ---------------------------------------------------------------------------
+import shutil as _shutil                                            # noqa: E402
+
+#: 允许用环境变量覆盖，便于指定非默认 TeX 发行版
+_BIN_ENV = {
+    "xelatex": "DTS_XELATEX",
+    "pdflatex": "DTS_PDFLATEX",
+    "bibtex": "DTS_BIBTEX",
+    "soffice": "DTS_SOFFICE",
+    "pandoc": "DTS_PANDOC",
+}
+
+#: 本机常见安装位置（仅作最后回退，找不到也无所谓）
+_BIN_FALLBACK = {
+    "xelatex": [r"H:\texlive\2024\bin\windows\xelatex.exe",
+                r"C:\texlive\2024\bin\windows\xelatex.exe"],
+    "pdflatex": [r"H:\texlive\2024\bin\windows\pdflatex.exe",
+                 r"C:\texlive\2024\bin\windows\pdflatex.exe"],
+    "bibtex": [r"H:\texlive\2024\bin\windows\bibtex.exe",
+               r"C:\texlive\2024\bin\windows\bibtex.exe"],
+    "soffice": [r"C:\Program Files\LibreOffice\program\soffice.exe"],
+    "pandoc": [],
+}
+
+
+def find_bin(name: str) -> str:
+    """定位外部可执行文件；找不到时抛错并给出可操作的提示。
+
+    顺序：环境变量 → PATH → 本机常见位置。返回绝对路径或可直接调用的名字。
+    """
+    env = _BIN_ENV.get(name)
+    if env:
+        v = os.environ.get(env)
+        if v and os.path.exists(v):
+            return v
+    p = _shutil.which(name)
+    if p:
+        return p
+    for cand in _BIN_FALLBACK.get(name, []):
+        if os.path.exists(cand):
+            return cand
+    raise FileNotFoundError(
+        "%s 未找到。请把它加入 PATH，或用环境变量 %s 指定完整路径。"
+        % (name, _BIN_ENV.get(name, "DTS_" + name.upper())))
+
+
+def find_bin_soft(name: str):
+    """同 find_bin，但找不到时返回 None 而不抛错（用于可选工具）。"""
+    try:
+        return find_bin(name)
+    except FileNotFoundError:
+        return None
+
+
 # ----------------------------------------------------------------------------
 # DEM
 # ----------------------------------------------------------------------------

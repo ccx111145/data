@@ -217,10 +217,76 @@ def fig_methods(plt):
     return save_fig(fig, plt, "fig_en_methods")
 
 
+def fig_theory(plt):
+    """Theory panel: span(t), the alibi-window release rate, and the fleet-size bounds.
+
+    这张原本由独立的 make_fig_theory.py 生成，且画布固定 15.2 in、只往
+    paper_en/figs 写。结果正文 \\includegraphics{figs/fig_en_theory.pdf}
+    在 xelatex 以仓库根为工作目录编译时找不到文件（figs/ 根目录下没有），
+    编译报 "Unable to load picture"。移到本模块后与其它图一样按目标版式
+    宽度生成，figs_els / figs_ieee 两套都齐。
+    """
+    sb = rd("跨度黑障不等式.json")
+    ob = rd("局部阻塞证书.json")
+    if not sb or not ob:
+        return None
+    ser = sb.get("span_series") or {}
+    tc = np.asarray(ser.get("cells") or [], dtype=float)
+    ts = np.asarray(ser.get("span") or [], dtype=float) * 10.0
+    R = ob.get("results") or {}
+    m1, m2 = R.get("base") or {}, R.get("air") or {}
+    if not len(tc) or not m1 or not m2:
+        return None
+
+    fig, ax = plt.subplots(1, 3, figsize=(FIGW, round(FIGW * 0.30, 2)))
+    a = ax[0]
+    a.plot(tc, ts, lw=0.9, color="#2b6cb0")
+    a.axhline(m1["span_median_s"], ls="--", lw=1.0, color="#c53030",
+              label="span median %.0f s" % m1["span_median_s"])
+    a.axhline(m1["w_median_s"], ls=":", lw=1.0, color="#2f855a",
+              label="Mode 1 $w$ median %.0f s" % m1["w_median_s"])
+    a.axhline(m2["w_median_s"], ls="-.", lw=1.0, color="#975a16",
+              label="Mode 2 $w$ median %.0f s" % m2["w_median_s"])
+    a.axvline(2420.0, color="#718096", lw=0.8, alpha=0.7,
+              label="2-relay failure $t=2420$ s")
+    a.set_xlabel("time $t$ (s)")
+    a.set_ylabel("span (s)")
+    a.legend(fontsize=6.5, loc="upper right", framealpha=0.9)
+    a.grid(alpha=0.25)
+
+    b = ax[1]
+    ths = np.arange(0, 4200, 20)
+    rel = np.array([(ts >= th).mean() for th in ths])
+    b.plot(ths, 100 * rel, lw=1.6, color="#2b6cb0")
+    for st, c, lb in ((m1, "#c53030", "Mode 1"), (m2, "#975a16", "Mode 2")):
+        b.axvline(st["w_median_s"], ls="--", lw=1.0, color=c,
+                  label="%s: %.1f%%" % (lb, 100 * st["release_at_wmed"]))
+    b.set_xlabel("blackout threshold $w$ (s)")
+    b.set_ylabel("cells admitting a handover (%)")
+    b.legend(fontsize=6.5, framealpha=0.9)
+    b.grid(alpha=0.25)
+
+    c = ax[2]
+    lo = max(ob["bound_energy"], m1["bound_by_w"], m2["bound_by_w"])
+    up = 3
+    labels = ["energy\nbound", "energy +\nstructural", "constructive\nfeasible"]
+    vals = [ob["bound_energy"], lo, up]
+    c.bar(labels, vals, color=["#a0aec0", "#2b6cb0", "#2f855a"], width=0.55)
+    c.axhline(up, ls="--", lw=1.0, color="#2f855a")
+    for i, v in enumerate(vals):
+        c.text(i, v + 0.05, str(v), ha="center", fontsize=7)
+    c.set_ylim(0, max(vals) + 1.0)
+    c.set_ylabel("relay fleet size $N$")
+    c.grid(alpha=0.25, axis="y")
+
+    fig.subplots_adjust(wspace=0.42)
+    return save_fig(fig, plt, "fig_en_theory")
+
+
 def main():
     os.makedirs(FIGS, exist_ok=True)
     plt = _plt()
-    for fn in (fig_profile, fig_methods):
+    for fn in (fig_profile, fig_methods, fig_theory):
         p = fn(plt)
         print("  [%s] %s" % ("OK" if p else "--", os.path.basename(p) if p else fn.__name__))
     return 0
